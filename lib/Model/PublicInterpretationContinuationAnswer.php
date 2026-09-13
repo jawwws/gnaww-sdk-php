@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * PublicInterpretationContinuationAnswer
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * PublicInterpretationContinuationAnswer Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description One answer referencing a stable public question identity.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicInterpretationContinuationAnswer implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'PublicInterpretationContinuationAnswer';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'question_id' => 'string',
+        'value' => 'string'
     ];
 
     /**
@@ -59,7 +60,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'question_id' => null,
+        'value' => null
     ];
 
     /**
@@ -68,7 +70,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'question_id' => false,
+        'value' => false
     ];
 
     /**
@@ -157,7 +160,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'question_id' => 'question_id',
+        'value' => 'value'
     ];
 
     /**
@@ -166,7 +170,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'question_id' => 'setQuestionId',
+        'value' => 'setValue'
     ];
 
     /**
@@ -175,7 +180,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'question_id' => 'getQuestionId',
+        'value' => 'getValue'
     ];
 
     /**
@@ -235,7 +241,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('question_id', $data ?? [], null);
+        $this->setIfExists('value', $data ?? [], null);
     }
 
     /**
@@ -265,9 +272,20 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['question_id'] === null) {
+            $invalidProperties[] = "'question_id' can't be null";
         }
+        if (!preg_match("/^[a-z][a-z0-9_.\\[\\]-]*$/", $this->container['question_id'])) {
+            $invalidProperties[] = "invalid value for 'question_id', must be conform to the pattern /^[a-z][a-z0-9_.\\[\\]-]*$/.";
+        }
+
+        if ($this->container['value'] === null) {
+            $invalidProperties[] = "'value' can't be null";
+        }
+        if ((mb_strlen($this->container['value']) < 1)) {
+            $invalidProperties[] = "invalid value for 'value', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +302,65 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets question_id
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getQuestionId()
     {
-        return $this->container['gjs'];
+        return $this->container['question_id'];
     }
 
     /**
-     * Sets gjs
+     * Sets question_id
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $question_id question_id
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setQuestionId($question_id)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($question_id)) {
+            throw new \InvalidArgumentException('non-nullable question_id cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+
+        if ((!preg_match("/^[a-z][a-z0-9_.\\[\\]-]*$/", ObjectSerializer::toString($question_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$question_id when calling PublicInterpretationContinuationAnswer., must conform to the pattern /^[a-z][a-z0-9_.\\[\\]-]*$/.");
+        }
+
+        $this->container['question_id'] = $question_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->container['value'];
+    }
+
+    /**
+     * Sets value
+     *
+     * @param string $value value
+     *
+     * @return self
+     */
+    public function setValue($value)
+    {
+        if (is_null($value)) {
+            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        }
+
+        if ((mb_strlen($value) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $value when calling PublicInterpretationContinuationAnswer., must be bigger than or equal to 1.');
+        }
+
+        $this->container['value'] = $value;
 
         return $this;
     }

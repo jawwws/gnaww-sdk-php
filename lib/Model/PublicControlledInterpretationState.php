@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * PublicControlledInterpretationState
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * PublicControlledInterpretationState Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Safe public truth about controlled semantic interpretation.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicControlledInterpretationState implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'PublicControlledInterpretationState';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'attempted' => 'bool',
+        'error' => 'string',
+        'metadata' => '\Jawwws\Gnaww\Model\IntentProviderMetadata',
+        'provider' => 'string',
+        'status' => 'string'
     ];
 
     /**
@@ -59,7 +63,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'attempted' => null,
+        'error' => null,
+        'metadata' => null,
+        'provider' => null,
+        'status' => null
     ];
 
     /**
@@ -68,7 +76,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'attempted' => false,
+        'error' => true,
+        'metadata' => true,
+        'provider' => true,
+        'status' => false
     ];
 
     /**
@@ -157,7 +169,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'attempted' => 'attempted',
+        'error' => 'error',
+        'metadata' => 'metadata',
+        'provider' => 'provider',
+        'status' => 'status'
     ];
 
     /**
@@ -166,7 +182,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'attempted' => 'setAttempted',
+        'error' => 'setError',
+        'metadata' => 'setMetadata',
+        'provider' => 'setProvider',
+        'status' => 'setStatus'
     ];
 
     /**
@@ -175,7 +195,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'attempted' => 'getAttempted',
+        'error' => 'getError',
+        'metadata' => 'getMetadata',
+        'provider' => 'getProvider',
+        'status' => 'getStatus'
     ];
 
     /**
@@ -219,6 +243,27 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const STATUS_NOT_REPORTED = 'not_reported';
+    public const STATUS_NOT_REQUIRED = 'not_required';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_UNAVAILABLE = 'unavailable';
+    public const STATUS_FAILED = 'failed';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_NOT_REPORTED,
+            self::STATUS_NOT_REQUIRED,
+            self::STATUS_COMPLETED,
+            self::STATUS_UNAVAILABLE,
+            self::STATUS_FAILED,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +280,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('attempted', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('metadata', $data ?? [], null);
+        $this->setIfExists('provider', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
     }
 
     /**
@@ -265,9 +314,21 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['attempted'] === null) {
+            $invalidProperties[] = "'attempted' can't be null";
         }
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +345,167 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets attempted
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return bool
      */
-    public function getGjs()
+    public function getAttempted()
     {
-        return $this->container['gjs'];
+        return $this->container['attempted'];
     }
 
     /**
-     * Sets gjs
+     * Sets attempted
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param bool $attempted attempted
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setAttempted($attempted)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($attempted)) {
+            throw new \InvalidArgumentException('non-nullable attempted cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['attempted'] = $attempted;
+
+        return $this;
+    }
+
+    /**
+     * Gets error
+     *
+     * @return string|null
+     */
+    public function getError()
+    {
+        return $this->container['error'];
+    }
+
+    /**
+     * Sets error
+     *
+     * @param string|null $error error
+     *
+     * @return self
+     */
+    public function setError($error)
+    {
+        if (is_null($error)) {
+            array_push($this->openAPINullablesSetToNull, 'error');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('error', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets metadata
+     *
+     * @return \Jawwws\Gnaww\Model\IntentProviderMetadata|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param \Jawwws\Gnaww\Model\IntentProviderMetadata|null $metadata metadata
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            array_push($this->openAPINullablesSetToNull, 'metadata');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('metadata', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['metadata'] = $metadata;
+
+        return $this;
+    }
+
+    /**
+     * Gets provider
+     *
+     * @return string|null
+     */
+    public function getProvider()
+    {
+        return $this->container['provider'];
+    }
+
+    /**
+     * Sets provider
+     *
+     * @param string|null $provider provider
+     *
+     * @return self
+     */
+    public function setProvider($provider)
+    {
+        if (is_null($provider)) {
+            array_push($this->openAPINullablesSetToNull, 'provider');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('provider', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['provider'] = $provider;
+
+        return $this;
+    }
+
+    /**
+     * Gets status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /**
+     * Sets status
+     *
+     * @param string $status status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['status'] = $status;
 
         return $this;
     }

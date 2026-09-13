@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * SurfaceOperationParameters
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * SurfaceOperationParameters Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class SurfaceOperationParameters implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'SurfaceOperationParameters';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'colour' => 'string',
+        'finish' => 'string',
+        'kind' => 'string',
+        'material' => 'string'
     ];
 
     /**
@@ -59,7 +61,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'colour' => null,
+        'finish' => null,
+        'kind' => null,
+        'material' => null
     ];
 
     /**
@@ -68,7 +73,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'colour' => true,
+        'finish' => true,
+        'kind' => false,
+        'material' => true
     ];
 
     /**
@@ -157,7 +165,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'colour' => 'colour',
+        'finish' => 'finish',
+        'kind' => 'kind',
+        'material' => 'material'
     ];
 
     /**
@@ -166,7 +177,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'colour' => 'setColour',
+        'finish' => 'setFinish',
+        'kind' => 'setKind',
+        'material' => 'setMaterial'
     ];
 
     /**
@@ -175,7 +189,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'colour' => 'getColour',
+        'finish' => 'getFinish',
+        'kind' => 'getKind',
+        'material' => 'getMaterial'
     ];
 
     /**
@@ -219,6 +236,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_SURFACE = 'surface';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_SURFACE,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +265,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('colour', $data ?? [], null);
+        $this->setIfExists('finish', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'surface');
+        $this->setIfExists('material', $data ?? [], null);
     }
 
     /**
@@ -265,9 +298,15 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
         }
+
         return $invalidProperties;
     }
 
@@ -284,28 +323,140 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets colour
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string|null
      */
-    public function getGjs()
+    public function getColour()
     {
-        return $this->container['gjs'];
+        return $this->container['colour'];
     }
 
     /**
-     * Sets gjs
+     * Sets colour
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string|null $colour colour
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setColour($colour)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($colour)) {
+            array_push($this->openAPINullablesSetToNull, 'colour');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('colour', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['colour'] = $colour;
+
+        return $this;
+    }
+
+    /**
+     * Gets finish
+     *
+     * @return string|null
+     */
+    public function getFinish()
+    {
+        return $this->container['finish'];
+    }
+
+    /**
+     * Sets finish
+     *
+     * @param string|null $finish finish
+     *
+     * @return self
+     */
+    public function setFinish($finish)
+    {
+        if (is_null($finish)) {
+            array_push($this->openAPINullablesSetToNull, 'finish');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('finish', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['finish'] = $finish;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets material
+     *
+     * @return string|null
+     */
+    public function getMaterial()
+    {
+        return $this->container['material'];
+    }
+
+    /**
+     * Sets material
+     *
+     * @param string|null $material material
+     *
+     * @return self
+     */
+    public function setMaterial($material)
+    {
+        if (is_null($material)) {
+            array_push($this->openAPINullablesSetToNull, 'material');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('material', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['material'] = $material;
 
         return $this;
     }

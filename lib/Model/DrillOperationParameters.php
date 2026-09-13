@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * DrillOperationParameters
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * DrillOperationParameters Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class DrillOperationParameters implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'DrillOperationParameters';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'holes' => '\Jawwws\Gnaww\Model\DrillHole[]',
+        'kind' => 'string',
+        'patterns' => '\Jawwws\Gnaww\Model\RepeatedDrillPattern[]'
     ];
 
     /**
@@ -59,7 +60,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'holes' => null,
+        'kind' => null,
+        'patterns' => null
     ];
 
     /**
@@ -68,7 +71,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'holes' => false,
+        'kind' => false,
+        'patterns' => false
     ];
 
     /**
@@ -157,7 +162,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'holes' => 'holes',
+        'kind' => 'kind',
+        'patterns' => 'patterns'
     ];
 
     /**
@@ -166,7 +173,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'holes' => 'setHoles',
+        'kind' => 'setKind',
+        'patterns' => 'setPatterns'
     ];
 
     /**
@@ -175,7 +184,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'holes' => 'getHoles',
+        'kind' => 'getKind',
+        'patterns' => 'getPatterns'
     ];
 
     /**
@@ -219,6 +230,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_DRILL = 'drill';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_DRILL,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +259,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('holes', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'drill');
+        $this->setIfExists('patterns', $data ?? [], null);
     }
 
     /**
@@ -265,9 +291,15 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
         }
+
         return $invalidProperties;
     }
 
@@ -284,28 +316,92 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets holes
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return \Jawwws\Gnaww\Model\DrillHole[]|null
      */
-    public function getGjs()
+    public function getHoles()
     {
-        return $this->container['gjs'];
+        return $this->container['holes'];
     }
 
     /**
-     * Sets gjs
+     * Sets holes
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param \Jawwws\Gnaww\Model\DrillHole[]|null $holes holes
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setHoles($holes)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($holes)) {
+            throw new \InvalidArgumentException('non-nullable holes cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['holes'] = $holes;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets patterns
+     *
+     * @return \Jawwws\Gnaww\Model\RepeatedDrillPattern[]|null
+     */
+    public function getPatterns()
+    {
+        return $this->container['patterns'];
+    }
+
+    /**
+     * Sets patterns
+     *
+     * @param \Jawwws\Gnaww\Model\RepeatedDrillPattern[]|null $patterns patterns
+     *
+     * @return self
+     */
+    public function setPatterns($patterns)
+    {
+        if (is_null($patterns)) {
+            throw new \InvalidArgumentException('non-nullable patterns cannot be null');
+        }
+        $this->container['patterns'] = $patterns;
 
         return $this;
     }

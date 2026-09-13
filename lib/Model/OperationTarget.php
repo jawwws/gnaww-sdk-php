@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * OperationTarget
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * OperationTarget Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class OperationTarget implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'OperationTarget';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'component_id' => 'string',
+        'region_id' => 'string'
     ];
 
     /**
@@ -59,7 +59,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'component_id' => null,
+        'region_id' => null
     ];
 
     /**
@@ -68,7 +69,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'component_id' => false,
+        'region_id' => true
     ];
 
     /**
@@ -157,7 +159,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'component_id' => 'component_id',
+        'region_id' => 'region_id'
     ];
 
     /**
@@ -166,7 +169,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'component_id' => 'setComponentId',
+        'region_id' => 'setRegionId'
     ];
 
     /**
@@ -175,7 +179,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'component_id' => 'getComponentId',
+        'region_id' => 'getRegionId'
     ];
 
     /**
@@ -235,7 +240,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('component_id', $data ?? [], null);
+        $this->setIfExists('region_id', $data ?? [], null);
     }
 
     /**
@@ -265,9 +271,17 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['component_id'] === null) {
+            $invalidProperties[] = "'component_id' can't be null";
         }
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['component_id'])) {
+            $invalidProperties[] = "invalid value for 'component_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
+        if (!is_null($this->container['region_id']) && !preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['region_id'])) {
+            $invalidProperties[] = "invalid value for 'region_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +298,72 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets component_id
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getComponentId()
     {
-        return $this->container['gjs'];
+        return $this->container['component_id'];
     }
 
     /**
-     * Sets gjs
+     * Sets component_id
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $component_id component_id
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setComponentId($component_id)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($component_id)) {
+            throw new \InvalidArgumentException('non-nullable component_id cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($component_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$component_id when calling OperationTarget., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['component_id'] = $component_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets region_id
+     *
+     * @return string|null
+     */
+    public function getRegionId()
+    {
+        return $this->container['region_id'];
+    }
+
+    /**
+     * Sets region_id
+     *
+     * @param string|null $region_id region_id
+     *
+     * @return self
+     */
+    public function setRegionId($region_id)
+    {
+        if (is_null($region_id)) {
+            array_push($this->openAPINullablesSetToNull, 'region_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('region_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($region_id) && (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($region_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$region_id when calling OperationTarget., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['region_id'] = $region_id;
 
         return $this;
     }

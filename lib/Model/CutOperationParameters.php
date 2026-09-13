@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * CutOperationParameters
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * CutOperationParameters Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class CutOperationParameters implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'CutOperationParameters';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +47,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'contour' => '\Jawwws\Gnaww\Model\Contour',
+        'corner_radius_mm' => 'float',
+        'corners' => 'string[]',
+        'kind' => 'string',
+        'method' => 'string'
     ];
 
     /**
@@ -61,9 +62,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'contour' => null,
+        'corner_radius_mm' => null,
+        'corners' => null,
+        'kind' => null,
+        'method' => null
     ];
 
     /**
@@ -72,9 +75,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'contour' => true,
+        'corner_radius_mm' => true,
+        'corners' => false,
+        'kind' => false,
+        'method' => false
     ];
 
     /**
@@ -163,9 +168,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'contour' => 'contour',
+        'corner_radius_mm' => 'corner_radius_mm',
+        'corners' => 'corners',
+        'kind' => 'kind',
+        'method' => 'method'
     ];
 
     /**
@@ -174,9 +181,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'contour' => 'setContour',
+        'corner_radius_mm' => 'setCornerRadiusMm',
+        'corners' => 'setCorners',
+        'kind' => 'setKind',
+        'method' => 'setMethod'
     ];
 
     /**
@@ -185,9 +194,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'contour' => 'getContour',
+        'corner_radius_mm' => 'getCornerRadiusMm',
+        'corners' => 'getCorners',
+        'kind' => 'getKind',
+        'method' => 'getMethod'
     ];
 
     /**
@@ -231,21 +242,65 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
+    public const CORNERS_TOP_LEFT = 'top_left';
+    public const CORNERS_TOP_RIGHT = 'top_right';
+    public const CORNERS_BOTTOM_LEFT = 'bottom_left';
+    public const CORNERS_BOTTOM_RIGHT = 'bottom_right';
+    public const KIND_CUT = 'cut';
+    public const METHOD_TRIM = 'trim';
+    public const METHOD_GUILLOTINE = 'guillotine';
+    public const METHOD_CORNER_ROUND = 'corner_round';
+    public const METHOD_DIE_CUT = 'die_cut';
+    public const METHOD_KISS_CUT = 'kiss_cut';
+    public const METHOD_LASER_CUT = 'laser_cut';
+    public const METHOD_APERTURE = 'aperture';
+    public const METHOD_CONTOUR = 'contour';
+    public const METHOD_CUSTOM = 'custom';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getServiceClassAllowableValues()
+    public function getCornersAllowableValues()
     {
         return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
+            self::CORNERS_TOP_LEFT,
+            self::CORNERS_TOP_RIGHT,
+            self::CORNERS_BOTTOM_LEFT,
+            self::CORNERS_BOTTOM_RIGHT,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_CUT,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getMethodAllowableValues()
+    {
+        return [
+            self::METHOD_TRIM,
+            self::METHOD_GUILLOTINE,
+            self::METHOD_CORNER_ROUND,
+            self::METHOD_DIE_CUT,
+            self::METHOD_KISS_CUT,
+            self::METHOD_LASER_CUT,
+            self::METHOD_APERTURE,
+            self::METHOD_CONTOUR,
+            self::METHOD_CUSTOM,
         ];
     }
 
@@ -264,9 +319,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('contour', $data ?? [], null);
+        $this->setIfExists('corner_radius_mm', $data ?? [], null);
+        $this->setIfExists('corners', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'cut');
+        $this->setIfExists('method', $data ?? [], null);
     }
 
     /**
@@ -296,18 +353,27 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
-        }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
+        if (!is_null($this->container['corner_radius_mm']) && ($this->container['corner_radius_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'corner_radius_mm', must be bigger than 0.0.";
         }
 
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['method'] === null) {
+            $invalidProperties[] = "'method' can't be null";
+        }
+        $allowedValues = $this->getMethodAllowableValues();
+        if (!is_null($this->container['method']) && !in_array($this->container['method'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'method', must be one of '%s'",
+                $this->container['method'],
                 implode("', '", $allowedValues)
             );
         }
@@ -328,111 +394,184 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
+     * Gets contour
      *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
+     * @return \Jawwws\Gnaww\Model\Contour|null
      */
-    public function getDestination()
+    public function getContour()
     {
-        return $this->container['destination'];
+        return $this->container['contour'];
     }
 
     /**
-     * Sets destination
+     * Sets contour
      *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
+     * @param \Jawwws\Gnaww\Model\Contour|null $contour contour
      *
      * @return self
      */
-    public function setDestination($destination)
+    public function setContour($contour)
     {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
+        if (is_null($contour)) {
+            array_push($this->openAPINullablesSetToNull, 'contour');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('contour', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['destination'] = $destination;
+        $this->container['contour'] = $contour;
 
         return $this;
     }
 
     /**
-     * Gets maximum_delivery_working_days
+     * Gets corner_radius_mm
      *
-     * @return int|null
+     * @return float|null
      */
-    public function getMaximumDeliveryWorkingDays()
+    public function getCornerRadiusMm()
     {
-        return $this->container['maximum_delivery_working_days'];
+        return $this->container['corner_radius_mm'];
     }
 
     /**
-     * Sets maximum_delivery_working_days
+     * Sets corner_radius_mm
      *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
+     * @param float|null $corner_radius_mm corner_radius_mm
      *
      * @return self
      */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
+    public function setCornerRadiusMm($corner_radius_mm)
     {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
+        if (is_null($corner_radius_mm)) {
+            array_push($this->openAPINullablesSetToNull, 'corner_radius_mm');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
+            $index = array_search('corner_radius_mm', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
 
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
+        if (!is_null($corner_radius_mm) && ($corner_radius_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $corner_radius_mm when calling CutOperationParameters., must be bigger than 0.0.');
         }
 
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
+        $this->container['corner_radius_mm'] = $corner_radius_mm;
 
         return $this;
     }
 
     /**
-     * Gets service_class
+     * Gets corners
      *
-     * @return string|null
+     * @return string[]|null
      */
-    public function getServiceClass()
+    public function getCorners()
     {
-        return $this->container['service_class'];
+        return $this->container['corners'];
     }
 
     /**
-     * Sets service_class
+     * Sets corners
      *
-     * @param string|null $service_class service_class
+     * @param string[]|null $corners corners
      *
      * @return self
      */
-    public function setServiceClass($service_class)
+    public function setCorners($corners)
     {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($corners)) {
+            throw new \InvalidArgumentException('non-nullable corners cannot be null');
         }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
+        $allowedValues = $this->getCornersAllowableValues();
+        if (array_diff($corners, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
+                    "Invalid value for 'corners', must be one of '%s'",
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['service_class'] = $service_class;
+        $this->container['corners'] = $corners;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets method
+     *
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->container['method'];
+    }
+
+    /**
+     * Sets method
+     *
+     * @param string $method method
+     *
+     * @return self
+     */
+    public function setMethod($method)
+    {
+        if (is_null($method)) {
+            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        }
+        $allowedValues = $this->getMethodAllowableValues();
+        if (!in_array($method, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'method', must be one of '%s'",
+                    $method,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['method'] = $method;
 
         return $this;
     }

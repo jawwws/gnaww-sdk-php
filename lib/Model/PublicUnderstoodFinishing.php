@@ -1,6 +1,6 @@
 <?php
 /**
- * MaterialCapability
+ * PublicUnderstoodFinishing
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * MaterialCapability Class Doc Comment
+ * PublicUnderstoodFinishing Class Doc Comment
  *
  * @category Class
- * @description A canonical material or substrate capability.
+ * @description One controlled finishing fact established without claiming complete geometry.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicUnderstoodFinishing implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      *
      * @var string
      */
-    protected static $openAPIModelName = 'MaterialCapability';
+    protected static $openAPIModelName = 'PublicUnderstoodFinishing';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -49,14 +49,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $openAPITypes = [
         'category' => 'string',
-        'certifications' => 'string[]',
-        'composition' => '\Jawwws\Gnaww\Model\AppModelsProducerMaterialCompositionPart[]',
-        'finish' => 'string',
-        'maximum_weight_gsm' => 'int',
-        'minimum_weight_gsm' => 'int',
+        'geometry_complete' => 'bool',
         'name' => 'string',
-        'standard_weights_gsm' => 'int[]',
-        'weight_gsm' => 'int'
+        'process' => 'string',
+        'source_expression' => 'string'
     ];
 
     /**
@@ -68,14 +64,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $openAPIFormats = [
         'category' => null,
-        'certifications' => null,
-        'composition' => null,
-        'finish' => null,
-        'maximum_weight_gsm' => null,
-        'minimum_weight_gsm' => null,
+        'geometry_complete' => null,
         'name' => null,
-        'standard_weights_gsm' => null,
-        'weight_gsm' => null
+        'process' => null,
+        'source_expression' => null
     ];
 
     /**
@@ -85,14 +77,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static array $openAPINullables = [
         'category' => false,
-        'certifications' => false,
-        'composition' => false,
-        'finish' => true,
-        'maximum_weight_gsm' => true,
-        'minimum_weight_gsm' => true,
+        'geometry_complete' => false,
         'name' => false,
-        'standard_weights_gsm' => false,
-        'weight_gsm' => true
+        'process' => true,
+        'source_expression' => true
     ];
 
     /**
@@ -182,14 +170,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $attributeMap = [
         'category' => 'category',
-        'certifications' => 'certifications',
-        'composition' => 'composition',
-        'finish' => 'finish',
-        'maximum_weight_gsm' => 'maximum_weight_gsm',
-        'minimum_weight_gsm' => 'minimum_weight_gsm',
+        'geometry_complete' => 'geometry_complete',
         'name' => 'name',
-        'standard_weights_gsm' => 'standard_weights_gsm',
-        'weight_gsm' => 'weight_gsm'
+        'process' => 'process',
+        'source_expression' => 'source_expression'
     ];
 
     /**
@@ -199,14 +183,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $setters = [
         'category' => 'setCategory',
-        'certifications' => 'setCertifications',
-        'composition' => 'setComposition',
-        'finish' => 'setFinish',
-        'maximum_weight_gsm' => 'setMaximumWeightGsm',
-        'minimum_weight_gsm' => 'setMinimumWeightGsm',
+        'geometry_complete' => 'setGeometryComplete',
         'name' => 'setName',
-        'standard_weights_gsm' => 'setStandardWeightsGsm',
-        'weight_gsm' => 'setWeightGsm'
+        'process' => 'setProcess',
+        'source_expression' => 'setSourceExpression'
     ];
 
     /**
@@ -216,14 +196,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $getters = [
         'category' => 'getCategory',
-        'certifications' => 'getCertifications',
-        'composition' => 'getComposition',
-        'finish' => 'getFinish',
-        'maximum_weight_gsm' => 'getMaximumWeightGsm',
-        'minimum_weight_gsm' => 'getMinimumWeightGsm',
+        'geometry_complete' => 'getGeometryComplete',
         'name' => 'getName',
-        'standard_weights_gsm' => 'getStandardWeightsGsm',
-        'weight_gsm' => 'getWeightGsm'
+        'process' => 'getProcess',
+        'source_expression' => 'getSourceExpression'
     ];
 
     /**
@@ -267,17 +243,48 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
         return self::$openAPIModelName;
     }
 
-    public const CATEGORY_PAPER = 'paper';
-    public const CATEGORY_BOARD = 'board';
-    public const CATEGORY_SYNTHETIC = 'synthetic';
-    public const CATEGORY_TEXTILE = 'textile';
-    public const CATEGORY_PLASTIC = 'plastic';
-    public const CATEGORY_METAL = 'metal';
-    public const CATEGORY_CERAMIC = 'ceramic';
-    public const CATEGORY_GLASS = 'glass';
-    public const CATEGORY_WOOD = 'wood';
+    public const CATEGORY_FOLDING = 'folding';
+    public const CATEGORY_LAMINATION = 'lamination';
+    public const CATEGORY_BINDING = 'binding';
+    public const CATEGORY_CUTTING = 'cutting';
+    public const CATEGORY_DRILLING = 'drilling';
+    public const CATEGORY_PERFORATION = 'perforation';
+    public const CATEGORY_CREASING = 'creasing';
+    public const CATEGORY_STITCHING = 'stitching';
+    public const CATEGORY_FOILING = 'foiling';
+    public const CATEGORY_SPOT_UV = 'spot_uv';
+    public const CATEGORY_DIE_CUTTING = 'die_cutting';
+    public const CATEGORY_EMBOSSING = 'embossing';
+    public const CATEGORY_DEBOSSING = 'debossing';
+    public const CATEGORY_CORNER_ROUNDING = 'corner_rounding';
+    public const CATEGORY_PACKAGING = 'packaging';
     public const CATEGORY_OTHER = 'other';
     public const CATEGORY_UNKNOWN = 'unknown';
+    public const PROCESS_DIGITAL_PRINT = 'digital_print';
+    public const PROCESS_OFFSET_LITHO = 'offset_litho';
+    public const PROCESS_LARGE_FORMAT = 'large_format';
+    public const PROCESS_DTG = 'dtg';
+    public const PROCESS_DTF = 'dtf';
+    public const PROCESS_HTV = 'htv';
+    public const PROCESS_EMBROIDERY = 'embroidery';
+    public const PROCESS_SCREEN_PRINT = 'screen_print';
+    public const PROCESS_SUBLIMATION = 'sublimation';
+    public const PROCESS_DIGITAL_TEXTILE_PRINT = 'digital_textile_print';
+    public const PROCESS_REACTIVE_DYE_PRINT = 'reactive_dye_print';
+    public const PROCESS_PIGMENT_PRINT = 'pigment_print';
+    public const PROCESS_SEWING = 'sewing';
+    public const PROCESS_HEMMING = 'hemming';
+    public const PROCESS_PAD_PRINT = 'pad_print';
+    public const PROCESS_UV_PRINT = 'uv_print';
+    public const PROCESS_ENGRAVING = 'engraving';
+    public const PROCESS_LASER_ENGRAVING = 'laser_engraving';
+    public const PROCESS_CUTTING = 'cutting';
+    public const PROCESS_FOLDING = 'folding';
+    public const PROCESS_BINDING = 'binding';
+    public const PROCESS_LAMINATION = 'lamination';
+    public const PROCESS_FOILING = 'foiling';
+    public const PROCESS_SPOT_UV = 'spot_uv';
+    public const PROCESS_UNKNOWN = 'unknown';
 
     /**
      * Gets allowable values of the enum
@@ -287,17 +294,59 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     public function getCategoryAllowableValues()
     {
         return [
-            self::CATEGORY_PAPER,
-            self::CATEGORY_BOARD,
-            self::CATEGORY_SYNTHETIC,
-            self::CATEGORY_TEXTILE,
-            self::CATEGORY_PLASTIC,
-            self::CATEGORY_METAL,
-            self::CATEGORY_CERAMIC,
-            self::CATEGORY_GLASS,
-            self::CATEGORY_WOOD,
+            self::CATEGORY_FOLDING,
+            self::CATEGORY_LAMINATION,
+            self::CATEGORY_BINDING,
+            self::CATEGORY_CUTTING,
+            self::CATEGORY_DRILLING,
+            self::CATEGORY_PERFORATION,
+            self::CATEGORY_CREASING,
+            self::CATEGORY_STITCHING,
+            self::CATEGORY_FOILING,
+            self::CATEGORY_SPOT_UV,
+            self::CATEGORY_DIE_CUTTING,
+            self::CATEGORY_EMBOSSING,
+            self::CATEGORY_DEBOSSING,
+            self::CATEGORY_CORNER_ROUNDING,
+            self::CATEGORY_PACKAGING,
             self::CATEGORY_OTHER,
             self::CATEGORY_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getProcessAllowableValues()
+    {
+        return [
+            self::PROCESS_DIGITAL_PRINT,
+            self::PROCESS_OFFSET_LITHO,
+            self::PROCESS_LARGE_FORMAT,
+            self::PROCESS_DTG,
+            self::PROCESS_DTF,
+            self::PROCESS_HTV,
+            self::PROCESS_EMBROIDERY,
+            self::PROCESS_SCREEN_PRINT,
+            self::PROCESS_SUBLIMATION,
+            self::PROCESS_DIGITAL_TEXTILE_PRINT,
+            self::PROCESS_REACTIVE_DYE_PRINT,
+            self::PROCESS_PIGMENT_PRINT,
+            self::PROCESS_SEWING,
+            self::PROCESS_HEMMING,
+            self::PROCESS_PAD_PRINT,
+            self::PROCESS_UV_PRINT,
+            self::PROCESS_ENGRAVING,
+            self::PROCESS_LASER_ENGRAVING,
+            self::PROCESS_CUTTING,
+            self::PROCESS_FOLDING,
+            self::PROCESS_BINDING,
+            self::PROCESS_LAMINATION,
+            self::PROCESS_FOILING,
+            self::PROCESS_SPOT_UV,
+            self::PROCESS_UNKNOWN,
         ];
     }
 
@@ -316,15 +365,11 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('category', $data ?? [], 'unknown');
-        $this->setIfExists('certifications', $data ?? [], null);
-        $this->setIfExists('composition', $data ?? [], null);
-        $this->setIfExists('finish', $data ?? [], null);
-        $this->setIfExists('maximum_weight_gsm', $data ?? [], null);
-        $this->setIfExists('minimum_weight_gsm', $data ?? [], null);
+        $this->setIfExists('category', $data ?? [], null);
+        $this->setIfExists('geometry_complete', $data ?? [], false);
         $this->setIfExists('name', $data ?? [], null);
-        $this->setIfExists('standard_weights_gsm', $data ?? [], null);
-        $this->setIfExists('weight_gsm', $data ?? [], null);
+        $this->setIfExists('process', $data ?? [], null);
+        $this->setIfExists('source_expression', $data ?? [], null);
     }
 
     /**
@@ -354,6 +399,9 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = $this->getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -363,19 +411,20 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
             );
         }
 
-        if (!is_null($this->container['maximum_weight_gsm']) && ($this->container['maximum_weight_gsm'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_weight_gsm', must be bigger than 0.";
-        }
-
-        if (!is_null($this->container['minimum_weight_gsm']) && ($this->container['minimum_weight_gsm'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'minimum_weight_gsm', must be bigger than 0.";
-        }
-
         if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
-        if (!is_null($this->container['weight_gsm']) && ($this->container['weight_gsm'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'weight_gsm', must be bigger than 0.";
+        if ((mb_strlen($this->container['name']) < 1)) {
+            $invalidProperties[] = "invalid value for 'name', the character length must be bigger than or equal to 1.";
+        }
+
+        $allowedValues = $this->getProcessAllowableValues();
+        if (!is_null($this->container['process']) && !in_array($this->container['process'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'process', must be one of '%s'",
+                $this->container['process'],
+                implode("', '", $allowedValues)
+            );
         }
 
         return $invalidProperties;
@@ -396,7 +445,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
     public function getCategory()
     {
@@ -406,7 +455,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets category
      *
-     * @param string|null $category category
+     * @param string $category category
      *
      * @return self
      */
@@ -431,167 +480,28 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets certifications
+     * Gets geometry_complete
      *
-     * @return string[]|null
+     * @return bool|null
      */
-    public function getCertifications()
+    public function getGeometryComplete()
     {
-        return $this->container['certifications'];
+        return $this->container['geometry_complete'];
     }
 
     /**
-     * Sets certifications
+     * Sets geometry_complete
      *
-     * @param string[]|null $certifications certifications
+     * @param bool|null $geometry_complete geometry_complete
      *
      * @return self
      */
-    public function setCertifications($certifications)
+    public function setGeometryComplete($geometry_complete)
     {
-        if (is_null($certifications)) {
-            throw new \InvalidArgumentException('non-nullable certifications cannot be null');
+        if (is_null($geometry_complete)) {
+            throw new \InvalidArgumentException('non-nullable geometry_complete cannot be null');
         }
-        $this->container['certifications'] = $certifications;
-
-        return $this;
-    }
-
-    /**
-     * Gets composition
-     *
-     * @return \Jawwws\Gnaww\Model\AppModelsProducerMaterialCompositionPart[]|null
-     */
-    public function getComposition()
-    {
-        return $this->container['composition'];
-    }
-
-    /**
-     * Sets composition
-     *
-     * @param \Jawwws\Gnaww\Model\AppModelsProducerMaterialCompositionPart[]|null $composition composition
-     *
-     * @return self
-     */
-    public function setComposition($composition)
-    {
-        if (is_null($composition)) {
-            throw new \InvalidArgumentException('non-nullable composition cannot be null');
-        }
-        $this->container['composition'] = $composition;
-
-        return $this;
-    }
-
-    /**
-     * Gets finish
-     *
-     * @return string|null
-     */
-    public function getFinish()
-    {
-        return $this->container['finish'];
-    }
-
-    /**
-     * Sets finish
-     *
-     * @param string|null $finish finish
-     *
-     * @return self
-     */
-    public function setFinish($finish)
-    {
-        if (is_null($finish)) {
-            array_push($this->openAPINullablesSetToNull, 'finish');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('finish', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['finish'] = $finish;
-
-        return $this;
-    }
-
-    /**
-     * Gets maximum_weight_gsm
-     *
-     * @return int|null
-     */
-    public function getMaximumWeightGsm()
-    {
-        return $this->container['maximum_weight_gsm'];
-    }
-
-    /**
-     * Sets maximum_weight_gsm
-     *
-     * @param int|null $maximum_weight_gsm maximum_weight_gsm
-     *
-     * @return self
-     */
-    public function setMaximumWeightGsm($maximum_weight_gsm)
-    {
-        if (is_null($maximum_weight_gsm)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_weight_gsm');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_weight_gsm', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($maximum_weight_gsm) && ($maximum_weight_gsm <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_weight_gsm when calling MaterialCapability., must be bigger than 0.');
-        }
-
-        $this->container['maximum_weight_gsm'] = $maximum_weight_gsm;
-
-        return $this;
-    }
-
-    /**
-     * Gets minimum_weight_gsm
-     *
-     * @return int|null
-     */
-    public function getMinimumWeightGsm()
-    {
-        return $this->container['minimum_weight_gsm'];
-    }
-
-    /**
-     * Sets minimum_weight_gsm
-     *
-     * @param int|null $minimum_weight_gsm minimum_weight_gsm
-     *
-     * @return self
-     */
-    public function setMinimumWeightGsm($minimum_weight_gsm)
-    {
-        if (is_null($minimum_weight_gsm)) {
-            array_push($this->openAPINullablesSetToNull, 'minimum_weight_gsm');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('minimum_weight_gsm', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($minimum_weight_gsm) && ($minimum_weight_gsm <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $minimum_weight_gsm when calling MaterialCapability., must be bigger than 0.');
-        }
-
-        $this->container['minimum_weight_gsm'] = $minimum_weight_gsm;
+        $this->container['geometry_complete'] = $geometry_complete;
 
         return $this;
     }
@@ -618,73 +528,90 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
+
+        if ((mb_strlen($name) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $name when calling PublicUnderstoodFinishing., must be bigger than or equal to 1.');
+        }
+
         $this->container['name'] = $name;
 
         return $this;
     }
 
     /**
-     * Gets standard_weights_gsm
+     * Gets process
      *
-     * @return int[]|null
+     * @return string|null
      */
-    public function getStandardWeightsGsm()
+    public function getProcess()
     {
-        return $this->container['standard_weights_gsm'];
+        return $this->container['process'];
     }
 
     /**
-     * Sets standard_weights_gsm
+     * Sets process
      *
-     * @param int[]|null $standard_weights_gsm standard_weights_gsm
+     * @param string|null $process process
      *
      * @return self
      */
-    public function setStandardWeightsGsm($standard_weights_gsm)
+    public function setProcess($process)
     {
-        if (is_null($standard_weights_gsm)) {
-            throw new \InvalidArgumentException('non-nullable standard_weights_gsm cannot be null');
-        }
-        $this->container['standard_weights_gsm'] = $standard_weights_gsm;
-
-        return $this;
-    }
-
-    /**
-     * Gets weight_gsm
-     *
-     * @return int|null
-     */
-    public function getWeightGsm()
-    {
-        return $this->container['weight_gsm'];
-    }
-
-    /**
-     * Sets weight_gsm
-     *
-     * @param int|null $weight_gsm weight_gsm
-     *
-     * @return self
-     */
-    public function setWeightGsm($weight_gsm)
-    {
-        if (is_null($weight_gsm)) {
-            array_push($this->openAPINullablesSetToNull, 'weight_gsm');
+        if (is_null($process)) {
+            array_push($this->openAPINullablesSetToNull, 'process');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('weight_gsm', $nullablesSetToNull);
+            $index = array_search('process', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
-        if (!is_null($weight_gsm) && ($weight_gsm <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $weight_gsm when calling MaterialCapability., must be bigger than 0.');
+        $allowedValues = $this->getProcessAllowableValues();
+        if (!is_null($process) && !in_array($process, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'process', must be one of '%s'",
+                    $process,
+                    implode("', '", $allowedValues)
+                )
+            );
         }
+        $this->container['process'] = $process;
 
-        $this->container['weight_gsm'] = $weight_gsm;
+        return $this;
+    }
+
+    /**
+     * Gets source_expression
+     *
+     * @return string|null
+     */
+    public function getSourceExpression()
+    {
+        return $this->container['source_expression'];
+    }
+
+    /**
+     * Sets source_expression
+     *
+     * @param string|null $source_expression source_expression
+     *
+     * @return self
+     */
+    public function setSourceExpression($source_expression)
+    {
+        if (is_null($source_expression)) {
+            array_push($this->openAPINullablesSetToNull, 'source_expression');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('source_expression', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['source_expression'] = $source_expression;
 
         return $this;
     }

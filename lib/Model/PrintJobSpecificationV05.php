@@ -1,6 +1,6 @@
 <?php
 /**
- * ContinuePrintRequirementResponse
+ * PrintJobSpecificationV05
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ContinuePrintRequirementResponse Class Doc Comment
+ * PrintJobSpecificationV05 Class Doc Comment
  *
  * @category Class
- * @description Guided completion state without persistence or matching execution.
+ * @description GJS v0.5 compositional manufacturing definition foundation.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class PrintJobSpecificationV05 implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ContinuePrintRequirementResponse';
+    protected static $openAPIModelName = 'PrintJobSpecificationV05';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,23 +48,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      * @var string[]
      */
     protected static $openAPITypes = [
-        'fulfilment' => '\Jawwws\Gnaww\Model\PublicFulfilmentState',
-        'gjs' => '\Jawwws\Gnaww\Model\PrintJobSpecificationV04',
-        'issues' => '\Jawwws\Gnaww\Model\IssueSet',
-        'next_actions' => 'string[]',
-        'persistence_performed' => 'bool',
-        'producer_selection_performed' => 'bool',
+        'assemblies' => '\Jawwws\Gnaww\Model\ManufacturingAssembly[]',
+        'components' => '\Jawwws\Gnaww\Model\ManufacturingComponent[]',
+        'confidence' => 'float',
+        'operations' => '\Jawwws\Gnaww\Model\ManufacturingOperation[]',
+        'product_category' => 'string',
         'product_family' => 'string',
-        'questions' => '\Jawwws\Gnaww\Model\PublicClarificationQuestion[]',
-        'recipe' => '\Jawwws\Gnaww\Model\PublicRecipeState',
-        'remaining_question_keys' => 'string[]',
+        'product_name' => 'string',
+        'quality_requirements' => '\Jawwws\Gnaww\Model\QualityRequirement[]',
+        'quantity' => '\Jawwws\Gnaww\Model\ManufacturingQuantity',
         'schema_name' => 'string',
         'schema_version' => 'string',
-        'source' => '\Jawwws\Gnaww\Model\SourceInput',
-        'specmatch' => '\Jawwws\Gnaww\Model\PublicSpecMatchReadiness',
-        'specmatch_performed' => 'bool',
+        'service_requirements' => '\Jawwws\Gnaww\Model\ServiceRequirements',
         'status' => 'string',
-        'universe_match_ready' => 'bool'
+        'unresolved_fields' => 'string[]',
+        'use_requirements' => '\Jawwws\Gnaww\Model\UseRequirement[]',
+        'variations' => '\Jawwws\Gnaww\Model\ManufacturingVariation[]'
     ];
 
     /**
@@ -75,23 +74,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'fulfilment' => null,
-        'gjs' => null,
-        'issues' => null,
-        'next_actions' => null,
-        'persistence_performed' => null,
-        'producer_selection_performed' => null,
+        'assemblies' => null,
+        'components' => null,
+        'confidence' => null,
+        'operations' => null,
+        'product_category' => null,
         'product_family' => null,
-        'questions' => null,
-        'recipe' => null,
-        'remaining_question_keys' => null,
+        'product_name' => null,
+        'quality_requirements' => null,
+        'quantity' => null,
         'schema_name' => null,
         'schema_version' => null,
-        'source' => null,
-        'specmatch' => null,
-        'specmatch_performed' => null,
+        'service_requirements' => null,
         'status' => null,
-        'universe_match_ready' => null
+        'unresolved_fields' => null,
+        'use_requirements' => null,
+        'variations' => null
     ];
 
     /**
@@ -100,23 +98,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'fulfilment' => false,
-        'gjs' => true,
-        'issues' => false,
-        'next_actions' => false,
-        'persistence_performed' => false,
-        'producer_selection_performed' => false,
-        'product_family' => true,
-        'questions' => false,
-        'recipe' => false,
-        'remaining_question_keys' => false,
+        'assemblies' => false,
+        'components' => false,
+        'confidence' => false,
+        'operations' => false,
+        'product_category' => false,
+        'product_family' => false,
+        'product_name' => true,
+        'quality_requirements' => false,
+        'quantity' => false,
         'schema_name' => false,
         'schema_version' => false,
-        'source' => false,
-        'specmatch' => false,
-        'specmatch_performed' => false,
+        'service_requirements' => false,
         'status' => false,
-        'universe_match_ready' => false
+        'unresolved_fields' => false,
+        'use_requirements' => false,
+        'variations' => false
     ];
 
     /**
@@ -205,23 +202,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      * @var string[]
      */
     protected static $attributeMap = [
-        'fulfilment' => 'fulfilment',
-        'gjs' => 'gjs',
-        'issues' => 'issues',
-        'next_actions' => 'next_actions',
-        'persistence_performed' => 'persistence_performed',
-        'producer_selection_performed' => 'producer_selection_performed',
+        'assemblies' => 'assemblies',
+        'components' => 'components',
+        'confidence' => 'confidence',
+        'operations' => 'operations',
+        'product_category' => 'product_category',
         'product_family' => 'product_family',
-        'questions' => 'questions',
-        'recipe' => 'recipe',
-        'remaining_question_keys' => 'remaining_question_keys',
+        'product_name' => 'product_name',
+        'quality_requirements' => 'quality_requirements',
+        'quantity' => 'quantity',
         'schema_name' => 'schema_name',
         'schema_version' => 'schema_version',
-        'source' => 'source',
-        'specmatch' => 'specmatch',
-        'specmatch_performed' => 'specmatch_performed',
+        'service_requirements' => 'service_requirements',
         'status' => 'status',
-        'universe_match_ready' => 'universe_match_ready'
+        'unresolved_fields' => 'unresolved_fields',
+        'use_requirements' => 'use_requirements',
+        'variations' => 'variations'
     ];
 
     /**
@@ -230,23 +226,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      * @var string[]
      */
     protected static $setters = [
-        'fulfilment' => 'setFulfilment',
-        'gjs' => 'setGjs',
-        'issues' => 'setIssues',
-        'next_actions' => 'setNextActions',
-        'persistence_performed' => 'setPersistencePerformed',
-        'producer_selection_performed' => 'setProducerSelectionPerformed',
+        'assemblies' => 'setAssemblies',
+        'components' => 'setComponents',
+        'confidence' => 'setConfidence',
+        'operations' => 'setOperations',
+        'product_category' => 'setProductCategory',
         'product_family' => 'setProductFamily',
-        'questions' => 'setQuestions',
-        'recipe' => 'setRecipe',
-        'remaining_question_keys' => 'setRemainingQuestionKeys',
+        'product_name' => 'setProductName',
+        'quality_requirements' => 'setQualityRequirements',
+        'quantity' => 'setQuantity',
         'schema_name' => 'setSchemaName',
         'schema_version' => 'setSchemaVersion',
-        'source' => 'setSource',
-        'specmatch' => 'setSpecmatch',
-        'specmatch_performed' => 'setSpecmatchPerformed',
+        'service_requirements' => 'setServiceRequirements',
         'status' => 'setStatus',
-        'universe_match_ready' => 'setUniverseMatchReady'
+        'unresolved_fields' => 'setUnresolvedFields',
+        'use_requirements' => 'setUseRequirements',
+        'variations' => 'setVariations'
     ];
 
     /**
@@ -255,23 +250,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      * @var string[]
      */
     protected static $getters = [
-        'fulfilment' => 'getFulfilment',
-        'gjs' => 'getGjs',
-        'issues' => 'getIssues',
-        'next_actions' => 'getNextActions',
-        'persistence_performed' => 'getPersistencePerformed',
-        'producer_selection_performed' => 'getProducerSelectionPerformed',
+        'assemblies' => 'getAssemblies',
+        'components' => 'getComponents',
+        'confidence' => 'getConfidence',
+        'operations' => 'getOperations',
+        'product_category' => 'getProductCategory',
         'product_family' => 'getProductFamily',
-        'questions' => 'getQuestions',
-        'recipe' => 'getRecipe',
-        'remaining_question_keys' => 'getRemainingQuestionKeys',
+        'product_name' => 'getProductName',
+        'quality_requirements' => 'getQualityRequirements',
+        'quantity' => 'getQuantity',
         'schema_name' => 'getSchemaName',
         'schema_version' => 'getSchemaVersion',
-        'source' => 'getSource',
-        'specmatch' => 'getSpecmatch',
-        'specmatch_performed' => 'getSpecmatchPerformed',
+        'service_requirements' => 'getServiceRequirements',
         'status' => 'getStatus',
-        'universe_match_ready' => 'getUniverseMatchReady'
+        'unresolved_fields' => 'getUnresolvedFields',
+        'use_requirements' => 'getUseRequirements',
+        'variations' => 'getVariations'
     ];
 
     /**
@@ -315,8 +309,11 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
         return self::$openAPIModelName;
     }
 
-    public const PERSISTENCE_PERFORMED_FALSE = 'false';
-    public const PRODUCER_SELECTION_PERFORMED_FALSE = 'false';
+    public const PRODUCT_CATEGORY_COMMERCIAL_PRINT = 'commercial_print';
+    public const PRODUCT_CATEGORY_APPAREL = 'apparel';
+    public const PRODUCT_CATEGORY_FABRIC_HOMEWARES = 'fabric_homewares';
+    public const PRODUCT_CATEGORY_PROMOTIONAL_GOODS = 'promotional_goods';
+    public const PRODUCT_CATEGORY_UNKNOWN = 'unknown';
     public const PRODUCT_FAMILY_FLYER = 'flyer';
     public const PRODUCT_FAMILY_LEAFLET = 'leaflet';
     public const PRODUCT_FAMILY_FOLDED_LEAFLET = 'folded_leaflet';
@@ -365,11 +362,11 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     public const PRODUCT_FAMILY_KEYRING = 'keyring';
     public const PRODUCT_FAMILY_PROMOTIONAL_PRODUCT = 'promotional_product';
     public const PRODUCT_FAMILY_UNKNOWN = 'unknown';
-    public const SCHEMA_NAME_GNAWW_INTERPRETATION_CONTINUATION_RESULT = 'gnaww.interpretation_continuation_result';
-    public const SCHEMA_VERSION__0_1 = '0.1';
-    public const SPECMATCH_PERFORMED_FALSE = 'false';
-    public const STATUS_REVIEW_REQUIRED = 'review_required';
-    public const STATUS_SPECMATCH_READY = 'specmatch_ready';
+    public const SCHEMA_NAME_JAWWWS_PRINT_JOB_SPECIFICATION = 'jawwws.print_job_specification';
+    public const SCHEMA_VERSION__0_5 = '0.5';
+    public const STATUS_MAPPED = 'mapped';
+    public const STATUS_NEEDS_REVIEW = 'needs_review';
+    public const STATUS_BLOCKED = 'blocked';
     public const STATUS_FAILED = 'failed';
 
     /**
@@ -377,22 +374,14 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      *
      * @return string[]
      */
-    public function getPersistencePerformedAllowableValues()
+    public function getProductCategoryAllowableValues()
     {
         return [
-            self::PERSISTENCE_PERFORMED_FALSE,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getProducerSelectionPerformedAllowableValues()
-    {
-        return [
-            self::PRODUCER_SELECTION_PERFORMED_FALSE,
+            self::PRODUCT_CATEGORY_COMMERCIAL_PRINT,
+            self::PRODUCT_CATEGORY_APPAREL,
+            self::PRODUCT_CATEGORY_FABRIC_HOMEWARES,
+            self::PRODUCT_CATEGORY_PROMOTIONAL_GOODS,
+            self::PRODUCT_CATEGORY_UNKNOWN,
         ];
     }
 
@@ -463,7 +452,7 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     public function getSchemaNameAllowableValues()
     {
         return [
-            self::SCHEMA_NAME_GNAWW_INTERPRETATION_CONTINUATION_RESULT,
+            self::SCHEMA_NAME_JAWWWS_PRINT_JOB_SPECIFICATION,
         ];
     }
 
@@ -475,19 +464,7 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     public function getSchemaVersionAllowableValues()
     {
         return [
-            self::SCHEMA_VERSION__0_1,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getSpecmatchPerformedAllowableValues()
-    {
-        return [
-            self::SPECMATCH_PERFORMED_FALSE,
+            self::SCHEMA_VERSION__0_5,
         ];
     }
 
@@ -499,8 +476,9 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     public function getStatusAllowableValues()
     {
         return [
-            self::STATUS_REVIEW_REQUIRED,
-            self::STATUS_SPECMATCH_READY,
+            self::STATUS_MAPPED,
+            self::STATUS_NEEDS_REVIEW,
+            self::STATUS_BLOCKED,
             self::STATUS_FAILED,
         ];
     }
@@ -520,23 +498,22 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('fulfilment', $data ?? [], null);
-        $this->setIfExists('gjs', $data ?? [], null);
-        $this->setIfExists('issues', $data ?? [], null);
-        $this->setIfExists('next_actions', $data ?? [], null);
-        $this->setIfExists('persistence_performed', $data ?? [], false);
-        $this->setIfExists('producer_selection_performed', $data ?? [], false);
+        $this->setIfExists('assemblies', $data ?? [], null);
+        $this->setIfExists('components', $data ?? [], null);
+        $this->setIfExists('confidence', $data ?? [], 0.0);
+        $this->setIfExists('operations', $data ?? [], null);
+        $this->setIfExists('product_category', $data ?? [], 'unknown');
         $this->setIfExists('product_family', $data ?? [], null);
-        $this->setIfExists('questions', $data ?? [], null);
-        $this->setIfExists('recipe', $data ?? [], null);
-        $this->setIfExists('remaining_question_keys', $data ?? [], null);
-        $this->setIfExists('schema_name', $data ?? [], 'gnaww.interpretation_continuation_result');
-        $this->setIfExists('schema_version', $data ?? [], '0.1');
-        $this->setIfExists('source', $data ?? [], null);
-        $this->setIfExists('specmatch', $data ?? [], null);
-        $this->setIfExists('specmatch_performed', $data ?? [], false);
-        $this->setIfExists('status', $data ?? [], null);
-        $this->setIfExists('universe_match_ready', $data ?? [], false);
+        $this->setIfExists('product_name', $data ?? [], null);
+        $this->setIfExists('quality_requirements', $data ?? [], null);
+        $this->setIfExists('quantity', $data ?? [], null);
+        $this->setIfExists('schema_name', $data ?? [], 'jawwws.print_job_specification');
+        $this->setIfExists('schema_version', $data ?? [], '0.5');
+        $this->setIfExists('service_requirements', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], 'mapped');
+        $this->setIfExists('unresolved_fields', $data ?? [], null);
+        $this->setIfExists('use_requirements', $data ?? [], null);
+        $this->setIfExists('variations', $data ?? [], null);
     }
 
     /**
@@ -566,24 +543,33 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getPersistencePerformedAllowableValues();
-        if (!is_null($this->container['persistence_performed']) && !in_array($this->container['persistence_performed'], $allowedValues, true)) {
+        if ($this->container['components'] === null) {
+            $invalidProperties[] = "'components' can't be null";
+        }
+        if ((count($this->container['components']) < 1)) {
+            $invalidProperties[] = "invalid value for 'components', number of items must be greater than or equal to 1.";
+        }
+
+        if (!is_null($this->container['confidence']) && ($this->container['confidence'] > 1.0)) {
+            $invalidProperties[] = "invalid value for 'confidence', must be smaller than or equal to 1.0.";
+        }
+
+        if (!is_null($this->container['confidence']) && ($this->container['confidence'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'confidence', must be bigger than or equal to 0.0.";
+        }
+
+        $allowedValues = $this->getProductCategoryAllowableValues();
+        if (!is_null($this->container['product_category']) && !in_array($this->container['product_category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'persistence_performed', must be one of '%s'",
-                $this->container['persistence_performed'],
+                "invalid value '%s' for 'product_category', must be one of '%s'",
+                $this->container['product_category'],
                 implode("', '", $allowedValues)
             );
         }
 
-        $allowedValues = $this->getProducerSelectionPerformedAllowableValues();
-        if (!is_null($this->container['producer_selection_performed']) && !in_array($this->container['producer_selection_performed'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'producer_selection_performed', must be one of '%s'",
-                $this->container['producer_selection_performed'],
-                implode("', '", $allowedValues)
-            );
+        if ($this->container['product_family'] === null) {
+            $invalidProperties[] = "'product_family' can't be null";
         }
-
         $allowedValues = $this->getProductFamilyAllowableValues();
         if (!is_null($this->container['product_family']) && !in_array($this->container['product_family'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -593,9 +579,6 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
             );
         }
 
-        if ($this->container['recipe'] === null) {
-            $invalidProperties[] = "'recipe' can't be null";
-        }
         $allowedValues = $this->getSchemaNameAllowableValues();
         if (!is_null($this->container['schema_name']) && !in_array($this->container['schema_name'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -614,24 +597,6 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
             );
         }
 
-        if ($this->container['source'] === null) {
-            $invalidProperties[] = "'source' can't be null";
-        }
-        if ($this->container['specmatch'] === null) {
-            $invalidProperties[] = "'specmatch' can't be null";
-        }
-        $allowedValues = $this->getSpecmatchPerformedAllowableValues();
-        if (!is_null($this->container['specmatch_performed']) && !in_array($this->container['specmatch_performed'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'specmatch_performed', must be one of '%s'",
-                $this->container['specmatch_performed'],
-                implode("', '", $allowedValues)
-            );
-        }
-
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
-        }
         $allowedValues = $this->getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -657,190 +622,159 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
 
 
     /**
-     * Gets fulfilment
+     * Gets assemblies
      *
-     * @return \Jawwws\Gnaww\Model\PublicFulfilmentState|null
+     * @return \Jawwws\Gnaww\Model\ManufacturingAssembly[]|null
      */
-    public function getFulfilment()
+    public function getAssemblies()
     {
-        return $this->container['fulfilment'];
+        return $this->container['assemblies'];
     }
 
     /**
-     * Sets fulfilment
+     * Sets assemblies
      *
-     * @param \Jawwws\Gnaww\Model\PublicFulfilmentState|null $fulfilment fulfilment
+     * @param \Jawwws\Gnaww\Model\ManufacturingAssembly[]|null $assemblies assemblies
      *
      * @return self
      */
-    public function setFulfilment($fulfilment)
+    public function setAssemblies($assemblies)
     {
-        if (is_null($fulfilment)) {
-            throw new \InvalidArgumentException('non-nullable fulfilment cannot be null');
+        if (is_null($assemblies)) {
+            throw new \InvalidArgumentException('non-nullable assemblies cannot be null');
         }
-        $this->container['fulfilment'] = $fulfilment;
+        $this->container['assemblies'] = $assemblies;
 
         return $this;
     }
 
     /**
-     * Gets gjs
+     * Gets components
      *
-     * @return \Jawwws\Gnaww\Model\PrintJobSpecificationV04|null
+     * @return \Jawwws\Gnaww\Model\ManufacturingComponent[]
      */
-    public function getGjs()
+    public function getComponents()
     {
-        return $this->container['gjs'];
+        return $this->container['components'];
     }
 
     /**
-     * Sets gjs
+     * Sets components
      *
-     * @param \Jawwws\Gnaww\Model\PrintJobSpecificationV04|null $gjs gjs
+     * @param \Jawwws\Gnaww\Model\ManufacturingComponent[] $components components
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setComponents($components)
     {
-        if (is_null($gjs)) {
-            array_push($this->openAPINullablesSetToNull, 'gjs');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('gjs', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($components)) {
+            throw new \InvalidArgumentException('non-nullable components cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+
+
+        if ((count($components) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $components when calling PrintJobSpecificationV05., number of items must be greater than or equal to 1.');
+        }
+        $this->container['components'] = $components;
 
         return $this;
     }
 
     /**
-     * Gets issues
+     * Gets confidence
      *
-     * @return \Jawwws\Gnaww\Model\IssueSet|null
+     * @return float|null
      */
-    public function getIssues()
+    public function getConfidence()
     {
-        return $this->container['issues'];
+        return $this->container['confidence'];
     }
 
     /**
-     * Sets issues
+     * Sets confidence
      *
-     * @param \Jawwws\Gnaww\Model\IssueSet|null $issues issues
+     * @param float|null $confidence confidence
      *
      * @return self
      */
-    public function setIssues($issues)
+    public function setConfidence($confidence)
     {
-        if (is_null($issues)) {
-            throw new \InvalidArgumentException('non-nullable issues cannot be null');
+        if (is_null($confidence)) {
+            throw new \InvalidArgumentException('non-nullable confidence cannot be null');
         }
-        $this->container['issues'] = $issues;
+
+        if (($confidence > 1.0)) {
+            throw new \InvalidArgumentException('invalid value for $confidence when calling PrintJobSpecificationV05., must be smaller than or equal to 1.0.');
+        }
+        if (($confidence < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $confidence when calling PrintJobSpecificationV05., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['confidence'] = $confidence;
 
         return $this;
     }
 
     /**
-     * Gets next_actions
+     * Gets operations
      *
-     * @return string[]|null
+     * @return \Jawwws\Gnaww\Model\ManufacturingOperation[]|null
      */
-    public function getNextActions()
+    public function getOperations()
     {
-        return $this->container['next_actions'];
+        return $this->container['operations'];
     }
 
     /**
-     * Sets next_actions
+     * Sets operations
      *
-     * @param string[]|null $next_actions next_actions
+     * @param \Jawwws\Gnaww\Model\ManufacturingOperation[]|null $operations operations
      *
      * @return self
      */
-    public function setNextActions($next_actions)
+    public function setOperations($operations)
     {
-        if (is_null($next_actions)) {
-            throw new \InvalidArgumentException('non-nullable next_actions cannot be null');
+        if (is_null($operations)) {
+            throw new \InvalidArgumentException('non-nullable operations cannot be null');
         }
-        $this->container['next_actions'] = $next_actions;
+        $this->container['operations'] = $operations;
 
         return $this;
     }
 
     /**
-     * Gets persistence_performed
+     * Gets product_category
      *
-     * @return bool|null
+     * @return string|null
      */
-    public function getPersistencePerformed()
+    public function getProductCategory()
     {
-        return $this->container['persistence_performed'];
+        return $this->container['product_category'];
     }
 
     /**
-     * Sets persistence_performed
+     * Sets product_category
      *
-     * @param bool|null $persistence_performed persistence_performed
+     * @param string|null $product_category product_category
      *
      * @return self
      */
-    public function setPersistencePerformed($persistence_performed)
+    public function setProductCategory($product_category)
     {
-        if (is_null($persistence_performed)) {
-            throw new \InvalidArgumentException('non-nullable persistence_performed cannot be null');
+        if (is_null($product_category)) {
+            throw new \InvalidArgumentException('non-nullable product_category cannot be null');
         }
-        $allowedValues = $this->getPersistencePerformedAllowableValues();
-        if (!in_array($persistence_performed, $allowedValues, true)) {
+        $allowedValues = $this->getProductCategoryAllowableValues();
+        if (!in_array($product_category, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'persistence_performed', must be one of '%s'",
-                    $persistence_performed,
+                    "Invalid value '%s' for 'product_category', must be one of '%s'",
+                    $product_category,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['persistence_performed'] = $persistence_performed;
-
-        return $this;
-    }
-
-    /**
-     * Gets producer_selection_performed
-     *
-     * @return bool|null
-     */
-    public function getProducerSelectionPerformed()
-    {
-        return $this->container['producer_selection_performed'];
-    }
-
-    /**
-     * Sets producer_selection_performed
-     *
-     * @param bool|null $producer_selection_performed producer_selection_performed
-     *
-     * @return self
-     */
-    public function setProducerSelectionPerformed($producer_selection_performed)
-    {
-        if (is_null($producer_selection_performed)) {
-            throw new \InvalidArgumentException('non-nullable producer_selection_performed cannot be null');
-        }
-        $allowedValues = $this->getProducerSelectionPerformedAllowableValues();
-        if (!in_array($producer_selection_performed, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'producer_selection_performed', must be one of '%s'",
-                    $producer_selection_performed,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['producer_selection_performed'] = $producer_selection_performed;
+        $this->container['product_category'] = $product_category;
 
         return $this;
     }
@@ -848,7 +782,7 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     /**
      * Gets product_family
      *
-     * @return string|null
+     * @return string
      */
     public function getProductFamily()
     {
@@ -858,24 +792,17 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     /**
      * Sets product_family
      *
-     * @param string|null $product_family product_family
+     * @param string $product_family product_family
      *
      * @return self
      */
     public function setProductFamily($product_family)
     {
         if (is_null($product_family)) {
-            array_push($this->openAPINullablesSetToNull, 'product_family');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('product_family', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable product_family cannot be null');
         }
         $allowedValues = $this->getProductFamilyAllowableValues();
-        if (!is_null($product_family) && !in_array($product_family, $allowedValues, true)) {
+        if (!in_array($product_family, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'product_family', must be one of '%s'",
@@ -890,82 +817,89 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     }
 
     /**
-     * Gets questions
+     * Gets product_name
      *
-     * @return \Jawwws\Gnaww\Model\PublicClarificationQuestion[]|null
+     * @return string|null
      */
-    public function getQuestions()
+    public function getProductName()
     {
-        return $this->container['questions'];
+        return $this->container['product_name'];
     }
 
     /**
-     * Sets questions
+     * Sets product_name
      *
-     * @param \Jawwws\Gnaww\Model\PublicClarificationQuestion[]|null $questions questions
+     * @param string|null $product_name product_name
      *
      * @return self
      */
-    public function setQuestions($questions)
+    public function setProductName($product_name)
     {
-        if (is_null($questions)) {
-            throw new \InvalidArgumentException('non-nullable questions cannot be null');
+        if (is_null($product_name)) {
+            array_push($this->openAPINullablesSetToNull, 'product_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('product_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['questions'] = $questions;
+        $this->container['product_name'] = $product_name;
 
         return $this;
     }
 
     /**
-     * Gets recipe
+     * Gets quality_requirements
      *
-     * @return \Jawwws\Gnaww\Model\PublicRecipeState
+     * @return \Jawwws\Gnaww\Model\QualityRequirement[]|null
      */
-    public function getRecipe()
+    public function getQualityRequirements()
     {
-        return $this->container['recipe'];
+        return $this->container['quality_requirements'];
     }
 
     /**
-     * Sets recipe
+     * Sets quality_requirements
      *
-     * @param \Jawwws\Gnaww\Model\PublicRecipeState $recipe recipe
+     * @param \Jawwws\Gnaww\Model\QualityRequirement[]|null $quality_requirements quality_requirements
      *
      * @return self
      */
-    public function setRecipe($recipe)
+    public function setQualityRequirements($quality_requirements)
     {
-        if (is_null($recipe)) {
-            throw new \InvalidArgumentException('non-nullable recipe cannot be null');
+        if (is_null($quality_requirements)) {
+            throw new \InvalidArgumentException('non-nullable quality_requirements cannot be null');
         }
-        $this->container['recipe'] = $recipe;
+        $this->container['quality_requirements'] = $quality_requirements;
 
         return $this;
     }
 
     /**
-     * Gets remaining_question_keys
+     * Gets quantity
      *
-     * @return string[]|null
+     * @return \Jawwws\Gnaww\Model\ManufacturingQuantity|null
      */
-    public function getRemainingQuestionKeys()
+    public function getQuantity()
     {
-        return $this->container['remaining_question_keys'];
+        return $this->container['quantity'];
     }
 
     /**
-     * Sets remaining_question_keys
+     * Sets quantity
      *
-     * @param string[]|null $remaining_question_keys remaining_question_keys
+     * @param \Jawwws\Gnaww\Model\ManufacturingQuantity|null $quantity quantity
      *
      * @return self
      */
-    public function setRemainingQuestionKeys($remaining_question_keys)
+    public function setQuantity($quantity)
     {
-        if (is_null($remaining_question_keys)) {
-            throw new \InvalidArgumentException('non-nullable remaining_question_keys cannot be null');
+        if (is_null($quantity)) {
+            throw new \InvalidArgumentException('non-nullable quantity cannot be null');
         }
-        $this->container['remaining_question_keys'] = $remaining_question_keys;
+        $this->container['quantity'] = $quantity;
 
         return $this;
     }
@@ -1045,92 +979,28 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     }
 
     /**
-     * Gets source
+     * Gets service_requirements
      *
-     * @return \Jawwws\Gnaww\Model\SourceInput
+     * @return \Jawwws\Gnaww\Model\ServiceRequirements|null
      */
-    public function getSource()
+    public function getServiceRequirements()
     {
-        return $this->container['source'];
+        return $this->container['service_requirements'];
     }
 
     /**
-     * Sets source
+     * Sets service_requirements
      *
-     * @param \Jawwws\Gnaww\Model\SourceInput $source source
+     * @param \Jawwws\Gnaww\Model\ServiceRequirements|null $service_requirements service_requirements
      *
      * @return self
      */
-    public function setSource($source)
+    public function setServiceRequirements($service_requirements)
     {
-        if (is_null($source)) {
-            throw new \InvalidArgumentException('non-nullable source cannot be null');
+        if (is_null($service_requirements)) {
+            throw new \InvalidArgumentException('non-nullable service_requirements cannot be null');
         }
-        $this->container['source'] = $source;
-
-        return $this;
-    }
-
-    /**
-     * Gets specmatch
-     *
-     * @return \Jawwws\Gnaww\Model\PublicSpecMatchReadiness
-     */
-    public function getSpecmatch()
-    {
-        return $this->container['specmatch'];
-    }
-
-    /**
-     * Sets specmatch
-     *
-     * @param \Jawwws\Gnaww\Model\PublicSpecMatchReadiness $specmatch specmatch
-     *
-     * @return self
-     */
-    public function setSpecmatch($specmatch)
-    {
-        if (is_null($specmatch)) {
-            throw new \InvalidArgumentException('non-nullable specmatch cannot be null');
-        }
-        $this->container['specmatch'] = $specmatch;
-
-        return $this;
-    }
-
-    /**
-     * Gets specmatch_performed
-     *
-     * @return bool|null
-     */
-    public function getSpecmatchPerformed()
-    {
-        return $this->container['specmatch_performed'];
-    }
-
-    /**
-     * Sets specmatch_performed
-     *
-     * @param bool|null $specmatch_performed specmatch_performed
-     *
-     * @return self
-     */
-    public function setSpecmatchPerformed($specmatch_performed)
-    {
-        if (is_null($specmatch_performed)) {
-            throw new \InvalidArgumentException('non-nullable specmatch_performed cannot be null');
-        }
-        $allowedValues = $this->getSpecmatchPerformedAllowableValues();
-        if (!in_array($specmatch_performed, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'specmatch_performed', must be one of '%s'",
-                    $specmatch_performed,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['specmatch_performed'] = $specmatch_performed;
+        $this->container['service_requirements'] = $service_requirements;
 
         return $this;
     }
@@ -1138,7 +1008,7 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     /**
      * Gets status
      *
-     * @return string
+     * @return string|null
      */
     public function getStatus()
     {
@@ -1148,7 +1018,7 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     /**
      * Sets status
      *
-     * @param string $status status
+     * @param string|null $status status
      *
      * @return self
      */
@@ -1173,28 +1043,82 @@ class ContinuePrintRequirementResponse implements ModelInterface, ArrayAccess, \
     }
 
     /**
-     * Gets universe_match_ready
+     * Gets unresolved_fields
      *
-     * @return bool|null
+     * @return string[]|null
      */
-    public function getUniverseMatchReady()
+    public function getUnresolvedFields()
     {
-        return $this->container['universe_match_ready'];
+        return $this->container['unresolved_fields'];
     }
 
     /**
-     * Sets universe_match_ready
+     * Sets unresolved_fields
      *
-     * @param bool|null $universe_match_ready universe_match_ready
+     * @param string[]|null $unresolved_fields unresolved_fields
      *
      * @return self
      */
-    public function setUniverseMatchReady($universe_match_ready)
+    public function setUnresolvedFields($unresolved_fields)
     {
-        if (is_null($universe_match_ready)) {
-            throw new \InvalidArgumentException('non-nullable universe_match_ready cannot be null');
+        if (is_null($unresolved_fields)) {
+            throw new \InvalidArgumentException('non-nullable unresolved_fields cannot be null');
         }
-        $this->container['universe_match_ready'] = $universe_match_ready;
+        $this->container['unresolved_fields'] = $unresolved_fields;
+
+        return $this;
+    }
+
+    /**
+     * Gets use_requirements
+     *
+     * @return \Jawwws\Gnaww\Model\UseRequirement[]|null
+     */
+    public function getUseRequirements()
+    {
+        return $this->container['use_requirements'];
+    }
+
+    /**
+     * Sets use_requirements
+     *
+     * @param \Jawwws\Gnaww\Model\UseRequirement[]|null $use_requirements use_requirements
+     *
+     * @return self
+     */
+    public function setUseRequirements($use_requirements)
+    {
+        if (is_null($use_requirements)) {
+            throw new \InvalidArgumentException('non-nullable use_requirements cannot be null');
+        }
+        $this->container['use_requirements'] = $use_requirements;
+
+        return $this;
+    }
+
+    /**
+     * Gets variations
+     *
+     * @return \Jawwws\Gnaww\Model\ManufacturingVariation[]|null
+     */
+    public function getVariations()
+    {
+        return $this->container['variations'];
+    }
+
+    /**
+     * Sets variations
+     *
+     * @param \Jawwws\Gnaww\Model\ManufacturingVariation[]|null $variations variations
+     *
+     * @return self
+     */
+    public function setVariations($variations)
+    {
+        if (is_null($variations)) {
+            throw new \InvalidArgumentException('non-nullable variations cannot be null');
+        }
+        $this->container['variations'] = $variations;
 
         return $this;
     }

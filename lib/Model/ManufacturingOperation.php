@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * ManufacturingOperation
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * ManufacturingOperation Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class ManufacturingOperation implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'ManufacturingOperation';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +47,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'category' => 'string',
+        'depends_on' => 'string[]',
+        'method' => 'string',
+        'operation_id' => 'string',
+        'parameters' => '\Jawwws\Gnaww\Model\ManufacturingOperationParameters',
+        'targets' => '\Jawwws\Gnaww\Model\OperationTarget[]'
     ];
 
     /**
@@ -61,9 +63,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'category' => null,
+        'depends_on' => null,
+        'method' => null,
+        'operation_id' => null,
+        'parameters' => null,
+        'targets' => null
     ];
 
     /**
@@ -72,9 +77,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'category' => false,
+        'depends_on' => false,
+        'method' => true,
+        'operation_id' => false,
+        'parameters' => true,
+        'targets' => false
     ];
 
     /**
@@ -163,9 +171,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'category' => 'category',
+        'depends_on' => 'depends_on',
+        'method' => 'method',
+        'operation_id' => 'operation_id',
+        'parameters' => 'parameters',
+        'targets' => 'targets'
     ];
 
     /**
@@ -174,9 +185,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'category' => 'setCategory',
+        'depends_on' => 'setDependsOn',
+        'method' => 'setMethod',
+        'operation_id' => 'setOperationId',
+        'parameters' => 'setParameters',
+        'targets' => 'setTargets'
     ];
 
     /**
@@ -185,9 +199,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'category' => 'getCategory',
+        'depends_on' => 'getDependsOn',
+        'method' => 'getMethod',
+        'operation_id' => 'getOperationId',
+        'parameters' => 'getParameters',
+        'targets' => 'getTargets'
     ];
 
     /**
@@ -231,21 +248,67 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
+    public const CATEGORY__PRINT = 'print';
+    public const CATEGORY_DECORATE = 'decorate';
+    public const CATEGORY_COAT = 'coat';
+    public const CATEGORY_LAMINATE = 'laminate';
+    public const CATEGORY_EMBOSS = 'emboss';
+    public const CATEGORY_DEBOSS = 'deboss';
+    public const CATEGORY_FOIL = 'foil';
+    public const CATEGORY_SPOT_FINISH = 'spot_finish';
+    public const CATEGORY_CUT = 'cut';
+    public const CATEGORY_DIE_CUT = 'die_cut';
+    public const CATEGORY_LASER_CUT = 'laser_cut';
+    public const CATEGORY_DRILL = 'drill';
+    public const CATEGORY_PERFORATE = 'perforate';
+    public const CATEGORY_CREASE = 'crease';
+    public const CATEGORY_FOLD = 'fold';
+    public const CATEGORY_STITCH = 'stitch';
+    public const CATEGORY_SEW = 'sew';
+    public const CATEGORY_BIND = 'bind';
+    public const CATEGORY_GLUE = 'glue';
+    public const CATEGORY_ATTACH = 'attach';
+    public const CATEGORY_ASSEMBLE = 'assemble';
+    public const CATEGORY_CURE = 'cure';
+    public const CATEGORY_DRY = 'dry';
+    public const CATEGORY_INSPECT = 'inspect';
+    public const CATEGORY_PACK = 'pack';
+    public const CATEGORY_OTHER = 'other';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getServiceClassAllowableValues()
+    public function getCategoryAllowableValues()
     {
         return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
+            self::CATEGORY__PRINT,
+            self::CATEGORY_DECORATE,
+            self::CATEGORY_COAT,
+            self::CATEGORY_LAMINATE,
+            self::CATEGORY_EMBOSS,
+            self::CATEGORY_DEBOSS,
+            self::CATEGORY_FOIL,
+            self::CATEGORY_SPOT_FINISH,
+            self::CATEGORY_CUT,
+            self::CATEGORY_DIE_CUT,
+            self::CATEGORY_LASER_CUT,
+            self::CATEGORY_DRILL,
+            self::CATEGORY_PERFORATE,
+            self::CATEGORY_CREASE,
+            self::CATEGORY_FOLD,
+            self::CATEGORY_STITCH,
+            self::CATEGORY_SEW,
+            self::CATEGORY_BIND,
+            self::CATEGORY_GLUE,
+            self::CATEGORY_ATTACH,
+            self::CATEGORY_ASSEMBLE,
+            self::CATEGORY_CURE,
+            self::CATEGORY_DRY,
+            self::CATEGORY_INSPECT,
+            self::CATEGORY_PACK,
+            self::CATEGORY_OTHER,
         ];
     }
 
@@ -264,9 +327,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('category', $data ?? [], null);
+        $this->setIfExists('depends_on', $data ?? [], null);
+        $this->setIfExists('method', $data ?? [], null);
+        $this->setIfExists('operation_id', $data ?? [], null);
+        $this->setIfExists('parameters', $data ?? [], null);
+        $this->setIfExists('targets', $data ?? [], null);
     }
 
     /**
@@ -296,20 +362,30 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
         }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
-        }
-
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
+        $allowedValues = $this->getCategoryAllowableValues();
+        if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
+                "invalid value '%s' for 'category', must be one of '%s'",
+                $this->container['category'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if ($this->container['operation_id'] === null) {
+            $invalidProperties[] = "'operation_id' can't be null";
+        }
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['operation_id'])) {
+            $invalidProperties[] = "invalid value for 'operation_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
+        if ($this->container['targets'] === null) {
+            $invalidProperties[] = "'targets' can't be null";
+        }
+        if ((count($this->container['targets']) < 1)) {
+            $invalidProperties[] = "invalid value for 'targets', number of items must be greater than or equal to 1.";
         }
 
         return $invalidProperties;
@@ -328,111 +404,197 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
+     * Gets category
      *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
+     * @return string
      */
-    public function getDestination()
+    public function getCategory()
     {
-        return $this->container['destination'];
+        return $this->container['category'];
     }
 
     /**
-     * Sets destination
+     * Sets category
      *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
+     * @param string $category category
      *
      * @return self
      */
-    public function setDestination($destination)
+    public function setCategory($category)
     {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
+        if (is_null($category)) {
+            throw new \InvalidArgumentException('non-nullable category cannot be null');
         }
-        $this->container['destination'] = $destination;
-
-        return $this;
-    }
-
-    /**
-     * Gets maximum_delivery_working_days
-     *
-     * @return int|null
-     */
-    public function getMaximumDeliveryWorkingDays()
-    {
-        return $this->container['maximum_delivery_working_days'];
-    }
-
-    /**
-     * Sets maximum_delivery_working_days
-     *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
-     *
-     * @return self
-     */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
-    {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
-        }
-
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
-
-        return $this;
-    }
-
-    /**
-     * Gets service_class
-     *
-     * @return string|null
-     */
-    public function getServiceClass()
-    {
-        return $this->container['service_class'];
-    }
-
-    /**
-     * Sets service_class
-     *
-     * @param string|null $service_class service_class
-     *
-     * @return self
-     */
-    public function setServiceClass($service_class)
-    {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
+        $allowedValues = $this->getCategoryAllowableValues();
+        if (!in_array($category, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
+                    "Invalid value '%s' for 'category', must be one of '%s'",
+                    $category,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['service_class'] = $service_class;
+        $this->container['category'] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Gets depends_on
+     *
+     * @return string[]|null
+     */
+    public function getDependsOn()
+    {
+        return $this->container['depends_on'];
+    }
+
+    /**
+     * Sets depends_on
+     *
+     * @param string[]|null $depends_on depends_on
+     *
+     * @return self
+     */
+    public function setDependsOn($depends_on)
+    {
+        if (is_null($depends_on)) {
+            throw new \InvalidArgumentException('non-nullable depends_on cannot be null');
+        }
+        $this->container['depends_on'] = $depends_on;
+
+        return $this;
+    }
+
+    /**
+     * Gets method
+     *
+     * @return string|null
+     */
+    public function getMethod()
+    {
+        return $this->container['method'];
+    }
+
+    /**
+     * Sets method
+     *
+     * @param string|null $method method
+     *
+     * @return self
+     */
+    public function setMethod($method)
+    {
+        if (is_null($method)) {
+            array_push($this->openAPINullablesSetToNull, 'method');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('method', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['method'] = $method;
+
+        return $this;
+    }
+
+    /**
+     * Gets operation_id
+     *
+     * @return string
+     */
+    public function getOperationId()
+    {
+        return $this->container['operation_id'];
+    }
+
+    /**
+     * Sets operation_id
+     *
+     * @param string $operation_id operation_id
+     *
+     * @return self
+     */
+    public function setOperationId($operation_id)
+    {
+        if (is_null($operation_id)) {
+            throw new \InvalidArgumentException('non-nullable operation_id cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($operation_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$operation_id when calling ManufacturingOperation., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['operation_id'] = $operation_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets parameters
+     *
+     * @return \Jawwws\Gnaww\Model\ManufacturingOperationParameters|null
+     */
+    public function getParameters()
+    {
+        return $this->container['parameters'];
+    }
+
+    /**
+     * Sets parameters
+     *
+     * @param \Jawwws\Gnaww\Model\ManufacturingOperationParameters|null $parameters parameters
+     *
+     * @return self
+     */
+    public function setParameters($parameters)
+    {
+        if (is_null($parameters)) {
+            array_push($this->openAPINullablesSetToNull, 'parameters');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('parameters', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['parameters'] = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Gets targets
+     *
+     * @return \Jawwws\Gnaww\Model\OperationTarget[]
+     */
+    public function getTargets()
+    {
+        return $this->container['targets'];
+    }
+
+    /**
+     * Sets targets
+     *
+     * @param \Jawwws\Gnaww\Model\OperationTarget[] $targets targets
+     *
+     * @return self
+     */
+    public function setTargets($targets)
+    {
+        if (is_null($targets)) {
+            throw new \InvalidArgumentException('non-nullable targets cannot be null');
+        }
+
+
+        if ((count($targets) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $targets when calling ManufacturingOperation., number of items must be greater than or equal to 1.');
+        }
+        $this->container['targets'] = $targets;
 
         return $this;
     }

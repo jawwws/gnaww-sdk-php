@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * PublicUnderstoodSize
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * PublicUnderstoodSize Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Deterministically understood size evidence that is not yet canonical GJS.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicUnderstoodSize implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'PublicUnderstoodSize';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'height_mm' => 'float',
+        'orientation' => 'string',
+        'standard_name' => 'string',
+        'width_mm' => 'float'
     ];
 
     /**
@@ -59,7 +62,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'height_mm' => null,
+        'orientation' => null,
+        'standard_name' => null,
+        'width_mm' => null
     ];
 
     /**
@@ -68,7 +74,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'height_mm' => true,
+        'orientation' => true,
+        'standard_name' => true,
+        'width_mm' => true
     ];
 
     /**
@@ -157,7 +166,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'height_mm' => 'height_mm',
+        'orientation' => 'orientation',
+        'standard_name' => 'standard_name',
+        'width_mm' => 'width_mm'
     ];
 
     /**
@@ -166,7 +178,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'height_mm' => 'setHeightMm',
+        'orientation' => 'setOrientation',
+        'standard_name' => 'setStandardName',
+        'width_mm' => 'setWidthMm'
     ];
 
     /**
@@ -175,7 +190,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'height_mm' => 'getHeightMm',
+        'orientation' => 'getOrientation',
+        'standard_name' => 'getStandardName',
+        'width_mm' => 'getWidthMm'
     ];
 
     /**
@@ -219,6 +237,23 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const ORIENTATION_PORTRAIT = 'portrait';
+    public const ORIENTATION_LANDSCAPE = 'landscape';
+    public const ORIENTATION_SQUARE = 'square';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getOrientationAllowableValues()
+    {
+        return [
+            self::ORIENTATION_PORTRAIT,
+            self::ORIENTATION_LANDSCAPE,
+            self::ORIENTATION_SQUARE,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +270,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('height_mm', $data ?? [], null);
+        $this->setIfExists('orientation', $data ?? [], null);
+        $this->setIfExists('standard_name', $data ?? [], null);
+        $this->setIfExists('width_mm', $data ?? [], null);
     }
 
     /**
@@ -265,9 +303,23 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if (!is_null($this->container['height_mm']) && ($this->container['height_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'height_mm', must be bigger than 0.0.";
         }
+
+        $allowedValues = $this->getOrientationAllowableValues();
+        if (!is_null($this->container['orientation']) && !in_array($this->container['orientation'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'orientation', must be one of '%s'",
+                $this->container['orientation'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if (!is_null($this->container['width_mm']) && ($this->container['width_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'width_mm', must be bigger than 0.0.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +336,157 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets height_mm
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return float|null
      */
-    public function getGjs()
+    public function getHeightMm()
     {
-        return $this->container['gjs'];
+        return $this->container['height_mm'];
     }
 
     /**
-     * Sets gjs
+     * Sets height_mm
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param float|null $height_mm height_mm
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setHeightMm($height_mm)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($height_mm)) {
+            array_push($this->openAPINullablesSetToNull, 'height_mm');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('height_mm', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['gjs'] = $gjs;
+
+        if (!is_null($height_mm) && ($height_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $height_mm when calling PublicUnderstoodSize., must be bigger than 0.0.');
+        }
+
+        $this->container['height_mm'] = $height_mm;
+
+        return $this;
+    }
+
+    /**
+     * Gets orientation
+     *
+     * @return string|null
+     */
+    public function getOrientation()
+    {
+        return $this->container['orientation'];
+    }
+
+    /**
+     * Sets orientation
+     *
+     * @param string|null $orientation orientation
+     *
+     * @return self
+     */
+    public function setOrientation($orientation)
+    {
+        if (is_null($orientation)) {
+            array_push($this->openAPINullablesSetToNull, 'orientation');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('orientation', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = $this->getOrientationAllowableValues();
+        if (!is_null($orientation) && !in_array($orientation, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'orientation', must be one of '%s'",
+                    $orientation,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['orientation'] = $orientation;
+
+        return $this;
+    }
+
+    /**
+     * Gets standard_name
+     *
+     * @return string|null
+     */
+    public function getStandardName()
+    {
+        return $this->container['standard_name'];
+    }
+
+    /**
+     * Sets standard_name
+     *
+     * @param string|null $standard_name standard_name
+     *
+     * @return self
+     */
+    public function setStandardName($standard_name)
+    {
+        if (is_null($standard_name)) {
+            array_push($this->openAPINullablesSetToNull, 'standard_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('standard_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['standard_name'] = $standard_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets width_mm
+     *
+     * @return float|null
+     */
+    public function getWidthMm()
+    {
+        return $this->container['width_mm'];
+    }
+
+    /**
+     * Sets width_mm
+     *
+     * @param float|null $width_mm width_mm
+     *
+     * @return self
+     */
+    public function setWidthMm($width_mm)
+    {
+        if (is_null($width_mm)) {
+            array_push($this->openAPINullablesSetToNull, 'width_mm');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('width_mm', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($width_mm) && ($width_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $width_mm when calling PublicUnderstoodSize., must be bigger than 0.0.');
+        }
+
+        $this->container['width_mm'] = $width_mm;
 
         return $this;
     }

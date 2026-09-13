@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * PublicControlledDefaultUserEvidence
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * PublicControlledDefaultUserEvidence Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Property-scoped buyer evidence created by controlled-default verification.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicControlledDefaultUserEvidence implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'PublicControlledDefaultUserEvidence';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'evidence_basis' => 'string',
+        'property_path' => 'string',
+        'value' => 'string'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'evidence_basis' => null,
+        'property_path' => null,
+        'value' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'evidence_basis' => false,
+        'property_path' => false,
+        'value' => false
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'evidence_basis' => 'evidence_basis',
+        'property_path' => 'property_path',
+        'value' => 'value'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'evidence_basis' => 'setEvidenceBasis',
+        'property_path' => 'setPropertyPath',
+        'value' => 'setValue'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'evidence_basis' => 'getEvidenceBasis',
+        'property_path' => 'getPropertyPath',
+        'value' => 'getValue'
     ];
 
     /**
@@ -219,6 +231,21 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const EVIDENCE_BASIS_USER_CONFIRMATION = 'user_confirmation';
+    public const EVIDENCE_BASIS_USER_CORRECTION = 'user_correction';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getEvidenceBasisAllowableValues()
+    {
+        return [
+            self::EVIDENCE_BASIS_USER_CONFIRMATION,
+            self::EVIDENCE_BASIS_USER_CORRECTION,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +262,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('evidence_basis', $data ?? [], null);
+        $this->setIfExists('property_path', $data ?? [], null);
+        $this->setIfExists('value', $data ?? [], null);
     }
 
     /**
@@ -265,9 +294,32 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['evidence_basis'] === null) {
+            $invalidProperties[] = "'evidence_basis' can't be null";
         }
+        $allowedValues = $this->getEvidenceBasisAllowableValues();
+        if (!is_null($this->container['evidence_basis']) && !in_array($this->container['evidence_basis'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'evidence_basis', must be one of '%s'",
+                $this->container['evidence_basis'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['property_path'] === null) {
+            $invalidProperties[] = "'property_path' can't be null";
+        }
+        if ((mb_strlen($this->container['property_path']) < 1)) {
+            $invalidProperties[] = "invalid value for 'property_path', the character length must be bigger than or equal to 1.";
+        }
+
+        if ($this->container['value'] === null) {
+            $invalidProperties[] = "'value' can't be null";
+        }
+        if ((mb_strlen($this->container['value']) < 1)) {
+            $invalidProperties[] = "invalid value for 'value', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +336,102 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets evidence_basis
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getEvidenceBasis()
     {
-        return $this->container['gjs'];
+        return $this->container['evidence_basis'];
     }
 
     /**
-     * Sets gjs
+     * Sets evidence_basis
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $evidence_basis evidence_basis
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setEvidenceBasis($evidence_basis)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($evidence_basis)) {
+            throw new \InvalidArgumentException('non-nullable evidence_basis cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $allowedValues = $this->getEvidenceBasisAllowableValues();
+        if (!in_array($evidence_basis, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'evidence_basis', must be one of '%s'",
+                    $evidence_basis,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['evidence_basis'] = $evidence_basis;
+
+        return $this;
+    }
+
+    /**
+     * Gets property_path
+     *
+     * @return string
+     */
+    public function getPropertyPath()
+    {
+        return $this->container['property_path'];
+    }
+
+    /**
+     * Sets property_path
+     *
+     * @param string $property_path property_path
+     *
+     * @return self
+     */
+    public function setPropertyPath($property_path)
+    {
+        if (is_null($property_path)) {
+            throw new \InvalidArgumentException('non-nullable property_path cannot be null');
+        }
+
+        if ((mb_strlen($property_path) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $property_path when calling PublicControlledDefaultUserEvidence., must be bigger than or equal to 1.');
+        }
+
+        $this->container['property_path'] = $property_path;
+
+        return $this;
+    }
+
+    /**
+     * Gets value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->container['value'];
+    }
+
+    /**
+     * Sets value
+     *
+     * @param string $value value
+     *
+     * @return self
+     */
+    public function setValue($value)
+    {
+        if (is_null($value)) {
+            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        }
+
+        if ((mb_strlen($value) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $value when calling PublicControlledDefaultUserEvidence., must be bigger than or equal to 1.');
+        }
+
+        $this->container['value'] = $value;
 
         return $this;
     }

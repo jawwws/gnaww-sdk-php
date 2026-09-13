@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * FoldPanel
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * FoldPanel Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description One physical panel in flat/input coordinates, not a printed face/page count.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class FoldPanel implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'FoldPanel';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'area' => '\Jawwws\Gnaww\Model\Rectangle2D',
+        'panel_id' => 'string',
+        'role' => 'string'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'area' => null,
+        'panel_id' => null,
+        'role' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'area' => false,
+        'panel_id' => false,
+        'role' => true
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'area' => 'area',
+        'panel_id' => 'panel_id',
+        'role' => 'role'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'area' => 'setArea',
+        'panel_id' => 'setPanelId',
+        'role' => 'setRole'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'area' => 'getArea',
+        'panel_id' => 'getPanelId',
+        'role' => 'getRole'
     ];
 
     /**
@@ -235,7 +247,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('area', $data ?? [], null);
+        $this->setIfExists('panel_id', $data ?? [], null);
+        $this->setIfExists('role', $data ?? [], null);
     }
 
     /**
@@ -265,9 +279,16 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['area'] === null) {
+            $invalidProperties[] = "'area' can't be null";
         }
+        if ($this->container['panel_id'] === null) {
+            $invalidProperties[] = "'panel_id' can't be null";
+        }
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['panel_id'])) {
+            $invalidProperties[] = "invalid value for 'panel_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +305,94 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets area
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return \Jawwws\Gnaww\Model\Rectangle2D
      */
-    public function getGjs()
+    public function getArea()
     {
-        return $this->container['gjs'];
+        return $this->container['area'];
     }
 
     /**
-     * Sets gjs
+     * Sets area
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param \Jawwws\Gnaww\Model\Rectangle2D $area area
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setArea($area)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($area)) {
+            throw new \InvalidArgumentException('non-nullable area cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['area'] = $area;
+
+        return $this;
+    }
+
+    /**
+     * Gets panel_id
+     *
+     * @return string
+     */
+    public function getPanelId()
+    {
+        return $this->container['panel_id'];
+    }
+
+    /**
+     * Sets panel_id
+     *
+     * @param string $panel_id panel_id
+     *
+     * @return self
+     */
+    public function setPanelId($panel_id)
+    {
+        if (is_null($panel_id)) {
+            throw new \InvalidArgumentException('non-nullable panel_id cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($panel_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$panel_id when calling FoldPanel., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['panel_id'] = $panel_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets role
+     *
+     * @return string|null
+     */
+    public function getRole()
+    {
+        return $this->container['role'];
+    }
+
+    /**
+     * Sets role
+     *
+     * @param string|null $role role
+     *
+     * @return self
+     */
+    public function setRole($role)
+    {
+        if (is_null($role)) {
+            array_push($this->openAPINullablesSetToNull, 'role');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('role', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['role'] = $role;
 
         return $this;
     }

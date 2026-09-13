@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * Circle2D
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * Circle2D Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Circular region or feature.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class Circle2D implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'Circle2D';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'centre' => '\Jawwws\Gnaww\Model\Point2D',
+        'diameter_mm' => 'float',
+        'kind' => 'string'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'centre' => null,
+        'diameter_mm' => null,
+        'kind' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'centre' => false,
+        'diameter_mm' => false,
+        'kind' => false
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'centre' => 'centre',
+        'diameter_mm' => 'diameter_mm',
+        'kind' => 'kind'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'centre' => 'setCentre',
+        'diameter_mm' => 'setDiameterMm',
+        'kind' => 'setKind'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'centre' => 'getCentre',
+        'diameter_mm' => 'getDiameterMm',
+        'kind' => 'getKind'
     ];
 
     /**
@@ -219,6 +231,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_CIRCLE = 'circle';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_CIRCLE,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +260,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('centre', $data ?? [], null);
+        $this->setIfExists('diameter_mm', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'circle');
     }
 
     /**
@@ -265,9 +292,25 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['centre'] === null) {
+            $invalidProperties[] = "'centre' can't be null";
         }
+        if ($this->container['diameter_mm'] === null) {
+            $invalidProperties[] = "'diameter_mm' can't be null";
+        }
+        if (($this->container['diameter_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'diameter_mm', must be bigger than 0.0.";
+        }
+
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +327,97 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets centre
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return \Jawwws\Gnaww\Model\Point2D
      */
-    public function getGjs()
+    public function getCentre()
     {
-        return $this->container['gjs'];
+        return $this->container['centre'];
     }
 
     /**
-     * Sets gjs
+     * Sets centre
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param \Jawwws\Gnaww\Model\Point2D $centre centre
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setCentre($centre)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($centre)) {
+            throw new \InvalidArgumentException('non-nullable centre cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['centre'] = $centre;
+
+        return $this;
+    }
+
+    /**
+     * Gets diameter_mm
+     *
+     * @return float
+     */
+    public function getDiameterMm()
+    {
+        return $this->container['diameter_mm'];
+    }
+
+    /**
+     * Sets diameter_mm
+     *
+     * @param float $diameter_mm diameter_mm
+     *
+     * @return self
+     */
+    public function setDiameterMm($diameter_mm)
+    {
+        if (is_null($diameter_mm)) {
+            throw new \InvalidArgumentException('non-nullable diameter_mm cannot be null');
+        }
+
+        if (($diameter_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $diameter_mm when calling Circle2D., must be bigger than 0.0.');
+        }
+
+        $this->container['diameter_mm'] = $diameter_mm;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * MaterialCompositionPart
+ * NumericTolerance
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * MaterialCompositionPart Class Doc Comment
+ * NumericTolerance Class Doc Comment
  *
  * @category Class
- * @description One named material inside a material composition.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSerializable
+class NumericTolerance implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      *
      * @var string
      */
-    protected static $openAPIModelName = 'MaterialCompositionPart';
+    protected static $openAPIModelName = 'NumericTolerance';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,8 +47,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $openAPITypes = [
-        'material' => 'string',
-        'percentage' => 'float'
+        'maximum' => 'float',
+        'minimum' => 'float',
+        'target' => 'float',
+        'unit' => 'string'
     ];
 
     /**
@@ -60,8 +61,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'material' => null,
-        'percentage' => null
+        'maximum' => null,
+        'minimum' => null,
+        'target' => null,
+        'unit' => null
     ];
 
     /**
@@ -70,8 +73,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'material' => false,
-        'percentage' => true
+        'maximum' => true,
+        'minimum' => true,
+        'target' => true,
+        'unit' => false
     ];
 
     /**
@@ -160,8 +165,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $attributeMap = [
-        'material' => 'material',
-        'percentage' => 'percentage'
+        'maximum' => 'maximum',
+        'minimum' => 'minimum',
+        'target' => 'target',
+        'unit' => 'unit'
     ];
 
     /**
@@ -170,8 +177,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $setters = [
-        'material' => 'setMaterial',
-        'percentage' => 'setPercentage'
+        'maximum' => 'setMaximum',
+        'minimum' => 'setMinimum',
+        'target' => 'setTarget',
+        'unit' => 'setUnit'
     ];
 
     /**
@@ -180,8 +189,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $getters = [
-        'material' => 'getMaterial',
-        'percentage' => 'getPercentage'
+        'maximum' => 'getMaximum',
+        'minimum' => 'getMinimum',
+        'target' => 'getTarget',
+        'unit' => 'getUnit'
     ];
 
     /**
@@ -241,8 +252,10 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('material', $data ?? [], null);
-        $this->setIfExists('percentage', $data ?? [], null);
+        $this->setIfExists('maximum', $data ?? [], null);
+        $this->setIfExists('minimum', $data ?? [], null);
+        $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('unit', $data ?? [], null);
     }
 
     /**
@@ -272,15 +285,11 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $invalidProperties = [];
 
-        if ($this->container['material'] === null) {
-            $invalidProperties[] = "'material' can't be null";
+        if ($this->container['unit'] === null) {
+            $invalidProperties[] = "'unit' can't be null";
         }
-        if (!is_null($this->container['percentage']) && ($this->container['percentage'] > 100.0)) {
-            $invalidProperties[] = "invalid value for 'percentage', must be smaller than or equal to 100.0.";
-        }
-
-        if (!is_null($this->container['percentage']) && ($this->container['percentage'] <= 0.0)) {
-            $invalidProperties[] = "invalid value for 'percentage', must be bigger than 0.0.";
+        if ((mb_strlen($this->container['unit']) < 1)) {
+            $invalidProperties[] = "invalid value for 'unit', the character length must be bigger than or equal to 1.";
         }
 
         return $invalidProperties;
@@ -299,70 +308,135 @@ class MaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSeria
 
 
     /**
-     * Gets material
-     *
-     * @return string
-     */
-    public function getMaterial()
-    {
-        return $this->container['material'];
-    }
-
-    /**
-     * Sets material
-     *
-     * @param string $material material
-     *
-     * @return self
-     */
-    public function setMaterial($material)
-    {
-        if (is_null($material)) {
-            throw new \InvalidArgumentException('non-nullable material cannot be null');
-        }
-        $this->container['material'] = $material;
-
-        return $this;
-    }
-
-    /**
-     * Gets percentage
+     * Gets maximum
      *
      * @return float|null
      */
-    public function getPercentage()
+    public function getMaximum()
     {
-        return $this->container['percentage'];
+        return $this->container['maximum'];
     }
 
     /**
-     * Sets percentage
+     * Sets maximum
      *
-     * @param float|null $percentage percentage
+     * @param float|null $maximum maximum
      *
      * @return self
      */
-    public function setPercentage($percentage)
+    public function setMaximum($maximum)
     {
-        if (is_null($percentage)) {
-            array_push($this->openAPINullablesSetToNull, 'percentage');
+        if (is_null($maximum)) {
+            array_push($this->openAPINullablesSetToNull, 'maximum');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('percentage', $nullablesSetToNull);
+            $index = array_search('maximum', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
+        $this->container['maximum'] = $maximum;
 
-        if (!is_null($percentage) && ($percentage > 100.0)) {
-            throw new \InvalidArgumentException('invalid value for $percentage when calling MaterialCompositionPart., must be smaller than or equal to 100.0.');
+        return $this;
+    }
+
+    /**
+     * Gets minimum
+     *
+     * @return float|null
+     */
+    public function getMinimum()
+    {
+        return $this->container['minimum'];
+    }
+
+    /**
+     * Sets minimum
+     *
+     * @param float|null $minimum minimum
+     *
+     * @return self
+     */
+    public function setMinimum($minimum)
+    {
+        if (is_null($minimum)) {
+            array_push($this->openAPINullablesSetToNull, 'minimum');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('minimum', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        if (!is_null($percentage) && ($percentage <= 0.0)) {
-            throw new \InvalidArgumentException('invalid value for $percentage when calling MaterialCompositionPart., must be bigger than 0.0.');
+        $this->container['minimum'] = $minimum;
+
+        return $this;
+    }
+
+    /**
+     * Gets target
+     *
+     * @return float|null
+     */
+    public function getTarget()
+    {
+        return $this->container['target'];
+    }
+
+    /**
+     * Sets target
+     *
+     * @param float|null $target target
+     *
+     * @return self
+     */
+    public function setTarget($target)
+    {
+        if (is_null($target)) {
+            array_push($this->openAPINullablesSetToNull, 'target');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('target', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['target'] = $target;
+
+        return $this;
+    }
+
+    /**
+     * Gets unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->container['unit'];
+    }
+
+    /**
+     * Sets unit
+     *
+     * @param string $unit unit
+     *
+     * @return self
+     */
+    public function setUnit($unit)
+    {
+        if (is_null($unit)) {
+            throw new \InvalidArgumentException('non-nullable unit cannot be null');
         }
 
-        $this->container['percentage'] = $percentage;
+        if ((mb_strlen($unit) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $unit when calling NumericTolerance., must be bigger than or equal to 1.');
+        }
+
+        $this->container['unit'] = $unit;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * VariationField
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * VariationField Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class VariationField implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'VariationField';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'artwork_or_asset_ref' => 'string',
+        'data_type' => 'string',
+        'field_key' => 'string'
     ];
 
     /**
@@ -59,7 +60,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'artwork_or_asset_ref' => null,
+        'data_type' => null,
+        'field_key' => null
     ];
 
     /**
@@ -68,7 +71,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'artwork_or_asset_ref' => true,
+        'data_type' => false,
+        'field_key' => false
     ];
 
     /**
@@ -157,7 +162,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'artwork_or_asset_ref' => 'artwork_or_asset_ref',
+        'data_type' => 'data_type',
+        'field_key' => 'field_key'
     ];
 
     /**
@@ -166,7 +173,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'artwork_or_asset_ref' => 'setArtworkOrAssetRef',
+        'data_type' => 'setDataType',
+        'field_key' => 'setFieldKey'
     ];
 
     /**
@@ -175,7 +184,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'artwork_or_asset_ref' => 'getArtworkOrAssetRef',
+        'data_type' => 'getDataType',
+        'field_key' => 'getFieldKey'
     ];
 
     /**
@@ -219,6 +230,29 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const DATA_TYPE_TEXT = 'text';
+    public const DATA_TYPE_NUMBER = 'number';
+    public const DATA_TYPE_IMAGE = 'image';
+    public const DATA_TYPE_CODE = 'code';
+    public const DATA_TYPE_ARTWORK = 'artwork';
+    public const DATA_TYPE_UNKNOWN = 'unknown';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getDataTypeAllowableValues()
+    {
+        return [
+            self::DATA_TYPE_TEXT,
+            self::DATA_TYPE_NUMBER,
+            self::DATA_TYPE_IMAGE,
+            self::DATA_TYPE_CODE,
+            self::DATA_TYPE_ARTWORK,
+            self::DATA_TYPE_UNKNOWN,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +269,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('artwork_or_asset_ref', $data ?? [], null);
+        $this->setIfExists('data_type', $data ?? [], 'unknown');
+        $this->setIfExists('field_key', $data ?? [], null);
     }
 
     /**
@@ -265,9 +301,22 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getDataTypeAllowableValues();
+        if (!is_null($this->container['data_type']) && !in_array($this->container['data_type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'data_type', must be one of '%s'",
+                $this->container['data_type'],
+                implode("', '", $allowedValues)
+            );
         }
+
+        if ($this->container['field_key'] === null) {
+            $invalidProperties[] = "'field_key' can't be null";
+        }
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['field_key'])) {
+            $invalidProperties[] = "invalid value for 'field_key', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +333,104 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets artwork_or_asset_ref
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string|null
      */
-    public function getGjs()
+    public function getArtworkOrAssetRef()
     {
-        return $this->container['gjs'];
+        return $this->container['artwork_or_asset_ref'];
     }
 
     /**
-     * Sets gjs
+     * Sets artwork_or_asset_ref
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string|null $artwork_or_asset_ref artwork_or_asset_ref
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setArtworkOrAssetRef($artwork_or_asset_ref)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($artwork_or_asset_ref)) {
+            array_push($this->openAPINullablesSetToNull, 'artwork_or_asset_ref');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('artwork_or_asset_ref', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['artwork_or_asset_ref'] = $artwork_or_asset_ref;
+
+        return $this;
+    }
+
+    /**
+     * Gets data_type
+     *
+     * @return string|null
+     */
+    public function getDataType()
+    {
+        return $this->container['data_type'];
+    }
+
+    /**
+     * Sets data_type
+     *
+     * @param string|null $data_type data_type
+     *
+     * @return self
+     */
+    public function setDataType($data_type)
+    {
+        if (is_null($data_type)) {
+            throw new \InvalidArgumentException('non-nullable data_type cannot be null');
+        }
+        $allowedValues = $this->getDataTypeAllowableValues();
+        if (!in_array($data_type, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'data_type', must be one of '%s'",
+                    $data_type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['data_type'] = $data_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets field_key
+     *
+     * @return string
+     */
+    public function getFieldKey()
+    {
+        return $this->container['field_key'];
+    }
+
+    /**
+     * Sets field_key
+     *
+     * @param string $field_key field_key
+     *
+     * @return self
+     */
+    public function setFieldKey($field_key)
+    {
+        if (is_null($field_key)) {
+            throw new \InvalidArgumentException('non-nullable field_key cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($field_key)))) {
+            throw new \InvalidArgumentException("invalid value for \$field_key when calling VariationField., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['field_key'] = $field_key;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * ManufacturingQuantity
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * ManufacturingQuantity Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Requested finished-unit quantity without legacy variable-data flattening.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class ManufacturingQuantity implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'ManufacturingQuantity';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'units' => 'int'
     ];
 
     /**
@@ -59,7 +59,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'units' => null
     ];
 
     /**
@@ -68,7 +68,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'units' => true
     ];
 
     /**
@@ -157,7 +157,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'units' => 'units'
     ];
 
     /**
@@ -166,7 +166,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'units' => 'setUnits'
     ];
 
     /**
@@ -175,7 +175,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'units' => 'getUnits'
     ];
 
     /**
@@ -235,7 +235,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('units', $data ?? [], null);
     }
 
     /**
@@ -265,9 +265,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if (!is_null($this->container['units']) && ($this->container['units'] <= 0)) {
+            $invalidProperties[] = "invalid value for 'units', must be bigger than 0.";
         }
+
         return $invalidProperties;
     }
 
@@ -284,28 +285,40 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets units
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return int|null
      */
-    public function getGjs()
+    public function getUnits()
     {
-        return $this->container['gjs'];
+        return $this->container['units'];
     }
 
     /**
-     * Sets gjs
+     * Sets units
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param int|null $units units
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setUnits($units)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($units)) {
+            array_push($this->openAPINullablesSetToNull, 'units');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('units', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['gjs'] = $gjs;
+
+        if (!is_null($units) && ($units <= 0)) {
+            throw new \InvalidArgumentException('invalid value for $units when calling ManufacturingQuantity., must be bigger than 0.');
+        }
+
+        $this->container['units'] = $units;
 
         return $this;
     }

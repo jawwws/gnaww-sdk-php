@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * QualityRequirement
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * QualityRequirement Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class QualityRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'QualityRequirement';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'category' => 'string',
+        'description' => 'string',
+        'requirement_id' => 'string',
+        'target' => '\Jawwws\Gnaww\Model\OperationTarget',
+        'tolerance' => '\Jawwws\Gnaww\Model\NumericTolerance'
     ];
 
     /**
@@ -59,7 +62,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'category' => null,
+        'description' => null,
+        'requirement_id' => null,
+        'target' => null,
+        'tolerance' => null
     ];
 
     /**
@@ -68,7 +75,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'category' => false,
+        'description' => false,
+        'requirement_id' => false,
+        'target' => true,
+        'tolerance' => true
     ];
 
     /**
@@ -157,7 +168,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'category' => 'category',
+        'description' => 'description',
+        'requirement_id' => 'requirement_id',
+        'target' => 'target',
+        'tolerance' => 'tolerance'
     ];
 
     /**
@@ -166,7 +181,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'category' => 'setCategory',
+        'description' => 'setDescription',
+        'requirement_id' => 'setRequirementId',
+        'target' => 'setTarget',
+        'tolerance' => 'setTolerance'
     ];
 
     /**
@@ -175,7 +194,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'category' => 'getCategory',
+        'description' => 'getDescription',
+        'requirement_id' => 'getRequirementId',
+        'target' => 'getTarget',
+        'tolerance' => 'getTolerance'
     ];
 
     /**
@@ -219,6 +242,33 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const CATEGORY_COLOUR = 'colour';
+    public const CATEGORY_DIMENSION = 'dimension';
+    public const CATEGORY_WEIGHT = 'weight';
+    public const CATEGORY_REGISTRATION = 'registration';
+    public const CATEGORY_CODE_READABILITY = 'code_readability';
+    public const CATEGORY_SURFACE = 'surface';
+    public const CATEGORY_BATCH_CONSISTENCY = 'batch_consistency';
+    public const CATEGORY_OTHER = 'other';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getCategoryAllowableValues()
+    {
+        return [
+            self::CATEGORY_COLOUR,
+            self::CATEGORY_DIMENSION,
+            self::CATEGORY_WEIGHT,
+            self::CATEGORY_REGISTRATION,
+            self::CATEGORY_CODE_READABILITY,
+            self::CATEGORY_SURFACE,
+            self::CATEGORY_BATCH_CONSISTENCY,
+            self::CATEGORY_OTHER,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +285,11 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('category', $data ?? [], null);
+        $this->setIfExists('description', $data ?? [], null);
+        $this->setIfExists('requirement_id', $data ?? [], null);
+        $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('tolerance', $data ?? [], null);
     }
 
     /**
@@ -265,9 +319,32 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
         }
+        $allowedValues = $this->getCategoryAllowableValues();
+        if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'category', must be one of '%s'",
+                $this->container['category'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['description'] === null) {
+            $invalidProperties[] = "'description' can't be null";
+        }
+        if ((mb_strlen($this->container['description']) < 1)) {
+            $invalidProperties[] = "invalid value for 'description', the character length must be bigger than or equal to 1.";
+        }
+
+        if ($this->container['requirement_id'] === null) {
+            $invalidProperties[] = "'requirement_id' can't be null";
+        }
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['requirement_id'])) {
+            $invalidProperties[] = "invalid value for 'requirement_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +361,170 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets category
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getCategory()
     {
-        return $this->container['gjs'];
+        return $this->container['category'];
     }
 
     /**
-     * Sets gjs
+     * Sets category
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $category category
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setCategory($category)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($category)) {
+            throw new \InvalidArgumentException('non-nullable category cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $allowedValues = $this->getCategoryAllowableValues();
+        if (!in_array($category, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'category', must be one of '%s'",
+                    $category,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['category'] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Gets description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->container['description'];
+    }
+
+    /**
+     * Sets description
+     *
+     * @param string $description description
+     *
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        if (is_null($description)) {
+            throw new \InvalidArgumentException('non-nullable description cannot be null');
+        }
+
+        if ((mb_strlen($description) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $description when calling QualityRequirement., must be bigger than or equal to 1.');
+        }
+
+        $this->container['description'] = $description;
+
+        return $this;
+    }
+
+    /**
+     * Gets requirement_id
+     *
+     * @return string
+     */
+    public function getRequirementId()
+    {
+        return $this->container['requirement_id'];
+    }
+
+    /**
+     * Sets requirement_id
+     *
+     * @param string $requirement_id requirement_id
+     *
+     * @return self
+     */
+    public function setRequirementId($requirement_id)
+    {
+        if (is_null($requirement_id)) {
+            throw new \InvalidArgumentException('non-nullable requirement_id cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($requirement_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$requirement_id when calling QualityRequirement., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['requirement_id'] = $requirement_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets target
+     *
+     * @return \Jawwws\Gnaww\Model\OperationTarget|null
+     */
+    public function getTarget()
+    {
+        return $this->container['target'];
+    }
+
+    /**
+     * Sets target
+     *
+     * @param \Jawwws\Gnaww\Model\OperationTarget|null $target target
+     *
+     * @return self
+     */
+    public function setTarget($target)
+    {
+        if (is_null($target)) {
+            array_push($this->openAPINullablesSetToNull, 'target');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('target', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['target'] = $target;
+
+        return $this;
+    }
+
+    /**
+     * Gets tolerance
+     *
+     * @return \Jawwws\Gnaww\Model\NumericTolerance|null
+     */
+    public function getTolerance()
+    {
+        return $this->container['tolerance'];
+    }
+
+    /**
+     * Sets tolerance
+     *
+     * @param \Jawwws\Gnaww\Model\NumericTolerance|null $tolerance tolerance
+     *
+     * @return self
+     */
+    public function setTolerance($tolerance)
+    {
+        if (is_null($tolerance)) {
+            array_push($this->openAPINullablesSetToNull, 'tolerance');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('tolerance', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['tolerance'] = $tolerance;
 
         return $this;
     }

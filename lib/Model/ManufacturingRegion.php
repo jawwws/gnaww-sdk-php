@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * ManufacturingRegion
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * ManufacturingRegion Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
+ * @description Addressable production target within one component.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class ManufacturingRegion implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'ManufacturingRegion';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +48,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'edge' => 'string',
+        'face' => 'string',
+        'geometry' => '\Jawwws\Gnaww\Model\ManufacturingRegionGeometry',
+        'kind' => 'string',
+        'name' => 'string',
+        'region_id' => 'string'
     ];
 
     /**
@@ -61,9 +64,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'edge' => null,
+        'face' => null,
+        'geometry' => null,
+        'kind' => null,
+        'name' => null,
+        'region_id' => null
     ];
 
     /**
@@ -72,9 +78,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'edge' => true,
+        'face' => true,
+        'geometry' => true,
+        'kind' => false,
+        'name' => true,
+        'region_id' => false
     ];
 
     /**
@@ -163,9 +172,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'edge' => 'edge',
+        'face' => 'face',
+        'geometry' => 'geometry',
+        'kind' => 'kind',
+        'name' => 'name',
+        'region_id' => 'region_id'
     ];
 
     /**
@@ -174,9 +186,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'edge' => 'setEdge',
+        'face' => 'setFace',
+        'geometry' => 'setGeometry',
+        'kind' => 'setKind',
+        'name' => 'setName',
+        'region_id' => 'setRegionId'
     ];
 
     /**
@@ -185,9 +200,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'edge' => 'getEdge',
+        'face' => 'getFace',
+        'geometry' => 'getGeometry',
+        'kind' => 'getKind',
+        'name' => 'getName',
+        'region_id' => 'getRegionId'
     ];
 
     /**
@@ -231,21 +249,52 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
+    public const FACE_FRONT = 'front';
+    public const FACE_BACK = 'back';
+    public const FACE_TOP = 'top';
+    public const FACE_BOTTOM = 'bottom';
+    public const FACE_LEFT = 'left';
+    public const FACE_RIGHT = 'right';
+    public const FACE_INSIDE = 'inside';
+    public const FACE_OUTSIDE = 'outside';
+    public const KIND_FACE = 'face';
+    public const KIND_EDGE = 'edge';
+    public const KIND_AREA = 'area';
+    public const KIND_PATH = 'path';
+    public const KIND_NAMED = 'named';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getServiceClassAllowableValues()
+    public function getFaceAllowableValues()
     {
         return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
+            self::FACE_FRONT,
+            self::FACE_BACK,
+            self::FACE_TOP,
+            self::FACE_BOTTOM,
+            self::FACE_LEFT,
+            self::FACE_RIGHT,
+            self::FACE_INSIDE,
+            self::FACE_OUTSIDE,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_FACE,
+            self::KIND_EDGE,
+            self::KIND_AREA,
+            self::KIND_PATH,
+            self::KIND_NAMED,
         ];
     }
 
@@ -264,9 +313,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('edge', $data ?? [], null);
+        $this->setIfExists('face', $data ?? [], null);
+        $this->setIfExists('geometry', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], null);
+        $this->setIfExists('name', $data ?? [], null);
+        $this->setIfExists('region_id', $data ?? [], null);
     }
 
     /**
@@ -296,20 +348,32 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
-        }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
-        }
-
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
+        $allowedValues = $this->getFaceAllowableValues();
+        if (!is_null($this->container['face']) && !in_array($this->container['face'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
+                "invalid value '%s' for 'face', must be one of '%s'",
+                $this->container['face'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if ($this->container['kind'] === null) {
+            $invalidProperties[] = "'kind' can't be null";
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['region_id'] === null) {
+            $invalidProperties[] = "'region_id' can't be null";
+        }
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['region_id'])) {
+            $invalidProperties[] = "invalid value for 'region_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
         }
 
         return $invalidProperties;
@@ -328,111 +392,216 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
-     *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
-     */
-    public function getDestination()
-    {
-        return $this->container['destination'];
-    }
-
-    /**
-     * Sets destination
-     *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
-     *
-     * @return self
-     */
-    public function setDestination($destination)
-    {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
-        }
-        $this->container['destination'] = $destination;
-
-        return $this;
-    }
-
-    /**
-     * Gets maximum_delivery_working_days
-     *
-     * @return int|null
-     */
-    public function getMaximumDeliveryWorkingDays()
-    {
-        return $this->container['maximum_delivery_working_days'];
-    }
-
-    /**
-     * Sets maximum_delivery_working_days
-     *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
-     *
-     * @return self
-     */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
-    {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
-        }
-
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
-
-        return $this;
-    }
-
-    /**
-     * Gets service_class
+     * Gets edge
      *
      * @return string|null
      */
-    public function getServiceClass()
+    public function getEdge()
     {
-        return $this->container['service_class'];
+        return $this->container['edge'];
     }
 
     /**
-     * Sets service_class
+     * Sets edge
      *
-     * @param string|null $service_class service_class
+     * @param string|null $edge edge
      *
      * @return self
      */
-    public function setServiceClass($service_class)
+    public function setEdge($edge)
     {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
+        if (is_null($edge)) {
+            array_push($this->openAPINullablesSetToNull, 'edge');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
+            $index = array_search('edge', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
+        $this->container['edge'] = $edge;
+
+        return $this;
+    }
+
+    /**
+     * Gets face
+     *
+     * @return string|null
+     */
+    public function getFace()
+    {
+        return $this->container['face'];
+    }
+
+    /**
+     * Sets face
+     *
+     * @param string|null $face face
+     *
+     * @return self
+     */
+    public function setFace($face)
+    {
+        if (is_null($face)) {
+            array_push($this->openAPINullablesSetToNull, 'face');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('face', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = $this->getFaceAllowableValues();
+        if (!is_null($face) && !in_array($face, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
+                    "Invalid value '%s' for 'face', must be one of '%s'",
+                    $face,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['service_class'] = $service_class;
+        $this->container['face'] = $face;
+
+        return $this;
+    }
+
+    /**
+     * Gets geometry
+     *
+     * @return \Jawwws\Gnaww\Model\ManufacturingRegionGeometry|null
+     */
+    public function getGeometry()
+    {
+        return $this->container['geometry'];
+    }
+
+    /**
+     * Sets geometry
+     *
+     * @param \Jawwws\Gnaww\Model\ManufacturingRegionGeometry|null $geometry geometry
+     *
+     * @return self
+     */
+    public function setGeometry($geometry)
+    {
+        if (is_null($geometry)) {
+            array_push($this->openAPINullablesSetToNull, 'geometry');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('geometry', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['geometry'] = $geometry;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets name
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->container['name'];
+    }
+
+    /**
+     * Sets name
+     *
+     * @param string|null $name name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        if (is_null($name)) {
+            array_push($this->openAPINullablesSetToNull, 'name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets region_id
+     *
+     * @return string
+     */
+    public function getRegionId()
+    {
+        return $this->container['region_id'];
+    }
+
+    /**
+     * Sets region_id
+     *
+     * @param string $region_id region_id
+     *
+     * @return self
+     */
+    public function setRegionId($region_id)
+    {
+        if (is_null($region_id)) {
+            throw new \InvalidArgumentException('non-nullable region_id cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($region_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$region_id when calling ManufacturingRegion., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['region_id'] = $region_id;
 
         return $this;
     }

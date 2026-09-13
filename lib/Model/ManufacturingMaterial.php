@@ -1,6 +1,6 @@
 <?php
 /**
- * MaterialCapability
+ * ManufacturingMaterial
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * MaterialCapability Class Doc Comment
+ * ManufacturingMaterial Class Doc Comment
  *
  * @category Class
- * @description A canonical material or substrate capability.
+ * @description Controlled material/substrate meaning for one component.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializable
+class ManufacturingMaterial implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      *
      * @var string
      */
-    protected static $openAPIModelName = 'MaterialCapability';
+    protected static $openAPIModelName = 'ManufacturingMaterial';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -49,13 +49,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $openAPITypes = [
         'category' => 'string',
-        'certifications' => 'string[]',
-        'composition' => '\Jawwws\Gnaww\Model\AppModelsProducerMaterialCompositionPart[]',
+        'colour' => 'string',
+        'composition' => '\Jawwws\Gnaww\Model\AppModelsManufacturingGeometryMaterialCompositionPart[]',
         'finish' => 'string',
-        'maximum_weight_gsm' => 'int',
-        'minimum_weight_gsm' => 'int',
+        'grammage_requirement' => '\Jawwws\Gnaww\Model\GrammageRequirement',
         'name' => 'string',
-        'standard_weights_gsm' => 'int[]',
+        'texture' => 'string',
+        'thickness_mm' => 'float',
         'weight_gsm' => 'int'
     ];
 
@@ -68,13 +68,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $openAPIFormats = [
         'category' => null,
-        'certifications' => null,
+        'colour' => null,
         'composition' => null,
         'finish' => null,
-        'maximum_weight_gsm' => null,
-        'minimum_weight_gsm' => null,
+        'grammage_requirement' => null,
         'name' => null,
-        'standard_weights_gsm' => null,
+        'texture' => null,
+        'thickness_mm' => null,
         'weight_gsm' => null
     ];
 
@@ -85,13 +85,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static array $openAPINullables = [
         'category' => false,
-        'certifications' => false,
+        'colour' => true,
         'composition' => false,
         'finish' => true,
-        'maximum_weight_gsm' => true,
-        'minimum_weight_gsm' => true,
-        'name' => false,
-        'standard_weights_gsm' => false,
+        'grammage_requirement' => true,
+        'name' => true,
+        'texture' => true,
+        'thickness_mm' => true,
         'weight_gsm' => true
     ];
 
@@ -182,13 +182,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $attributeMap = [
         'category' => 'category',
-        'certifications' => 'certifications',
+        'colour' => 'colour',
         'composition' => 'composition',
         'finish' => 'finish',
-        'maximum_weight_gsm' => 'maximum_weight_gsm',
-        'minimum_weight_gsm' => 'minimum_weight_gsm',
+        'grammage_requirement' => 'grammage_requirement',
         'name' => 'name',
-        'standard_weights_gsm' => 'standard_weights_gsm',
+        'texture' => 'texture',
+        'thickness_mm' => 'thickness_mm',
         'weight_gsm' => 'weight_gsm'
     ];
 
@@ -199,13 +199,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $setters = [
         'category' => 'setCategory',
-        'certifications' => 'setCertifications',
+        'colour' => 'setColour',
         'composition' => 'setComposition',
         'finish' => 'setFinish',
-        'maximum_weight_gsm' => 'setMaximumWeightGsm',
-        'minimum_weight_gsm' => 'setMinimumWeightGsm',
+        'grammage_requirement' => 'setGrammageRequirement',
         'name' => 'setName',
-        'standard_weights_gsm' => 'setStandardWeightsGsm',
+        'texture' => 'setTexture',
+        'thickness_mm' => 'setThicknessMm',
         'weight_gsm' => 'setWeightGsm'
     ];
 
@@ -216,13 +216,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     protected static $getters = [
         'category' => 'getCategory',
-        'certifications' => 'getCertifications',
+        'colour' => 'getColour',
         'composition' => 'getComposition',
         'finish' => 'getFinish',
-        'maximum_weight_gsm' => 'getMaximumWeightGsm',
-        'minimum_weight_gsm' => 'getMinimumWeightGsm',
+        'grammage_requirement' => 'getGrammageRequirement',
         'name' => 'getName',
-        'standard_weights_gsm' => 'getStandardWeightsGsm',
+        'texture' => 'getTexture',
+        'thickness_mm' => 'getThicknessMm',
         'weight_gsm' => 'getWeightGsm'
     ];
 
@@ -317,13 +317,13 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     public function __construct(?array $data = null)
     {
         $this->setIfExists('category', $data ?? [], 'unknown');
-        $this->setIfExists('certifications', $data ?? [], null);
+        $this->setIfExists('colour', $data ?? [], null);
         $this->setIfExists('composition', $data ?? [], null);
         $this->setIfExists('finish', $data ?? [], null);
-        $this->setIfExists('maximum_weight_gsm', $data ?? [], null);
-        $this->setIfExists('minimum_weight_gsm', $data ?? [], null);
+        $this->setIfExists('grammage_requirement', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
-        $this->setIfExists('standard_weights_gsm', $data ?? [], null);
+        $this->setIfExists('texture', $data ?? [], null);
+        $this->setIfExists('thickness_mm', $data ?? [], null);
         $this->setIfExists('weight_gsm', $data ?? [], null);
     }
 
@@ -363,17 +363,10 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
             );
         }
 
-        if (!is_null($this->container['maximum_weight_gsm']) && ($this->container['maximum_weight_gsm'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_weight_gsm', must be bigger than 0.";
+        if (!is_null($this->container['thickness_mm']) && ($this->container['thickness_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'thickness_mm', must be bigger than 0.0.";
         }
 
-        if (!is_null($this->container['minimum_weight_gsm']) && ($this->container['minimum_weight_gsm'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'minimum_weight_gsm', must be bigger than 0.";
-        }
-
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
         if (!is_null($this->container['weight_gsm']) && ($this->container['weight_gsm'] <= 0)) {
             $invalidProperties[] = "invalid value for 'weight_gsm', must be bigger than 0.";
         }
@@ -431,28 +424,35 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets certifications
+     * Gets colour
      *
-     * @return string[]|null
+     * @return string|null
      */
-    public function getCertifications()
+    public function getColour()
     {
-        return $this->container['certifications'];
+        return $this->container['colour'];
     }
 
     /**
-     * Sets certifications
+     * Sets colour
      *
-     * @param string[]|null $certifications certifications
+     * @param string|null $colour colour
      *
      * @return self
      */
-    public function setCertifications($certifications)
+    public function setColour($colour)
     {
-        if (is_null($certifications)) {
-            throw new \InvalidArgumentException('non-nullable certifications cannot be null');
+        if (is_null($colour)) {
+            array_push($this->openAPINullablesSetToNull, 'colour');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('colour', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['certifications'] = $certifications;
+        $this->container['colour'] = $colour;
 
         return $this;
     }
@@ -460,7 +460,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets composition
      *
-     * @return \Jawwws\Gnaww\Model\AppModelsProducerMaterialCompositionPart[]|null
+     * @return \Jawwws\Gnaww\Model\AppModelsManufacturingGeometryMaterialCompositionPart[]|null
      */
     public function getComposition()
     {
@@ -470,7 +470,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets composition
      *
-     * @param \Jawwws\Gnaww\Model\AppModelsProducerMaterialCompositionPart[]|null $composition composition
+     * @param \Jawwws\Gnaww\Model\AppModelsManufacturingGeometryMaterialCompositionPart[]|null $composition composition
      *
      * @return self
      */
@@ -519,79 +519,35 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets maximum_weight_gsm
+     * Gets grammage_requirement
      *
-     * @return int|null
+     * @return \Jawwws\Gnaww\Model\GrammageRequirement|null
      */
-    public function getMaximumWeightGsm()
+    public function getGrammageRequirement()
     {
-        return $this->container['maximum_weight_gsm'];
+        return $this->container['grammage_requirement'];
     }
 
     /**
-     * Sets maximum_weight_gsm
+     * Sets grammage_requirement
      *
-     * @param int|null $maximum_weight_gsm maximum_weight_gsm
+     * @param \Jawwws\Gnaww\Model\GrammageRequirement|null $grammage_requirement grammage_requirement
      *
      * @return self
      */
-    public function setMaximumWeightGsm($maximum_weight_gsm)
+    public function setGrammageRequirement($grammage_requirement)
     {
-        if (is_null($maximum_weight_gsm)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_weight_gsm');
+        if (is_null($grammage_requirement)) {
+            array_push($this->openAPINullablesSetToNull, 'grammage_requirement');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_weight_gsm', $nullablesSetToNull);
+            $index = array_search('grammage_requirement', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
-        if (!is_null($maximum_weight_gsm) && ($maximum_weight_gsm <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_weight_gsm when calling MaterialCapability., must be bigger than 0.');
-        }
-
-        $this->container['maximum_weight_gsm'] = $maximum_weight_gsm;
-
-        return $this;
-    }
-
-    /**
-     * Gets minimum_weight_gsm
-     *
-     * @return int|null
-     */
-    public function getMinimumWeightGsm()
-    {
-        return $this->container['minimum_weight_gsm'];
-    }
-
-    /**
-     * Sets minimum_weight_gsm
-     *
-     * @param int|null $minimum_weight_gsm minimum_weight_gsm
-     *
-     * @return self
-     */
-    public function setMinimumWeightGsm($minimum_weight_gsm)
-    {
-        if (is_null($minimum_weight_gsm)) {
-            array_push($this->openAPINullablesSetToNull, 'minimum_weight_gsm');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('minimum_weight_gsm', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($minimum_weight_gsm) && ($minimum_weight_gsm <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $minimum_weight_gsm when calling MaterialCapability., must be bigger than 0.');
-        }
-
-        $this->container['minimum_weight_gsm'] = $minimum_weight_gsm;
+        $this->container['grammage_requirement'] = $grammage_requirement;
 
         return $this;
     }
@@ -599,7 +555,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets name
      *
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -609,14 +565,21 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets name
      *
-     * @param string $name name
+     * @param string|null $name name
      *
      * @return self
      */
     public function setName($name)
     {
         if (is_null($name)) {
-            throw new \InvalidArgumentException('non-nullable name cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['name'] = $name;
 
@@ -624,28 +587,74 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets standard_weights_gsm
+     * Gets texture
      *
-     * @return int[]|null
+     * @return string|null
      */
-    public function getStandardWeightsGsm()
+    public function getTexture()
     {
-        return $this->container['standard_weights_gsm'];
+        return $this->container['texture'];
     }
 
     /**
-     * Sets standard_weights_gsm
+     * Sets texture
      *
-     * @param int[]|null $standard_weights_gsm standard_weights_gsm
+     * @param string|null $texture texture
      *
      * @return self
      */
-    public function setStandardWeightsGsm($standard_weights_gsm)
+    public function setTexture($texture)
     {
-        if (is_null($standard_weights_gsm)) {
-            throw new \InvalidArgumentException('non-nullable standard_weights_gsm cannot be null');
+        if (is_null($texture)) {
+            array_push($this->openAPINullablesSetToNull, 'texture');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('texture', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['standard_weights_gsm'] = $standard_weights_gsm;
+        $this->container['texture'] = $texture;
+
+        return $this;
+    }
+
+    /**
+     * Gets thickness_mm
+     *
+     * @return float|null
+     */
+    public function getThicknessMm()
+    {
+        return $this->container['thickness_mm'];
+    }
+
+    /**
+     * Sets thickness_mm
+     *
+     * @param float|null $thickness_mm thickness_mm
+     *
+     * @return self
+     */
+    public function setThicknessMm($thickness_mm)
+    {
+        if (is_null($thickness_mm)) {
+            array_push($this->openAPINullablesSetToNull, 'thickness_mm');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('thickness_mm', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($thickness_mm) && ($thickness_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $thickness_mm when calling ManufacturingMaterial., must be bigger than 0.0.');
+        }
+
+        $this->container['thickness_mm'] = $thickness_mm;
 
         return $this;
     }
@@ -681,7 +690,7 @@ class MaterialCapability implements ModelInterface, ArrayAccess, \JsonSerializab
         }
 
         if (!is_null($weight_gsm) && ($weight_gsm <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $weight_gsm when calling MaterialCapability., must be bigger than 0.');
+            throw new \InvalidArgumentException('invalid value for $weight_gsm when calling ManufacturingMaterial., must be bigger than 0.');
         }
 
         $this->container['weight_gsm'] = $weight_gsm;

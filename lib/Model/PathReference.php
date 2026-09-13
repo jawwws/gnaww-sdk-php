@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * PathReference
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * PathReference Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Reference to complex geometry retained outside GJS.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class PathReference implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'PathReference';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'asset_ref' => 'string',
+        'kind' => 'string',
+        'path_id' => 'string'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'asset_ref' => null,
+        'kind' => null,
+        'path_id' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'asset_ref' => false,
+        'kind' => false,
+        'path_id' => true
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'asset_ref' => 'asset_ref',
+        'kind' => 'kind',
+        'path_id' => 'path_id'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'asset_ref' => 'setAssetRef',
+        'kind' => 'setKind',
+        'path_id' => 'setPathId'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'asset_ref' => 'getAssetRef',
+        'kind' => 'getKind',
+        'path_id' => 'getPathId'
     ];
 
     /**
@@ -219,6 +231,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_PATH_REFERENCE = 'path_reference';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_PATH_REFERENCE,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +260,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('asset_ref', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'path_reference');
+        $this->setIfExists('path_id', $data ?? [], null);
     }
 
     /**
@@ -265,9 +292,22 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['asset_ref'] === null) {
+            $invalidProperties[] = "'asset_ref' can't be null";
         }
+        if ((mb_strlen($this->container['asset_ref']) < 1)) {
+            $invalidProperties[] = "invalid value for 'asset_ref', the character length must be bigger than or equal to 1.";
+        }
+
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +324,104 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets asset_ref
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getAssetRef()
     {
-        return $this->container['gjs'];
+        return $this->container['asset_ref'];
     }
 
     /**
-     * Sets gjs
+     * Sets asset_ref
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $asset_ref asset_ref
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setAssetRef($asset_ref)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($asset_ref)) {
+            throw new \InvalidArgumentException('non-nullable asset_ref cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+
+        if ((mb_strlen($asset_ref) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $asset_ref when calling PathReference., must be bigger than or equal to 1.');
+        }
+
+        $this->container['asset_ref'] = $asset_ref;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets path_id
+     *
+     * @return string|null
+     */
+    public function getPathId()
+    {
+        return $this->container['path_id'];
+    }
+
+    /**
+     * Sets path_id
+     *
+     * @param string|null $path_id path_id
+     *
+     * @return self
+     */
+    public function setPathId($path_id)
+    {
+        if (is_null($path_id)) {
+            array_push($this->openAPINullablesSetToNull, 'path_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('path_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['path_id'] = $path_id;
 
         return $this;
     }

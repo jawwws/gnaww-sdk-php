@@ -1,6 +1,6 @@
 <?php
 /**
- * ContinuePrintRequirementRequest
+ * FoldLine
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ContinuePrintRequirementRequest Class Doc Comment
+ * FoldLine Class Doc Comment
  *
  * @category Class
- * @description Stateless continuation of a prior ordinary-language requirement.
+ * @description One fold line in the input component coordinate system.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class FoldLine implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ContinuePrintRequirementRequest';
+    protected static $openAPIModelName = 'FoldLine';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,12 +48,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $openAPITypes = [
-        'answers' => '\Jawwws\Gnaww\Model\PublicClarificationAnswer[]',
-        'gjs_version' => 'string',
-        'matching_mode' => 'string',
-        'schema_name' => 'string',
-        'schema_version' => 'string',
-        'source' => '\Jawwws\Gnaww\Model\SourceInput'
+        'axis' => 'string',
+        'direction' => 'string',
+        'line' => '\Jawwws\Gnaww\Model\Line2D',
+        'sequence' => 'int'
     ];
 
     /**
@@ -64,12 +62,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'answers' => null,
-        'gjs_version' => null,
-        'matching_mode' => null,
-        'schema_name' => null,
-        'schema_version' => null,
-        'source' => null
+        'axis' => null,
+        'direction' => null,
+        'line' => null,
+        'sequence' => null
     ];
 
     /**
@@ -78,12 +74,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'answers' => false,
-        'gjs_version' => false,
-        'matching_mode' => false,
-        'schema_name' => false,
-        'schema_version' => false,
-        'source' => false
+        'axis' => true,
+        'direction' => false,
+        'line' => false,
+        'sequence' => false
     ];
 
     /**
@@ -172,12 +166,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $attributeMap = [
-        'answers' => 'answers',
-        'gjs_version' => 'gjs_version',
-        'matching_mode' => 'matching_mode',
-        'schema_name' => 'schema_name',
-        'schema_version' => 'schema_version',
-        'source' => 'source'
+        'axis' => 'axis',
+        'direction' => 'direction',
+        'line' => 'line',
+        'sequence' => 'sequence'
     ];
 
     /**
@@ -186,12 +178,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $setters = [
-        'answers' => 'setAnswers',
-        'gjs_version' => 'setGjsVersion',
-        'matching_mode' => 'setMatchingMode',
-        'schema_name' => 'setSchemaName',
-        'schema_version' => 'setSchemaVersion',
-        'source' => 'setSource'
+        'axis' => 'setAxis',
+        'direction' => 'setDirection',
+        'line' => 'setLine',
+        'sequence' => 'setSequence'
     ];
 
     /**
@@ -200,12 +190,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $getters = [
-        'answers' => 'getAnswers',
-        'gjs_version' => 'getGjsVersion',
-        'matching_mode' => 'getMatchingMode',
-        'schema_name' => 'getSchemaName',
-        'schema_version' => 'getSchemaVersion',
-        'source' => 'getSource'
+        'axis' => 'getAxis',
+        'direction' => 'getDirection',
+        'line' => 'getLine',
+        'sequence' => 'getSequence'
     ];
 
     /**
@@ -249,21 +237,24 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
         return self::$openAPIModelName;
     }
 
-    public const GJS_VERSION__0_4 = '0.4';
-    public const MATCHING_MODE_SINGLE_TARGET = 'single_target';
-    public const MATCHING_MODE_PRODUCER_UNIVERSE = 'producer_universe';
-    public const SCHEMA_NAME_GNAWW_INTERPRETATION_CONTINUATION_REQUEST = 'gnaww.interpretation_continuation_request';
-    public const SCHEMA_VERSION__0_1 = '0.1';
+    public const AXIS_VERTICAL = 'vertical';
+    public const AXIS_HORIZONTAL = 'horizontal';
+    public const AXIS_CUSTOM = 'custom';
+    public const DIRECTION_VALLEY = 'valley';
+    public const DIRECTION_MOUNTAIN = 'mountain';
+    public const DIRECTION_UNKNOWN = 'unknown';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getGjsVersionAllowableValues()
+    public function getAxisAllowableValues()
     {
         return [
-            self::GJS_VERSION__0_4,
+            self::AXIS_VERTICAL,
+            self::AXIS_HORIZONTAL,
+            self::AXIS_CUSTOM,
         ];
     }
 
@@ -272,35 +263,12 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      *
      * @return string[]
      */
-    public function getMatchingModeAllowableValues()
+    public function getDirectionAllowableValues()
     {
         return [
-            self::MATCHING_MODE_SINGLE_TARGET,
-            self::MATCHING_MODE_PRODUCER_UNIVERSE,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getSchemaNameAllowableValues()
-    {
-        return [
-            self::SCHEMA_NAME_GNAWW_INTERPRETATION_CONTINUATION_REQUEST,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getSchemaVersionAllowableValues()
-    {
-        return [
-            self::SCHEMA_VERSION__0_1,
+            self::DIRECTION_VALLEY,
+            self::DIRECTION_MOUNTAIN,
+            self::DIRECTION_UNKNOWN,
         ];
     }
 
@@ -319,12 +287,10 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('answers', $data ?? [], null);
-        $this->setIfExists('gjs_version', $data ?? [], '0.4');
-        $this->setIfExists('matching_mode', $data ?? [], 'single_target');
-        $this->setIfExists('schema_name', $data ?? [], 'gnaww.interpretation_continuation_request');
-        $this->setIfExists('schema_version', $data ?? [], '0.1');
-        $this->setIfExists('source', $data ?? [], null);
+        $this->setIfExists('axis', $data ?? [], null);
+        $this->setIfExists('direction', $data ?? [], 'unknown');
+        $this->setIfExists('line', $data ?? [], null);
+        $this->setIfExists('sequence', $data ?? [], null);
     }
 
     /**
@@ -354,45 +320,34 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getGjsVersionAllowableValues();
-        if (!is_null($this->container['gjs_version']) && !in_array($this->container['gjs_version'], $allowedValues, true)) {
+        $allowedValues = $this->getAxisAllowableValues();
+        if (!is_null($this->container['axis']) && !in_array($this->container['axis'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'gjs_version', must be one of '%s'",
-                $this->container['gjs_version'],
+                "invalid value '%s' for 'axis', must be one of '%s'",
+                $this->container['axis'],
                 implode("', '", $allowedValues)
             );
         }
 
-        $allowedValues = $this->getMatchingModeAllowableValues();
-        if (!is_null($this->container['matching_mode']) && !in_array($this->container['matching_mode'], $allowedValues, true)) {
+        $allowedValues = $this->getDirectionAllowableValues();
+        if (!is_null($this->container['direction']) && !in_array($this->container['direction'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'matching_mode', must be one of '%s'",
-                $this->container['matching_mode'],
+                "invalid value '%s' for 'direction', must be one of '%s'",
+                $this->container['direction'],
                 implode("', '", $allowedValues)
             );
         }
 
-        $allowedValues = $this->getSchemaNameAllowableValues();
-        if (!is_null($this->container['schema_name']) && !in_array($this->container['schema_name'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'schema_name', must be one of '%s'",
-                $this->container['schema_name'],
-                implode("', '", $allowedValues)
-            );
+        if ($this->container['line'] === null) {
+            $invalidProperties[] = "'line' can't be null";
+        }
+        if ($this->container['sequence'] === null) {
+            $invalidProperties[] = "'sequence' can't be null";
+        }
+        if (($this->container['sequence'] <= 0)) {
+            $invalidProperties[] = "invalid value for 'sequence', must be bigger than 0.";
         }
 
-        $allowedValues = $this->getSchemaVersionAllowableValues();
-        if (!is_null($this->container['schema_version']) && !in_array($this->container['schema_version'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'schema_version', must be one of '%s'",
-                $this->container['schema_version'],
-                implode("', '", $allowedValues)
-            );
-        }
-
-        if ($this->container['source'] === null) {
-            $invalidProperties[] = "'source' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -409,203 +364,141 @@ class ContinuePrintRequirementRequest implements ModelInterface, ArrayAccess, \J
 
 
     /**
-     * Gets answers
-     *
-     * @return \Jawwws\Gnaww\Model\PublicClarificationAnswer[]|null
-     */
-    public function getAnswers()
-    {
-        return $this->container['answers'];
-    }
-
-    /**
-     * Sets answers
-     *
-     * @param \Jawwws\Gnaww\Model\PublicClarificationAnswer[]|null $answers answers
-     *
-     * @return self
-     */
-    public function setAnswers($answers)
-    {
-        if (is_null($answers)) {
-            throw new \InvalidArgumentException('non-nullable answers cannot be null');
-        }
-        $this->container['answers'] = $answers;
-
-        return $this;
-    }
-
-    /**
-     * Gets gjs_version
+     * Gets axis
      *
      * @return string|null
      */
-    public function getGjsVersion()
+    public function getAxis()
     {
-        return $this->container['gjs_version'];
+        return $this->container['axis'];
     }
 
     /**
-     * Sets gjs_version
+     * Sets axis
      *
-     * @param string|null $gjs_version gjs_version
+     * @param string|null $axis axis
      *
      * @return self
      */
-    public function setGjsVersion($gjs_version)
+    public function setAxis($axis)
     {
-        if (is_null($gjs_version)) {
-            throw new \InvalidArgumentException('non-nullable gjs_version cannot be null');
+        if (is_null($axis)) {
+            array_push($this->openAPINullablesSetToNull, 'axis');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('axis', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $allowedValues = $this->getGjsVersionAllowableValues();
-        if (!in_array($gjs_version, $allowedValues, true)) {
+        $allowedValues = $this->getAxisAllowableValues();
+        if (!is_null($axis) && !in_array($axis, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'gjs_version', must be one of '%s'",
-                    $gjs_version,
+                    "Invalid value '%s' for 'axis', must be one of '%s'",
+                    $axis,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['gjs_version'] = $gjs_version;
+        $this->container['axis'] = $axis;
 
         return $this;
     }
 
     /**
-     * Gets matching_mode
+     * Gets direction
      *
      * @return string|null
      */
-    public function getMatchingMode()
+    public function getDirection()
     {
-        return $this->container['matching_mode'];
+        return $this->container['direction'];
     }
 
     /**
-     * Sets matching_mode
+     * Sets direction
      *
-     * @param string|null $matching_mode matching_mode
+     * @param string|null $direction direction
      *
      * @return self
      */
-    public function setMatchingMode($matching_mode)
+    public function setDirection($direction)
     {
-        if (is_null($matching_mode)) {
-            throw new \InvalidArgumentException('non-nullable matching_mode cannot be null');
+        if (is_null($direction)) {
+            throw new \InvalidArgumentException('non-nullable direction cannot be null');
         }
-        $allowedValues = $this->getMatchingModeAllowableValues();
-        if (!in_array($matching_mode, $allowedValues, true)) {
+        $allowedValues = $this->getDirectionAllowableValues();
+        if (!in_array($direction, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'matching_mode', must be one of '%s'",
-                    $matching_mode,
+                    "Invalid value '%s' for 'direction', must be one of '%s'",
+                    $direction,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['matching_mode'] = $matching_mode;
+        $this->container['direction'] = $direction;
 
         return $this;
     }
 
     /**
-     * Gets schema_name
+     * Gets line
      *
-     * @return string|null
+     * @return \Jawwws\Gnaww\Model\Line2D
      */
-    public function getSchemaName()
+    public function getLine()
     {
-        return $this->container['schema_name'];
+        return $this->container['line'];
     }
 
     /**
-     * Sets schema_name
+     * Sets line
      *
-     * @param string|null $schema_name schema_name
+     * @param \Jawwws\Gnaww\Model\Line2D $line line
      *
      * @return self
      */
-    public function setSchemaName($schema_name)
+    public function setLine($line)
     {
-        if (is_null($schema_name)) {
-            throw new \InvalidArgumentException('non-nullable schema_name cannot be null');
+        if (is_null($line)) {
+            throw new \InvalidArgumentException('non-nullable line cannot be null');
         }
-        $allowedValues = $this->getSchemaNameAllowableValues();
-        if (!in_array($schema_name, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'schema_name', must be one of '%s'",
-                    $schema_name,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['schema_name'] = $schema_name;
+        $this->container['line'] = $line;
 
         return $this;
     }
 
     /**
-     * Gets schema_version
+     * Gets sequence
      *
-     * @return string|null
+     * @return int
      */
-    public function getSchemaVersion()
+    public function getSequence()
     {
-        return $this->container['schema_version'];
+        return $this->container['sequence'];
     }
 
     /**
-     * Sets schema_version
+     * Sets sequence
      *
-     * @param string|null $schema_version schema_version
+     * @param int $sequence sequence
      *
      * @return self
      */
-    public function setSchemaVersion($schema_version)
+    public function setSequence($sequence)
     {
-        if (is_null($schema_version)) {
-            throw new \InvalidArgumentException('non-nullable schema_version cannot be null');
+        if (is_null($sequence)) {
+            throw new \InvalidArgumentException('non-nullable sequence cannot be null');
         }
-        $allowedValues = $this->getSchemaVersionAllowableValues();
-        if (!in_array($schema_version, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'schema_version', must be one of '%s'",
-                    $schema_version,
-                    implode("', '", $allowedValues)
-                )
-            );
+
+        if (($sequence <= 0)) {
+            throw new \InvalidArgumentException('invalid value for $sequence when calling FoldLine., must be bigger than 0.');
         }
-        $this->container['schema_version'] = $schema_version;
 
-        return $this;
-    }
-
-    /**
-     * Gets source
-     *
-     * @return \Jawwws\Gnaww\Model\SourceInput
-     */
-    public function getSource()
-    {
-        return $this->container['source'];
-    }
-
-    /**
-     * Sets source
-     *
-     * @param \Jawwws\Gnaww\Model\SourceInput $source source
-     *
-     * @return self
-     */
-    public function setSource($source)
-    {
-        if (is_null($source)) {
-            throw new \InvalidArgumentException('non-nullable source cannot be null');
-        }
-        $this->container['source'] = $source;
+        $this->container['sequence'] = $sequence;
 
         return $this;
     }

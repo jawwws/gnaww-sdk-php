@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * InspectOperationParameters
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * InspectOperationParameters Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class InspectOperationParameters implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'InspectOperationParameters';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'kind' => 'string',
+        'method' => 'string',
+        'requirement' => 'string'
     ];
 
     /**
@@ -59,7 +60,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'kind' => null,
+        'method' => null,
+        'requirement' => null
     ];
 
     /**
@@ -68,7 +71,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'kind' => false,
+        'method' => false,
+        'requirement' => true
     ];
 
     /**
@@ -157,7 +162,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'kind' => 'kind',
+        'method' => 'method',
+        'requirement' => 'requirement'
     ];
 
     /**
@@ -166,7 +173,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'kind' => 'setKind',
+        'method' => 'setMethod',
+        'requirement' => 'setRequirement'
     ];
 
     /**
@@ -175,7 +184,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'kind' => 'getKind',
+        'method' => 'getMethod',
+        'requirement' => 'getRequirement'
     ];
 
     /**
@@ -219,6 +230,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_INSPECT = 'inspect';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_INSPECT,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +259,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'inspect');
+        $this->setIfExists('method', $data ?? [], null);
+        $this->setIfExists('requirement', $data ?? [], null);
     }
 
     /**
@@ -265,9 +291,22 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
         }
+
+        if ($this->container['method'] === null) {
+            $invalidProperties[] = "'method' can't be null";
+        }
+        if ((mb_strlen($this->container['method']) < 1)) {
+            $invalidProperties[] = "invalid value for 'method', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +323,104 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets kind
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string|null
      */
-    public function getGjs()
+    public function getKind()
     {
-        return $this->container['gjs'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets gjs
+     * Sets kind
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string|null $kind kind
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setKind($kind)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets method
+     *
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->container['method'];
+    }
+
+    /**
+     * Sets method
+     *
+     * @param string $method method
+     *
+     * @return self
+     */
+    public function setMethod($method)
+    {
+        if (is_null($method)) {
+            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        }
+
+        if ((mb_strlen($method) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $method when calling InspectOperationParameters., must be bigger than or equal to 1.');
+        }
+
+        $this->container['method'] = $method;
+
+        return $this;
+    }
+
+    /**
+     * Gets requirement
+     *
+     * @return string|null
+     */
+    public function getRequirement()
+    {
+        return $this->container['requirement'];
+    }
+
+    /**
+     * Sets requirement
+     *
+     * @param string|null $requirement requirement
+     *
+     * @return self
+     */
+    public function setRequirement($requirement)
+    {
+        if (is_null($requirement)) {
+            array_push($this->openAPINullablesSetToNull, 'requirement');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('requirement', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['requirement'] = $requirement;
 
         return $this;
     }

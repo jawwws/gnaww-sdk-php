@@ -53,7 +53,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         'match_reasons' => 'string[]',
         'offered_maximum_delivery_working_days' => 'int',
         'offered_minimum_delivery_working_days' => 'int',
+        'offered_service_classes' => 'string[]',
         'requested_maximum_delivery_working_days' => 'int',
+        'requested_service_class' => 'string',
         'service_country_codes' => 'string[]',
         'status' => 'string'
     ];
@@ -71,7 +73,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         'match_reasons' => null,
         'offered_maximum_delivery_working_days' => null,
         'offered_minimum_delivery_working_days' => null,
+        'offered_service_classes' => null,
         'requested_maximum_delivery_working_days' => null,
+        'requested_service_class' => null,
         'service_country_codes' => null,
         'status' => null
     ];
@@ -87,7 +91,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         'match_reasons' => false,
         'offered_maximum_delivery_working_days' => true,
         'offered_minimum_delivery_working_days' => true,
+        'offered_service_classes' => false,
         'requested_maximum_delivery_working_days' => true,
+        'requested_service_class' => true,
         'service_country_codes' => false,
         'status' => false
     ];
@@ -183,7 +189,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         'match_reasons' => 'match_reasons',
         'offered_maximum_delivery_working_days' => 'offered_maximum_delivery_working_days',
         'offered_minimum_delivery_working_days' => 'offered_minimum_delivery_working_days',
+        'offered_service_classes' => 'offered_service_classes',
         'requested_maximum_delivery_working_days' => 'requested_maximum_delivery_working_days',
+        'requested_service_class' => 'requested_service_class',
         'service_country_codes' => 'service_country_codes',
         'status' => 'status'
     ];
@@ -199,7 +207,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         'match_reasons' => 'setMatchReasons',
         'offered_maximum_delivery_working_days' => 'setOfferedMaximumDeliveryWorkingDays',
         'offered_minimum_delivery_working_days' => 'setOfferedMinimumDeliveryWorkingDays',
+        'offered_service_classes' => 'setOfferedServiceClasses',
         'requested_maximum_delivery_working_days' => 'setRequestedMaximumDeliveryWorkingDays',
+        'requested_service_class' => 'setRequestedServiceClass',
         'service_country_codes' => 'setServiceCountryCodes',
         'status' => 'setStatus'
     ];
@@ -215,7 +225,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         'match_reasons' => 'getMatchReasons',
         'offered_maximum_delivery_working_days' => 'getOfferedMaximumDeliveryWorkingDays',
         'offered_minimum_delivery_working_days' => 'getOfferedMinimumDeliveryWorkingDays',
+        'offered_service_classes' => 'getOfferedServiceClasses',
         'requested_maximum_delivery_working_days' => 'getRequestedMaximumDeliveryWorkingDays',
+        'requested_service_class' => 'getRequestedServiceClass',
         'service_country_codes' => 'getServiceCountryCodes',
         'status' => 'getStatus'
     ];
@@ -261,9 +273,43 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
+    public const OFFERED_SERVICE_CLASSES_STANDARD = 'standard';
+    public const OFFERED_SERVICE_CLASSES_EXPRESS = 'express';
+    public const OFFERED_SERVICE_CLASSES_FREIGHT = 'freight';
+    public const REQUESTED_SERVICE_CLASS_STANDARD = 'standard';
+    public const REQUESTED_SERVICE_CLASS_EXPRESS = 'express';
+    public const REQUESTED_SERVICE_CLASS_FREIGHT = 'freight';
     public const STATUS_MATCHED = 'matched';
     public const STATUS_NEEDS_REVIEW = 'needs_review';
     public const STATUS_BLOCKED = 'blocked';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getOfferedServiceClassesAllowableValues()
+    {
+        return [
+            self::OFFERED_SERVICE_CLASSES_STANDARD,
+            self::OFFERED_SERVICE_CLASSES_EXPRESS,
+            self::OFFERED_SERVICE_CLASSES_FREIGHT,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getRequestedServiceClassAllowableValues()
+    {
+        return [
+            self::REQUESTED_SERVICE_CLASS_STANDARD,
+            self::REQUESTED_SERVICE_CLASS_EXPRESS,
+            self::REQUESTED_SERVICE_CLASS_FREIGHT,
+        ];
+    }
 
     /**
      * Gets allowable values of the enum
@@ -299,7 +345,9 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('match_reasons', $data ?? [], null);
         $this->setIfExists('offered_maximum_delivery_working_days', $data ?? [], null);
         $this->setIfExists('offered_minimum_delivery_working_days', $data ?? [], null);
+        $this->setIfExists('offered_service_classes', $data ?? [], null);
         $this->setIfExists('requested_maximum_delivery_working_days', $data ?? [], null);
+        $this->setIfExists('requested_service_class', $data ?? [], null);
         $this->setIfExists('service_country_codes', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
     }
@@ -334,6 +382,15 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
         if ($this->container['destination_country_code'] === null) {
             $invalidProperties[] = "'destination_country_code' can't be null";
         }
+        $allowedValues = $this->getRequestedServiceClassAllowableValues();
+        if (!is_null($this->container['requested_service_class']) && !in_array($this->container['requested_service_class'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'requested_service_class', must be one of '%s'",
+                $this->container['requested_service_class'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['status'] === null) {
             $invalidProperties[] = "'status' can't be null";
         }
@@ -511,6 +568,42 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
     }
 
     /**
+     * Gets offered_service_classes
+     *
+     * @return string[]|null
+     */
+    public function getOfferedServiceClasses()
+    {
+        return $this->container['offered_service_classes'];
+    }
+
+    /**
+     * Sets offered_service_classes
+     *
+     * @param string[]|null $offered_service_classes offered_service_classes
+     *
+     * @return self
+     */
+    public function setOfferedServiceClasses($offered_service_classes)
+    {
+        if (is_null($offered_service_classes)) {
+            throw new \InvalidArgumentException('non-nullable offered_service_classes cannot be null');
+        }
+        $allowedValues = $this->getOfferedServiceClassesAllowableValues();
+        if (array_diff($offered_service_classes, $allowedValues)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'offered_service_classes', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['offered_service_classes'] = $offered_service_classes;
+
+        return $this;
+    }
+
+    /**
      * Gets requested_maximum_delivery_working_days
      *
      * @return int|null
@@ -540,6 +633,50 @@ class FulfilmentMatchResult implements ModelInterface, ArrayAccess, \JsonSeriali
             }
         }
         $this->container['requested_maximum_delivery_working_days'] = $requested_maximum_delivery_working_days;
+
+        return $this;
+    }
+
+    /**
+     * Gets requested_service_class
+     *
+     * @return string|null
+     */
+    public function getRequestedServiceClass()
+    {
+        return $this->container['requested_service_class'];
+    }
+
+    /**
+     * Sets requested_service_class
+     *
+     * @param string|null $requested_service_class requested_service_class
+     *
+     * @return self
+     */
+    public function setRequestedServiceClass($requested_service_class)
+    {
+        if (is_null($requested_service_class)) {
+            array_push($this->openAPINullablesSetToNull, 'requested_service_class');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('requested_service_class', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = $this->getRequestedServiceClassAllowableValues();
+        if (!is_null($requested_service_class) && !in_array($requested_service_class, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'requested_service_class', must be one of '%s'",
+                    $requested_service_class,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['requested_service_class'] = $requested_service_class;
 
         return $this;
     }

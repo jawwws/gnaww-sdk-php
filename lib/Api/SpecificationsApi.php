@@ -1,6 +1,6 @@
 <?php
 /**
- * InterpretationApi
+ * SpecificationsApi
  *
  * @category Class
  * @package  Jawwws\Gnaww
@@ -35,12 +35,12 @@ use Jawwws\Gnaww\HeaderSelector;
 use Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * InterpretationApi Class Doc Comment
+ * SpecificationsApi Class Doc Comment
  *
  * @category Class
  * @package  Jawwws\Gnaww
  */
-class InterpretationApi
+class SpecificationsApi
 {
     /**
      * @var ClientInterface
@@ -64,10 +64,10 @@ class InterpretationApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'continuePrintRequirementInterpretation' => [
+        'createSpecification' => [
             'application/json',
         ],
-        'interpretPrintRequirement' => [
+        'getSpecification' => [
             'application/json',
         ],
     ];
@@ -119,40 +119,40 @@ class InterpretationApi
     }
 
     /**
-     * Operation continuePrintRequirementInterpretation
+     * Operation createSpecification
      *
-     * Continue Print Requirement Interpretation
+     * Create Specification
      *
-     * @param  \Jawwws\Gnaww\Model\ContinueInterpretationRequestV02 $continue_interpretation_request_v02 continue_interpretation_request_v02 (required)
+     * @param  \Jawwws\Gnaww\Model\CreateSpecificationRequest $create_specification_request create_specification_request (required)
      * @param  string|null $x_gnaww_workspace_id x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['continuePrintRequirementInterpretation'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSpecification'] to see the possible values for this operation
      *
      * @throws \Jawwws\Gnaww\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Jawwws\Gnaww\Model\InterpretationResultV02|\Jawwws\Gnaww\Model\ContinuePrintRequirementInterpretationDefaultResponse
+     * @return \Jawwws\Gnaww\Model\CreateSpecificationResponse|\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse
      */
-    public function continuePrintRequirementInterpretation($continue_interpretation_request_v02, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['continuePrintRequirementInterpretation'][0])
+    public function createSpecification($create_specification_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['createSpecification'][0])
     {
-        list($response) = $this->continuePrintRequirementInterpretationWithHttpInfo($continue_interpretation_request_v02, $x_gnaww_workspace_id, $contentType);
+        list($response) = $this->createSpecificationWithHttpInfo($create_specification_request, $x_gnaww_workspace_id, $contentType);
         return $response;
     }
 
     /**
-     * Operation continuePrintRequirementInterpretationWithHttpInfo
+     * Operation createSpecificationWithHttpInfo
      *
-     * Continue Print Requirement Interpretation
+     * Create Specification
      *
-     * @param  \Jawwws\Gnaww\Model\ContinueInterpretationRequestV02 $continue_interpretation_request_v02 (required)
+     * @param  \Jawwws\Gnaww\Model\CreateSpecificationRequest $create_specification_request (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['continuePrintRequirementInterpretation'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSpecification'] to see the possible values for this operation
      *
      * @throws \Jawwws\Gnaww\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Jawwws\Gnaww\Model\InterpretationResultV02|\Jawwws\Gnaww\Model\ContinuePrintRequirementInterpretationDefaultResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Jawwws\Gnaww\Model\CreateSpecificationResponse|\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function continuePrintRequirementInterpretationWithHttpInfo($continue_interpretation_request_v02, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['continuePrintRequirementInterpretation'][0])
+    public function createSpecificationWithHttpInfo($create_specification_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['createSpecification'][0])
     {
-        $request = $this->continuePrintRequirementInterpretationRequest($continue_interpretation_request_v02, $x_gnaww_workspace_id, $contentType);
+        $request = $this->createSpecificationRequest($create_specification_request, $x_gnaww_workspace_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -180,13 +180,13 @@ class InterpretationApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Jawwws\Gnaww\Model\InterpretationResultV02',
+                        '\Jawwws\Gnaww\Model\CreateSpecificationResponse',
                         $request,
                         $response,
                     );
                 default:
                     return $this->handleResponseWithDataType(
-                        '\Jawwws\Gnaww\Model\ContinuePrintRequirementInterpretationDefaultResponse',
+                        '\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse',
                         $request,
                         $response,
                     );
@@ -208,7 +208,7 @@ class InterpretationApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Jawwws\Gnaww\Model\InterpretationResultV02',
+                '\Jawwws\Gnaww\Model\CreateSpecificationResponse',
                 $request,
                 $response,
             );
@@ -217,7 +217,7 @@ class InterpretationApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Jawwws\Gnaww\Model\InterpretationResultV02',
+                        '\Jawwws\Gnaww\Model\CreateSpecificationResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -225,7 +225,7 @@ class InterpretationApi
                 default:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Jawwws\Gnaww\Model\ContinuePrintRequirementInterpretationDefaultResponse',
+                        '\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -238,20 +238,20 @@ class InterpretationApi
     }
 
     /**
-     * Operation continuePrintRequirementInterpretationAsync
+     * Operation createSpecificationAsync
      *
-     * Continue Print Requirement Interpretation
+     * Create Specification
      *
-     * @param  \Jawwws\Gnaww\Model\ContinueInterpretationRequestV02 $continue_interpretation_request_v02 (required)
+     * @param  \Jawwws\Gnaww\Model\CreateSpecificationRequest $create_specification_request (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['continuePrintRequirementInterpretation'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSpecification'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function continuePrintRequirementInterpretationAsync($continue_interpretation_request_v02, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['continuePrintRequirementInterpretation'][0])
+    public function createSpecificationAsync($create_specification_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['createSpecification'][0])
     {
-        return $this->continuePrintRequirementInterpretationAsyncWithHttpInfo($continue_interpretation_request_v02, $x_gnaww_workspace_id, $contentType)
+        return $this->createSpecificationAsyncWithHttpInfo($create_specification_request, $x_gnaww_workspace_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -260,21 +260,21 @@ class InterpretationApi
     }
 
     /**
-     * Operation continuePrintRequirementInterpretationAsyncWithHttpInfo
+     * Operation createSpecificationAsyncWithHttpInfo
      *
-     * Continue Print Requirement Interpretation
+     * Create Specification
      *
-     * @param  \Jawwws\Gnaww\Model\ContinueInterpretationRequestV02 $continue_interpretation_request_v02 (required)
+     * @param  \Jawwws\Gnaww\Model\CreateSpecificationRequest $create_specification_request (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['continuePrintRequirementInterpretation'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSpecification'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function continuePrintRequirementInterpretationAsyncWithHttpInfo($continue_interpretation_request_v02, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['continuePrintRequirementInterpretation'][0])
+    public function createSpecificationAsyncWithHttpInfo($create_specification_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['createSpecification'][0])
     {
-        $returnType = '\Jawwws\Gnaww\Model\InterpretationResultV02';
-        $request = $this->continuePrintRequirementInterpretationRequest($continue_interpretation_request_v02, $x_gnaww_workspace_id, $contentType);
+        $returnType = '\Jawwws\Gnaww\Model\CreateSpecificationResponse';
+        $request = $this->createSpecificationRequest($create_specification_request, $x_gnaww_workspace_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -313,28 +313,28 @@ class InterpretationApi
     }
 
     /**
-     * Create request for operation 'continuePrintRequirementInterpretation'
+     * Create request for operation 'createSpecification'
      *
-     * @param  \Jawwws\Gnaww\Model\ContinueInterpretationRequestV02 $continue_interpretation_request_v02 (required)
+     * @param  \Jawwws\Gnaww\Model\CreateSpecificationRequest $create_specification_request (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['continuePrintRequirementInterpretation'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSpecification'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function continuePrintRequirementInterpretationRequest($continue_interpretation_request_v02, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['continuePrintRequirementInterpretation'][0])
+    public function createSpecificationRequest($create_specification_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['createSpecification'][0])
     {
 
-        // verify the required parameter 'continue_interpretation_request_v02' is set
-        if ($continue_interpretation_request_v02 === null || (is_array($continue_interpretation_request_v02) && count($continue_interpretation_request_v02) === 0)) {
+        // verify the required parameter 'create_specification_request' is set
+        if ($create_specification_request === null || (is_array($create_specification_request) && count($create_specification_request) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $continue_interpretation_request_v02 when calling continuePrintRequirementInterpretation'
+                'Missing the required parameter $create_specification_request when calling createSpecification'
             );
         }
 
 
 
-        $resourcePath = '/v1/interpret/continue';
+        $resourcePath = '/v1/specifications';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -356,12 +356,12 @@ class InterpretationApi
         );
 
         // for model (json/xml)
-        if (isset($continue_interpretation_request_v02)) {
+        if (isset($create_specification_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
-                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($continue_interpretation_request_v02));
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($create_specification_request));
             } else {
-                $httpBody = $continue_interpretation_request_v02;
+                $httpBody = $create_specification_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -415,40 +415,40 @@ class InterpretationApi
     }
 
     /**
-     * Operation interpretPrintRequirement
+     * Operation getSpecification
      *
-     * Interpret Print Requirement
+     * Get Specification
      *
-     * @param  \Jawwws\Gnaww\Model\InterpretPrintRequirementRequest $interpret_print_requirement_request interpret_print_requirement_request (required)
+     * @param  string $specification_id specification_id (required)
      * @param  string|null $x_gnaww_workspace_id x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['interpretPrintRequirement'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSpecification'] to see the possible values for this operation
      *
      * @throws \Jawwws\Gnaww\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Jawwws\Gnaww\Model\InterpretationResultV02|\Jawwws\Gnaww\Model\InterpretPrintRequirementDefaultResponse
+     * @return \Jawwws\Gnaww\Model\SpecificationResource|\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse
      */
-    public function interpretPrintRequirement($interpret_print_requirement_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['interpretPrintRequirement'][0])
+    public function getSpecification($specification_id, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['getSpecification'][0])
     {
-        list($response) = $this->interpretPrintRequirementWithHttpInfo($interpret_print_requirement_request, $x_gnaww_workspace_id, $contentType);
+        list($response) = $this->getSpecificationWithHttpInfo($specification_id, $x_gnaww_workspace_id, $contentType);
         return $response;
     }
 
     /**
-     * Operation interpretPrintRequirementWithHttpInfo
+     * Operation getSpecificationWithHttpInfo
      *
-     * Interpret Print Requirement
+     * Get Specification
      *
-     * @param  \Jawwws\Gnaww\Model\InterpretPrintRequirementRequest $interpret_print_requirement_request (required)
+     * @param  string $specification_id (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['interpretPrintRequirement'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSpecification'] to see the possible values for this operation
      *
      * @throws \Jawwws\Gnaww\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Jawwws\Gnaww\Model\InterpretationResultV02|\Jawwws\Gnaww\Model\InterpretPrintRequirementDefaultResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Jawwws\Gnaww\Model\SpecificationResource|\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function interpretPrintRequirementWithHttpInfo($interpret_print_requirement_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['interpretPrintRequirement'][0])
+    public function getSpecificationWithHttpInfo($specification_id, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['getSpecification'][0])
     {
-        $request = $this->interpretPrintRequirementRequest($interpret_print_requirement_request, $x_gnaww_workspace_id, $contentType);
+        $request = $this->getSpecificationRequest($specification_id, $x_gnaww_workspace_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -476,13 +476,13 @@ class InterpretationApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Jawwws\Gnaww\Model\InterpretationResultV02',
+                        '\Jawwws\Gnaww\Model\SpecificationResource',
                         $request,
                         $response,
                     );
                 default:
                     return $this->handleResponseWithDataType(
-                        '\Jawwws\Gnaww\Model\InterpretPrintRequirementDefaultResponse',
+                        '\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse',
                         $request,
                         $response,
                     );
@@ -504,7 +504,7 @@ class InterpretationApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Jawwws\Gnaww\Model\InterpretationResultV02',
+                '\Jawwws\Gnaww\Model\SpecificationResource',
                 $request,
                 $response,
             );
@@ -513,7 +513,7 @@ class InterpretationApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Jawwws\Gnaww\Model\InterpretationResultV02',
+                        '\Jawwws\Gnaww\Model\SpecificationResource',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -521,7 +521,7 @@ class InterpretationApi
                 default:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Jawwws\Gnaww\Model\InterpretPrintRequirementDefaultResponse',
+                        '\Jawwws\Gnaww\Model\MatchPrintDemandDefaultResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -534,20 +534,20 @@ class InterpretationApi
     }
 
     /**
-     * Operation interpretPrintRequirementAsync
+     * Operation getSpecificationAsync
      *
-     * Interpret Print Requirement
+     * Get Specification
      *
-     * @param  \Jawwws\Gnaww\Model\InterpretPrintRequirementRequest $interpret_print_requirement_request (required)
+     * @param  string $specification_id (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['interpretPrintRequirement'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSpecification'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function interpretPrintRequirementAsync($interpret_print_requirement_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['interpretPrintRequirement'][0])
+    public function getSpecificationAsync($specification_id, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['getSpecification'][0])
     {
-        return $this->interpretPrintRequirementAsyncWithHttpInfo($interpret_print_requirement_request, $x_gnaww_workspace_id, $contentType)
+        return $this->getSpecificationAsyncWithHttpInfo($specification_id, $x_gnaww_workspace_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -556,21 +556,21 @@ class InterpretationApi
     }
 
     /**
-     * Operation interpretPrintRequirementAsyncWithHttpInfo
+     * Operation getSpecificationAsyncWithHttpInfo
      *
-     * Interpret Print Requirement
+     * Get Specification
      *
-     * @param  \Jawwws\Gnaww\Model\InterpretPrintRequirementRequest $interpret_print_requirement_request (required)
+     * @param  string $specification_id (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['interpretPrintRequirement'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSpecification'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function interpretPrintRequirementAsyncWithHttpInfo($interpret_print_requirement_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['interpretPrintRequirement'][0])
+    public function getSpecificationAsyncWithHttpInfo($specification_id, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['getSpecification'][0])
     {
-        $returnType = '\Jawwws\Gnaww\Model\InterpretationResultV02';
-        $request = $this->interpretPrintRequirementRequest($interpret_print_requirement_request, $x_gnaww_workspace_id, $contentType);
+        $returnType = '\Jawwws\Gnaww\Model\SpecificationResource';
+        $request = $this->getSpecificationRequest($specification_id, $x_gnaww_workspace_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -609,28 +609,28 @@ class InterpretationApi
     }
 
     /**
-     * Create request for operation 'interpretPrintRequirement'
+     * Create request for operation 'getSpecification'
      *
-     * @param  \Jawwws\Gnaww\Model\InterpretPrintRequirementRequest $interpret_print_requirement_request (required)
+     * @param  string $specification_id (required)
      * @param  string|null $x_gnaww_workspace_id (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['interpretPrintRequirement'] to see the possible values for this operation
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSpecification'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function interpretPrintRequirementRequest($interpret_print_requirement_request, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['interpretPrintRequirement'][0])
+    public function getSpecificationRequest($specification_id, $x_gnaww_workspace_id = null, string $contentType = self::contentTypes['getSpecification'][0])
     {
 
-        // verify the required parameter 'interpret_print_requirement_request' is set
-        if ($interpret_print_requirement_request === null || (is_array($interpret_print_requirement_request) && count($interpret_print_requirement_request) === 0)) {
+        // verify the required parameter 'specification_id' is set
+        if ($specification_id === null || (is_array($specification_id) && count($specification_id) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $interpret_print_requirement_request when calling interpretPrintRequirement'
+                'Missing the required parameter $specification_id when calling getSpecification'
             );
         }
 
 
 
-        $resourcePath = '/v1/interpret';
+        $resourcePath = '/v1/specifications/{specification_id}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -643,6 +643,14 @@ class InterpretationApi
             $headerParams['X-Gnaww-Workspace-Id'] = ObjectSerializer::toHeaderValue($x_gnaww_workspace_id);
         }
 
+        // path params
+        if ($specification_id !== null) {
+            $resourcePath = str_replace(
+                '{specification_id}',
+                ObjectSerializer::toPathValue($specification_id),
+                $resourcePath
+            );
+        }
 
 
         $headers = $this->headerSelector->selectHeaders(
@@ -652,14 +660,7 @@ class InterpretationApi
         );
 
         // for model (json/xml)
-        if (isset($interpret_print_requirement_request)) {
-            if (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the body
-                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($interpret_print_requirement_request));
-            } else {
-                $httpBody = $interpret_print_requirement_request;
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -703,7 +704,7 @@ class InterpretationApi
         $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
-            'POST',
+            'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody

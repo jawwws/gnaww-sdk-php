@@ -1,6 +1,6 @@
 <?php
 /**
- * PublicClarificationAnswer
+ * PublicCapabilityQuestion
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * PublicClarificationAnswer Class Doc Comment
+ * PublicCapabilityQuestion Class Doc Comment
  *
  * @category Class
- * @description One explicit buyer answer to a Gnaww-owned clarification.
+ * @description A controlled capability-question branch, without implying an Order.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicCapabilityQuestion implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      *
      * @var string
      */
-    protected static $openAPIModelName = 'PublicClarificationAnswer';
+    protected static $openAPIModelName = 'PublicCapabilityQuestion';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,8 +48,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $openAPITypes = [
-        'key' => 'string',
-        'value' => 'string'
+        'question' => 'string',
+        'question_id' => 'string',
+        'scope' => '\Jawwws\Gnaww\Model\PublicInterpretationScope',
+        'status' => 'string'
     ];
 
     /**
@@ -60,8 +62,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'key' => null,
-        'value' => null
+        'question' => null,
+        'question_id' => null,
+        'scope' => null,
+        'status' => null
     ];
 
     /**
@@ -70,8 +74,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'key' => false,
-        'value' => false
+        'question' => false,
+        'question_id' => false,
+        'scope' => false,
+        'status' => false
     ];
 
     /**
@@ -160,8 +166,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
-        'key' => 'key',
-        'value' => 'value'
+        'question' => 'question',
+        'question_id' => 'question_id',
+        'scope' => 'scope',
+        'status' => 'status'
     ];
 
     /**
@@ -170,8 +178,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
-        'key' => 'setKey',
-        'value' => 'setValue'
+        'question' => 'setQuestion',
+        'question_id' => 'setQuestionId',
+        'scope' => 'setScope',
+        'status' => 'setStatus'
     ];
 
     /**
@@ -180,8 +190,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
-        'key' => 'getKey',
-        'value' => 'getValue'
+        'question' => 'getQuestion',
+        'question_id' => 'getQuestionId',
+        'scope' => 'getScope',
+        'status' => 'getStatus'
     ];
 
     /**
@@ -225,6 +237,21 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
         return self::$openAPIModelName;
     }
 
+    public const STATUS_NEEDS_REVIEW = 'needs_review';
+    public const STATUS_READY_FOR_EVALUATION = 'ready_for_evaluation';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_NEEDS_REVIEW,
+            self::STATUS_READY_FOR_EVALUATION,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -241,8 +268,10 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('key', $data ?? [], null);
-        $this->setIfExists('value', $data ?? [], null);
+        $this->setIfExists('question', $data ?? [], null);
+        $this->setIfExists('question_id', $data ?? [], null);
+        $this->setIfExists('scope', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
     }
 
     /**
@@ -272,18 +301,33 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
-        if ($this->container['key'] === null) {
-            $invalidProperties[] = "'key' can't be null";
+        if ($this->container['question'] === null) {
+            $invalidProperties[] = "'question' can't be null";
         }
-        if (!preg_match("/^[a-z][a-z0-9_.\\[\\]]*$/", $this->container['key'])) {
-            $invalidProperties[] = "invalid value for 'key', must be conform to the pattern /^[a-z][a-z0-9_.\\[\\]]*$/.";
+        if ((mb_strlen($this->container['question']) < 1)) {
+            $invalidProperties[] = "invalid value for 'question', the character length must be bigger than or equal to 1.";
         }
 
-        if ($this->container['value'] === null) {
-            $invalidProperties[] = "'value' can't be null";
+        if ($this->container['question_id'] === null) {
+            $invalidProperties[] = "'question_id' can't be null";
         }
-        if ((mb_strlen($this->container['value']) < 1)) {
-            $invalidProperties[] = "invalid value for 'value', the character length must be bigger than or equal to 1.";
+        if (!preg_match("/^[a-z][a-z0-9_.\\[\\]-]*$/", $this->container['question_id'])) {
+            $invalidProperties[] = "invalid value for 'question_id', must be conform to the pattern /^[a-z][a-z0-9_.\\[\\]-]*$/.";
+        }
+
+        if ($this->container['scope'] === null) {
+            $invalidProperties[] = "'scope' can't be null";
+        }
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
         }
 
         return $invalidProperties;
@@ -302,65 +346,129 @@ class PublicClarificationAnswer implements ModelInterface, ArrayAccess, \JsonSer
 
 
     /**
-     * Gets key
+     * Gets question
      *
      * @return string
      */
-    public function getKey()
+    public function getQuestion()
     {
-        return $this->container['key'];
+        return $this->container['question'];
     }
 
     /**
-     * Sets key
+     * Sets question
      *
-     * @param string $key key
+     * @param string $question question
      *
      * @return self
      */
-    public function setKey($key)
+    public function setQuestion($question)
     {
-        if (is_null($key)) {
-            throw new \InvalidArgumentException('non-nullable key cannot be null');
+        if (is_null($question)) {
+            throw new \InvalidArgumentException('non-nullable question cannot be null');
         }
 
-        if ((!preg_match("/^[a-z][a-z0-9_.\\[\\]]*$/", ObjectSerializer::toString($key)))) {
-            throw new \InvalidArgumentException("invalid value for \$key when calling PublicClarificationAnswer., must conform to the pattern /^[a-z][a-z0-9_.\\[\\]]*$/.");
+        if ((mb_strlen($question) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $question when calling PublicCapabilityQuestion., must be bigger than or equal to 1.');
         }
 
-        $this->container['key'] = $key;
+        $this->container['question'] = $question;
 
         return $this;
     }
 
     /**
-     * Gets value
+     * Gets question_id
      *
      * @return string
      */
-    public function getValue()
+    public function getQuestionId()
     {
-        return $this->container['value'];
+        return $this->container['question_id'];
     }
 
     /**
-     * Sets value
+     * Sets question_id
      *
-     * @param string $value value
+     * @param string $question_id question_id
      *
      * @return self
      */
-    public function setValue($value)
+    public function setQuestionId($question_id)
     {
-        if (is_null($value)) {
-            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        if (is_null($question_id)) {
+            throw new \InvalidArgumentException('non-nullable question_id cannot be null');
         }
 
-        if ((mb_strlen($value) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $value when calling PublicClarificationAnswer., must be bigger than or equal to 1.');
+        if ((!preg_match("/^[a-z][a-z0-9_.\\[\\]-]*$/", ObjectSerializer::toString($question_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$question_id when calling PublicCapabilityQuestion., must conform to the pattern /^[a-z][a-z0-9_.\\[\\]-]*$/.");
         }
 
-        $this->container['value'] = $value;
+        $this->container['question_id'] = $question_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets scope
+     *
+     * @return \Jawwws\Gnaww\Model\PublicInterpretationScope
+     */
+    public function getScope()
+    {
+        return $this->container['scope'];
+    }
+
+    /**
+     * Sets scope
+     *
+     * @param \Jawwws\Gnaww\Model\PublicInterpretationScope $scope scope
+     *
+     * @return self
+     */
+    public function setScope($scope)
+    {
+        if (is_null($scope)) {
+            throw new \InvalidArgumentException('non-nullable scope cannot be null');
+        }
+        $this->container['scope'] = $scope;
+
+        return $this;
+    }
+
+    /**
+     * Gets status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /**
+     * Sets status
+     *
+     * @param string $status status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['status'] = $status;
 
         return $this;
     }

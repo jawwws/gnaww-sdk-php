@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * Line2D
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * Line2D Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Line segment in a component-local millimetre coordinate system.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class Line2D implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'Line2D';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'end' => '\Jawwws\Gnaww\Model\Point2D',
+        'kind' => 'string',
+        'start' => '\Jawwws\Gnaww\Model\Point2D'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'end' => null,
+        'kind' => null,
+        'start' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'end' => false,
+        'kind' => false,
+        'start' => false
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'end' => 'end',
+        'kind' => 'kind',
+        'start' => 'start'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'end' => 'setEnd',
+        'kind' => 'setKind',
+        'start' => 'setStart'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'end' => 'getEnd',
+        'kind' => 'getKind',
+        'start' => 'getStart'
     ];
 
     /**
@@ -219,6 +231,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_LINE = 'line';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_LINE,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +260,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('end', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'line');
+        $this->setIfExists('start', $data ?? [], null);
     }
 
     /**
@@ -265,8 +292,20 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['end'] === null) {
+            $invalidProperties[] = "'end' can't be null";
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['start'] === null) {
+            $invalidProperties[] = "'start' can't be null";
         }
         return $invalidProperties;
     }
@@ -284,28 +323,92 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets end
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return \Jawwws\Gnaww\Model\Point2D
      */
-    public function getGjs()
+    public function getEnd()
     {
-        return $this->container['gjs'];
+        return $this->container['end'];
     }
 
     /**
-     * Sets gjs
+     * Sets end
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param \Jawwws\Gnaww\Model\Point2D $end end
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setEnd($end)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($end)) {
+            throw new \InvalidArgumentException('non-nullable end cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['end'] = $end;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets start
+     *
+     * @return \Jawwws\Gnaww\Model\Point2D
+     */
+    public function getStart()
+    {
+        return $this->container['start'];
+    }
+
+    /**
+     * Sets start
+     *
+     * @param \Jawwws\Gnaww\Model\Point2D $start start
+     *
+     * @return self
+     */
+    public function setStart($start)
+    {
+        if (is_null($start)) {
+            throw new \InvalidArgumentException('non-nullable start cannot be null');
+        }
+        $this->container['start'] = $start;
 
         return $this;
     }
