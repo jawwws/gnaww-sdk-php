@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * PublicUnderstoodPrint
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * PublicUnderstoodPrint Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
+ * @description Deterministically understood print-process evidence before canonical completion.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicUnderstoodPrint implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'PublicUnderstoodPrint';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +48,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'colour' => 'string',
+        'processes' => 'string[]',
+        'sides' => 'string'
     ];
 
     /**
@@ -61,9 +61,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'colour' => null,
+        'processes' => null,
+        'sides' => null
     ];
 
     /**
@@ -72,9 +72,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'colour' => true,
+        'processes' => false,
+        'sides' => true
     ];
 
     /**
@@ -163,9 +163,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'colour' => 'colour',
+        'processes' => 'processes',
+        'sides' => 'sides'
     ];
 
     /**
@@ -174,9 +174,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'colour' => 'setColour',
+        'processes' => 'setProcesses',
+        'sides' => 'setSides'
     ];
 
     /**
@@ -185,9 +185,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'colour' => 'getColour',
+        'processes' => 'getProcesses',
+        'sides' => 'getSides'
     ];
 
     /**
@@ -231,21 +231,101 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
+    public const COLOUR_MONO = 'mono';
+    public const COLOUR_FULL_COLOUR = 'full_colour';
+    public const COLOUR_SPOT = 'spot';
+    public const COLOUR_UNKNOWN = 'unknown';
+    public const PROCESSES_DIGITAL_PRINT = 'digital_print';
+    public const PROCESSES_OFFSET_LITHO = 'offset_litho';
+    public const PROCESSES_LARGE_FORMAT = 'large_format';
+    public const PROCESSES_DTG = 'dtg';
+    public const PROCESSES_DTF = 'dtf';
+    public const PROCESSES_HTV = 'htv';
+    public const PROCESSES_EMBROIDERY = 'embroidery';
+    public const PROCESSES_SCREEN_PRINT = 'screen_print';
+    public const PROCESSES_SUBLIMATION = 'sublimation';
+    public const PROCESSES_DIGITAL_TEXTILE_PRINT = 'digital_textile_print';
+    public const PROCESSES_REACTIVE_DYE_PRINT = 'reactive_dye_print';
+    public const PROCESSES_PIGMENT_PRINT = 'pigment_print';
+    public const PROCESSES_SEWING = 'sewing';
+    public const PROCESSES_HEMMING = 'hemming';
+    public const PROCESSES_PAD_PRINT = 'pad_print';
+    public const PROCESSES_UV_PRINT = 'uv_print';
+    public const PROCESSES_ENGRAVING = 'engraving';
+    public const PROCESSES_LASER_ENGRAVING = 'laser_engraving';
+    public const PROCESSES_CUTTING = 'cutting';
+    public const PROCESSES_FOLDING = 'folding';
+    public const PROCESSES_BINDING = 'binding';
+    public const PROCESSES_LAMINATION = 'lamination';
+    public const PROCESSES_FOILING = 'foiling';
+    public const PROCESSES_SPOT_UV = 'spot_uv';
+    public const PROCESSES_UNKNOWN = 'unknown';
+    public const SIDES_SINGLE_SIDED = 'single_sided';
+    public const SIDES_DOUBLE_SIDED = 'double_sided';
+    public const SIDES_UNKNOWN = 'unknown';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getServiceClassAllowableValues()
+    public function getColourAllowableValues()
     {
         return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
+            self::COLOUR_MONO,
+            self::COLOUR_FULL_COLOUR,
+            self::COLOUR_SPOT,
+            self::COLOUR_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getProcessesAllowableValues()
+    {
+        return [
+            self::PROCESSES_DIGITAL_PRINT,
+            self::PROCESSES_OFFSET_LITHO,
+            self::PROCESSES_LARGE_FORMAT,
+            self::PROCESSES_DTG,
+            self::PROCESSES_DTF,
+            self::PROCESSES_HTV,
+            self::PROCESSES_EMBROIDERY,
+            self::PROCESSES_SCREEN_PRINT,
+            self::PROCESSES_SUBLIMATION,
+            self::PROCESSES_DIGITAL_TEXTILE_PRINT,
+            self::PROCESSES_REACTIVE_DYE_PRINT,
+            self::PROCESSES_PIGMENT_PRINT,
+            self::PROCESSES_SEWING,
+            self::PROCESSES_HEMMING,
+            self::PROCESSES_PAD_PRINT,
+            self::PROCESSES_UV_PRINT,
+            self::PROCESSES_ENGRAVING,
+            self::PROCESSES_LASER_ENGRAVING,
+            self::PROCESSES_CUTTING,
+            self::PROCESSES_FOLDING,
+            self::PROCESSES_BINDING,
+            self::PROCESSES_LAMINATION,
+            self::PROCESSES_FOILING,
+            self::PROCESSES_SPOT_UV,
+            self::PROCESSES_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getSidesAllowableValues()
+    {
+        return [
+            self::SIDES_SINGLE_SIDED,
+            self::SIDES_DOUBLE_SIDED,
+            self::SIDES_UNKNOWN,
         ];
     }
 
@@ -264,9 +344,9 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('colour', $data ?? [], null);
+        $this->setIfExists('processes', $data ?? [], null);
+        $this->setIfExists('sides', $data ?? [], null);
     }
 
     /**
@@ -296,18 +376,20 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
-        }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
+        $allowedValues = $this->getColourAllowableValues();
+        if (!is_null($this->container['colour']) && !in_array($this->container['colour'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'colour', must be one of '%s'",
+                $this->container['colour'],
+                implode("', '", $allowedValues)
+            );
         }
 
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
+        $allowedValues = $this->getSidesAllowableValues();
+        if (!is_null($this->container['sides']) && !in_array($this->container['sides'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
+                "invalid value '%s' for 'sides', must be one of '%s'",
+                $this->container['sides'],
                 implode("', '", $allowedValues)
             );
         }
@@ -328,111 +410,125 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
-     *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
-     */
-    public function getDestination()
-    {
-        return $this->container['destination'];
-    }
-
-    /**
-     * Sets destination
-     *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
-     *
-     * @return self
-     */
-    public function setDestination($destination)
-    {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
-        }
-        $this->container['destination'] = $destination;
-
-        return $this;
-    }
-
-    /**
-     * Gets maximum_delivery_working_days
-     *
-     * @return int|null
-     */
-    public function getMaximumDeliveryWorkingDays()
-    {
-        return $this->container['maximum_delivery_working_days'];
-    }
-
-    /**
-     * Sets maximum_delivery_working_days
-     *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
-     *
-     * @return self
-     */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
-    {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
-        }
-
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
-
-        return $this;
-    }
-
-    /**
-     * Gets service_class
+     * Gets colour
      *
      * @return string|null
      */
-    public function getServiceClass()
+    public function getColour()
     {
-        return $this->container['service_class'];
+        return $this->container['colour'];
     }
 
     /**
-     * Sets service_class
+     * Sets colour
      *
-     * @param string|null $service_class service_class
+     * @param string|null $colour colour
      *
      * @return self
      */
-    public function setServiceClass($service_class)
+    public function setColour($colour)
     {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
+        if (is_null($colour)) {
+            array_push($this->openAPINullablesSetToNull, 'colour');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
+            $index = array_search('colour', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
+        $allowedValues = $this->getColourAllowableValues();
+        if (!is_null($colour) && !in_array($colour, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
+                    "Invalid value '%s' for 'colour', must be one of '%s'",
+                    $colour,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['service_class'] = $service_class;
+        $this->container['colour'] = $colour;
+
+        return $this;
+    }
+
+    /**
+     * Gets processes
+     *
+     * @return string[]|null
+     */
+    public function getProcesses()
+    {
+        return $this->container['processes'];
+    }
+
+    /**
+     * Sets processes
+     *
+     * @param string[]|null $processes processes
+     *
+     * @return self
+     */
+    public function setProcesses($processes)
+    {
+        if (is_null($processes)) {
+            throw new \InvalidArgumentException('non-nullable processes cannot be null');
+        }
+        $allowedValues = $this->getProcessesAllowableValues();
+        if (array_diff($processes, $allowedValues)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'processes', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['processes'] = $processes;
+
+        return $this;
+    }
+
+    /**
+     * Gets sides
+     *
+     * @return string|null
+     */
+    public function getSides()
+    {
+        return $this->container['sides'];
+    }
+
+    /**
+     * Sets sides
+     *
+     * @param string|null $sides sides
+     *
+     * @return self
+     */
+    public function setSides($sides)
+    {
+        if (is_null($sides)) {
+            array_push($this->openAPINullablesSetToNull, 'sides');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('sides', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = $this->getSidesAllowableValues();
+        if (!is_null($sides) && !in_array($sides, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'sides', must be one of '%s'",
+                    $sides,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['sides'] = $sides;
 
         return $this;
     }

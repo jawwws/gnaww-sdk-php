@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * EdgeRelativePoint
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * EdgeRelativePoint Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Point positioned from one horizontal and one vertical component edge.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class EdgeRelativePoint implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'EdgeRelativePoint';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'horizontal_edge' => 'string',
+        'horizontal_offset_mm' => 'float',
+        'vertical_edge' => 'string',
+        'vertical_offset_mm' => 'float'
     ];
 
     /**
@@ -59,7 +62,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'horizontal_edge' => null,
+        'horizontal_offset_mm' => null,
+        'vertical_edge' => null,
+        'vertical_offset_mm' => null
     ];
 
     /**
@@ -68,7 +74,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'horizontal_edge' => false,
+        'horizontal_offset_mm' => false,
+        'vertical_edge' => false,
+        'vertical_offset_mm' => false
     ];
 
     /**
@@ -157,7 +166,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'horizontal_edge' => 'horizontal_edge',
+        'horizontal_offset_mm' => 'horizontal_offset_mm',
+        'vertical_edge' => 'vertical_edge',
+        'vertical_offset_mm' => 'vertical_offset_mm'
     ];
 
     /**
@@ -166,7 +178,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'horizontal_edge' => 'setHorizontalEdge',
+        'horizontal_offset_mm' => 'setHorizontalOffsetMm',
+        'vertical_edge' => 'setVerticalEdge',
+        'vertical_offset_mm' => 'setVerticalOffsetMm'
     ];
 
     /**
@@ -175,7 +190,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'horizontal_edge' => 'getHorizontalEdge',
+        'horizontal_offset_mm' => 'getHorizontalOffsetMm',
+        'vertical_edge' => 'getVerticalEdge',
+        'vertical_offset_mm' => 'getVerticalOffsetMm'
     ];
 
     /**
@@ -219,6 +237,36 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const HORIZONTAL_EDGE_LEFT = 'left';
+    public const HORIZONTAL_EDGE_RIGHT = 'right';
+    public const VERTICAL_EDGE_TOP = 'top';
+    public const VERTICAL_EDGE_BOTTOM = 'bottom';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getHorizontalEdgeAllowableValues()
+    {
+        return [
+            self::HORIZONTAL_EDGE_LEFT,
+            self::HORIZONTAL_EDGE_RIGHT,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getVerticalEdgeAllowableValues()
+    {
+        return [
+            self::VERTICAL_EDGE_TOP,
+            self::VERTICAL_EDGE_BOTTOM,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +283,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('horizontal_edge', $data ?? [], null);
+        $this->setIfExists('horizontal_offset_mm', $data ?? [], null);
+        $this->setIfExists('vertical_edge', $data ?? [], null);
+        $this->setIfExists('vertical_offset_mm', $data ?? [], null);
     }
 
     /**
@@ -265,9 +316,44 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['horizontal_edge'] === null) {
+            $invalidProperties[] = "'horizontal_edge' can't be null";
         }
+        $allowedValues = $this->getHorizontalEdgeAllowableValues();
+        if (!is_null($this->container['horizontal_edge']) && !in_array($this->container['horizontal_edge'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'horizontal_edge', must be one of '%s'",
+                $this->container['horizontal_edge'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['horizontal_offset_mm'] === null) {
+            $invalidProperties[] = "'horizontal_offset_mm' can't be null";
+        }
+        if (($this->container['horizontal_offset_mm'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'horizontal_offset_mm', must be bigger than or equal to 0.0.";
+        }
+
+        if ($this->container['vertical_edge'] === null) {
+            $invalidProperties[] = "'vertical_edge' can't be null";
+        }
+        $allowedValues = $this->getVerticalEdgeAllowableValues();
+        if (!is_null($this->container['vertical_edge']) && !in_array($this->container['vertical_edge'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'vertical_edge', must be one of '%s'",
+                $this->container['vertical_edge'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['vertical_offset_mm'] === null) {
+            $invalidProperties[] = "'vertical_offset_mm' can't be null";
+        }
+        if (($this->container['vertical_offset_mm'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'vertical_offset_mm', must be bigger than or equal to 0.0.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +370,139 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets horizontal_edge
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getHorizontalEdge()
     {
-        return $this->container['gjs'];
+        return $this->container['horizontal_edge'];
     }
 
     /**
-     * Sets gjs
+     * Sets horizontal_edge
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $horizontal_edge horizontal_edge
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setHorizontalEdge($horizontal_edge)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($horizontal_edge)) {
+            throw new \InvalidArgumentException('non-nullable horizontal_edge cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $allowedValues = $this->getHorizontalEdgeAllowableValues();
+        if (!in_array($horizontal_edge, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'horizontal_edge', must be one of '%s'",
+                    $horizontal_edge,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['horizontal_edge'] = $horizontal_edge;
+
+        return $this;
+    }
+
+    /**
+     * Gets horizontal_offset_mm
+     *
+     * @return float
+     */
+    public function getHorizontalOffsetMm()
+    {
+        return $this->container['horizontal_offset_mm'];
+    }
+
+    /**
+     * Sets horizontal_offset_mm
+     *
+     * @param float $horizontal_offset_mm horizontal_offset_mm
+     *
+     * @return self
+     */
+    public function setHorizontalOffsetMm($horizontal_offset_mm)
+    {
+        if (is_null($horizontal_offset_mm)) {
+            throw new \InvalidArgumentException('non-nullable horizontal_offset_mm cannot be null');
+        }
+
+        if (($horizontal_offset_mm < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $horizontal_offset_mm when calling EdgeRelativePoint., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['horizontal_offset_mm'] = $horizontal_offset_mm;
+
+        return $this;
+    }
+
+    /**
+     * Gets vertical_edge
+     *
+     * @return string
+     */
+    public function getVerticalEdge()
+    {
+        return $this->container['vertical_edge'];
+    }
+
+    /**
+     * Sets vertical_edge
+     *
+     * @param string $vertical_edge vertical_edge
+     *
+     * @return self
+     */
+    public function setVerticalEdge($vertical_edge)
+    {
+        if (is_null($vertical_edge)) {
+            throw new \InvalidArgumentException('non-nullable vertical_edge cannot be null');
+        }
+        $allowedValues = $this->getVerticalEdgeAllowableValues();
+        if (!in_array($vertical_edge, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'vertical_edge', must be one of '%s'",
+                    $vertical_edge,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['vertical_edge'] = $vertical_edge;
+
+        return $this;
+    }
+
+    /**
+     * Gets vertical_offset_mm
+     *
+     * @return float
+     */
+    public function getVerticalOffsetMm()
+    {
+        return $this->container['vertical_offset_mm'];
+    }
+
+    /**
+     * Sets vertical_offset_mm
+     *
+     * @param float $vertical_offset_mm vertical_offset_mm
+     *
+     * @return self
+     */
+    public function setVerticalOffsetMm($vertical_offset_mm)
+    {
+        if (is_null($vertical_offset_mm)) {
+            throw new \InvalidArgumentException('non-nullable vertical_offset_mm cannot be null');
+        }
+
+        if (($vertical_offset_mm < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $vertical_offset_mm when calling EdgeRelativePoint., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['vertical_offset_mm'] = $vertical_offset_mm;
 
         return $this;
     }

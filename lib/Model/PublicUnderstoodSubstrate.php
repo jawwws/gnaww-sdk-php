@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * PublicUnderstoodSubstrate
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * PublicUnderstoodSubstrate Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
+ * @description Deterministically understood material evidence that is not yet canonical GJS.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicUnderstoodSubstrate implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'PublicUnderstoodSubstrate';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +48,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'category' => 'string',
+        'finish' => 'string',
+        'material' => 'string',
+        'texture' => 'string',
+        'weight_gsm' => 'int'
     ];
 
     /**
@@ -61,9 +63,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'category' => null,
+        'finish' => null,
+        'material' => null,
+        'texture' => null,
+        'weight_gsm' => null
     ];
 
     /**
@@ -72,9 +76,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'category' => true,
+        'finish' => true,
+        'material' => true,
+        'texture' => true,
+        'weight_gsm' => true
     ];
 
     /**
@@ -163,9 +169,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'category' => 'category',
+        'finish' => 'finish',
+        'material' => 'material',
+        'texture' => 'texture',
+        'weight_gsm' => 'weight_gsm'
     ];
 
     /**
@@ -174,9 +182,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'category' => 'setCategory',
+        'finish' => 'setFinish',
+        'material' => 'setMaterial',
+        'texture' => 'setTexture',
+        'weight_gsm' => 'setWeightGsm'
     ];
 
     /**
@@ -185,9 +195,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'category' => 'getCategory',
+        'finish' => 'getFinish',
+        'material' => 'getMaterial',
+        'texture' => 'getTexture',
+        'weight_gsm' => 'getWeightGsm'
     ];
 
     /**
@@ -231,21 +243,64 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
+    public const CATEGORY_PAPER = 'paper';
+    public const CATEGORY_BOARD = 'board';
+    public const CATEGORY_SYNTHETIC = 'synthetic';
+    public const CATEGORY_TEXTILE = 'textile';
+    public const CATEGORY_PLASTIC = 'plastic';
+    public const CATEGORY_METAL = 'metal';
+    public const CATEGORY_CERAMIC = 'ceramic';
+    public const CATEGORY_GLASS = 'glass';
+    public const CATEGORY_WOOD = 'wood';
+    public const CATEGORY_OTHER = 'other';
+    public const CATEGORY_UNKNOWN = 'unknown';
+    public const FINISH_SILK = 'silk';
+    public const FINISH_GLOSS = 'gloss';
+    public const FINISH_UNCOATED = 'uncoated';
+    public const FINISH_LINEN = 'linen';
+    public const FINISH_SYNTHETIC = 'synthetic';
+    public const FINISH_TEXTILE = 'textile';
+    public const FINISH_OTHER = 'other';
+    public const FINISH_UNKNOWN = 'unknown';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getServiceClassAllowableValues()
+    public function getCategoryAllowableValues()
     {
         return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
+            self::CATEGORY_PAPER,
+            self::CATEGORY_BOARD,
+            self::CATEGORY_SYNTHETIC,
+            self::CATEGORY_TEXTILE,
+            self::CATEGORY_PLASTIC,
+            self::CATEGORY_METAL,
+            self::CATEGORY_CERAMIC,
+            self::CATEGORY_GLASS,
+            self::CATEGORY_WOOD,
+            self::CATEGORY_OTHER,
+            self::CATEGORY_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getFinishAllowableValues()
+    {
+        return [
+            self::FINISH_SILK,
+            self::FINISH_GLOSS,
+            self::FINISH_UNCOATED,
+            self::FINISH_LINEN,
+            self::FINISH_SYNTHETIC,
+            self::FINISH_TEXTILE,
+            self::FINISH_OTHER,
+            self::FINISH_UNKNOWN,
         ];
     }
 
@@ -264,9 +319,11 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('category', $data ?? [], null);
+        $this->setIfExists('finish', $data ?? [], null);
+        $this->setIfExists('material', $data ?? [], null);
+        $this->setIfExists('texture', $data ?? [], null);
+        $this->setIfExists('weight_gsm', $data ?? [], null);
     }
 
     /**
@@ -296,20 +353,26 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
-        }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
-        }
-
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
+        $allowedValues = $this->getCategoryAllowableValues();
+        if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
+                "invalid value '%s' for 'category', must be one of '%s'",
+                $this->container['category'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        $allowedValues = $this->getFinishAllowableValues();
+        if (!is_null($this->container['finish']) && !in_array($this->container['finish'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'finish', must be one of '%s'",
+                $this->container['finish'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if (!is_null($this->container['weight_gsm']) && ($this->container['weight_gsm'] <= 0)) {
+            $invalidProperties[] = "invalid value for 'weight_gsm', must be bigger than 0.";
         }
 
         return $invalidProperties;
@@ -328,111 +391,196 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
-     *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
-     */
-    public function getDestination()
-    {
-        return $this->container['destination'];
-    }
-
-    /**
-     * Sets destination
-     *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
-     *
-     * @return self
-     */
-    public function setDestination($destination)
-    {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
-        }
-        $this->container['destination'] = $destination;
-
-        return $this;
-    }
-
-    /**
-     * Gets maximum_delivery_working_days
-     *
-     * @return int|null
-     */
-    public function getMaximumDeliveryWorkingDays()
-    {
-        return $this->container['maximum_delivery_working_days'];
-    }
-
-    /**
-     * Sets maximum_delivery_working_days
-     *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
-     *
-     * @return self
-     */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
-    {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
-        }
-
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
-
-        return $this;
-    }
-
-    /**
-     * Gets service_class
+     * Gets category
      *
      * @return string|null
      */
-    public function getServiceClass()
+    public function getCategory()
     {
-        return $this->container['service_class'];
+        return $this->container['category'];
     }
 
     /**
-     * Sets service_class
+     * Sets category
      *
-     * @param string|null $service_class service_class
+     * @param string|null $category category
      *
      * @return self
      */
-    public function setServiceClass($service_class)
+    public function setCategory($category)
     {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
+        if (is_null($category)) {
+            array_push($this->openAPINullablesSetToNull, 'category');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
+            $index = array_search('category', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
+        $allowedValues = $this->getCategoryAllowableValues();
+        if (!is_null($category) && !in_array($category, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
+                    "Invalid value '%s' for 'category', must be one of '%s'",
+                    $category,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['service_class'] = $service_class;
+        $this->container['category'] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Gets finish
+     *
+     * @return string|null
+     */
+    public function getFinish()
+    {
+        return $this->container['finish'];
+    }
+
+    /**
+     * Sets finish
+     *
+     * @param string|null $finish finish
+     *
+     * @return self
+     */
+    public function setFinish($finish)
+    {
+        if (is_null($finish)) {
+            array_push($this->openAPINullablesSetToNull, 'finish');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('finish', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = $this->getFinishAllowableValues();
+        if (!is_null($finish) && !in_array($finish, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'finish', must be one of '%s'",
+                    $finish,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['finish'] = $finish;
+
+        return $this;
+    }
+
+    /**
+     * Gets material
+     *
+     * @return string|null
+     */
+    public function getMaterial()
+    {
+        return $this->container['material'];
+    }
+
+    /**
+     * Sets material
+     *
+     * @param string|null $material material
+     *
+     * @return self
+     */
+    public function setMaterial($material)
+    {
+        if (is_null($material)) {
+            array_push($this->openAPINullablesSetToNull, 'material');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('material', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['material'] = $material;
+
+        return $this;
+    }
+
+    /**
+     * Gets texture
+     *
+     * @return string|null
+     */
+    public function getTexture()
+    {
+        return $this->container['texture'];
+    }
+
+    /**
+     * Sets texture
+     *
+     * @param string|null $texture texture
+     *
+     * @return self
+     */
+    public function setTexture($texture)
+    {
+        if (is_null($texture)) {
+            array_push($this->openAPINullablesSetToNull, 'texture');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('texture', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['texture'] = $texture;
+
+        return $this;
+    }
+
+    /**
+     * Gets weight_gsm
+     *
+     * @return int|null
+     */
+    public function getWeightGsm()
+    {
+        return $this->container['weight_gsm'];
+    }
+
+    /**
+     * Sets weight_gsm
+     *
+     * @param int|null $weight_gsm weight_gsm
+     *
+     * @return self
+     */
+    public function setWeightGsm($weight_gsm)
+    {
+        if (is_null($weight_gsm)) {
+            array_push($this->openAPINullablesSetToNull, 'weight_gsm');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('weight_gsm', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($weight_gsm) && ($weight_gsm <= 0)) {
+            throw new \InvalidArgumentException('invalid value for $weight_gsm when calling PublicUnderstoodSubstrate., must be bigger than 0.');
+        }
+
+        $this->container['weight_gsm'] = $weight_gsm;
 
         return $this;
     }

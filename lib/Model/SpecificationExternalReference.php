@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * SpecificationExternalReference
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * SpecificationExternalReference Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Safe caller-owned reference used to reconcile a specification externally.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class SpecificationExternalReference implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'SpecificationExternalReference';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'reference' => 'string',
+        'system' => 'string'
     ];
 
     /**
@@ -59,7 +60,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'reference' => null,
+        'system' => null
     ];
 
     /**
@@ -68,7 +70,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'reference' => false,
+        'system' => false
     ];
 
     /**
@@ -157,7 +160,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'reference' => 'reference',
+        'system' => 'system'
     ];
 
     /**
@@ -166,7 +170,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'reference' => 'setReference',
+        'system' => 'setSystem'
     ];
 
     /**
@@ -175,7 +180,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'reference' => 'getReference',
+        'system' => 'getSystem'
     ];
 
     /**
@@ -235,7 +241,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('reference', $data ?? [], null);
+        $this->setIfExists('system', $data ?? [], null);
     }
 
     /**
@@ -265,9 +272,32 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['reference'] === null) {
+            $invalidProperties[] = "'reference' can't be null";
         }
+        if ((mb_strlen($this->container['reference']) > 255)) {
+            $invalidProperties[] = "invalid value for 'reference', the character length must be smaller than or equal to 255.";
+        }
+
+        if ((mb_strlen($this->container['reference']) < 1)) {
+            $invalidProperties[] = "invalid value for 'reference', the character length must be bigger than or equal to 1.";
+        }
+
+        if ($this->container['system'] === null) {
+            $invalidProperties[] = "'system' can't be null";
+        }
+        if ((mb_strlen($this->container['system']) > 80)) {
+            $invalidProperties[] = "invalid value for 'system', the character length must be smaller than or equal to 80.";
+        }
+
+        if ((mb_strlen($this->container['system']) < 1)) {
+            $invalidProperties[] = "invalid value for 'system', the character length must be bigger than or equal to 1.";
+        }
+
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9._:-]*$/", $this->container['system'])) {
+            $invalidProperties[] = "invalid value for 'system', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9._:-]*$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +314,72 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets reference
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getReference()
     {
-        return $this->container['gjs'];
+        return $this->container['reference'];
     }
 
     /**
-     * Sets gjs
+     * Sets reference
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $reference reference
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setReference($reference)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($reference)) {
+            throw new \InvalidArgumentException('non-nullable reference cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        if ((mb_strlen($reference) > 255)) {
+            throw new \InvalidArgumentException('invalid length for $reference when calling SpecificationExternalReference., must be smaller than or equal to 255.');
+        }
+        if ((mb_strlen($reference) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $reference when calling SpecificationExternalReference., must be bigger than or equal to 1.');
+        }
+
+        $this->container['reference'] = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Gets system
+     *
+     * @return string
+     */
+    public function getSystem()
+    {
+        return $this->container['system'];
+    }
+
+    /**
+     * Sets system
+     *
+     * @param string $system system
+     *
+     * @return self
+     */
+    public function setSystem($system)
+    {
+        if (is_null($system)) {
+            throw new \InvalidArgumentException('non-nullable system cannot be null');
+        }
+        if ((mb_strlen($system) > 80)) {
+            throw new \InvalidArgumentException('invalid length for $system when calling SpecificationExternalReference., must be smaller than or equal to 80.');
+        }
+        if ((mb_strlen($system) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $system when calling SpecificationExternalReference., must be bigger than or equal to 1.');
+        }
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9._:-]*$/", ObjectSerializer::toString($system)))) {
+            throw new \InvalidArgumentException("invalid value for \$system when calling SpecificationExternalReference., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9._:-]*$/.");
+        }
+
+        $this->container['system'] = $system;
 
         return $this;
     }

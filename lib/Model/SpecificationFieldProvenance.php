@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * SpecificationFieldProvenance
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * SpecificationFieldProvenance Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Safe provenance for one canonical demand field.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class SpecificationFieldProvenance implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'SpecificationFieldProvenance';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'path' => 'string',
+        'provenance' => 'string',
+        'source_reference' => 'string'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'path' => null,
+        'provenance' => null,
+        'source_reference' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'path' => false,
+        'provenance' => false,
+        'source_reference' => true
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'path' => 'path',
+        'provenance' => 'provenance',
+        'source_reference' => 'source_reference'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'path' => 'setPath',
+        'provenance' => 'setProvenance',
+        'source_reference' => 'setSourceReference'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'path' => 'getPath',
+        'provenance' => 'getProvenance',
+        'source_reference' => 'getSourceReference'
     ];
 
     /**
@@ -219,6 +231,29 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const PROVENANCE_SUPPLIED = 'supplied';
+    public const PROVENANCE_CONFIRMED_REVIEW = 'confirmed_review';
+    public const PROVENANCE_USER_INPUT = 'user_input';
+    public const PROVENANCE_USER_OVERRIDE = 'user_override';
+    public const PROVENANCE_CATALOGUE_GUIDANCE = 'catalogue_guidance';
+    public const PROVENANCE_DETERMINISTIC_TAXONOMY = 'deterministic_taxonomy';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getProvenanceAllowableValues()
+    {
+        return [
+            self::PROVENANCE_SUPPLIED,
+            self::PROVENANCE_CONFIRMED_REVIEW,
+            self::PROVENANCE_USER_INPUT,
+            self::PROVENANCE_USER_OVERRIDE,
+            self::PROVENANCE_CATALOGUE_GUIDANCE,
+            self::PROVENANCE_DETERMINISTIC_TAXONOMY,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +270,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('path', $data ?? [], null);
+        $this->setIfExists('provenance', $data ?? [], null);
+        $this->setIfExists('source_reference', $data ?? [], null);
     }
 
     /**
@@ -265,9 +302,37 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['path'] === null) {
+            $invalidProperties[] = "'path' can't be null";
         }
+        if ((mb_strlen($this->container['path']) > 255)) {
+            $invalidProperties[] = "invalid value for 'path', the character length must be smaller than or equal to 255.";
+        }
+
+        if ((mb_strlen($this->container['path']) < 1)) {
+            $invalidProperties[] = "invalid value for 'path', the character length must be bigger than or equal to 1.";
+        }
+
+        if ($this->container['provenance'] === null) {
+            $invalidProperties[] = "'provenance' can't be null";
+        }
+        $allowedValues = $this->getProvenanceAllowableValues();
+        if (!is_null($this->container['provenance']) && !in_array($this->container['provenance'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'provenance', must be one of '%s'",
+                $this->container['provenance'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if (!is_null($this->container['source_reference']) && (mb_strlen($this->container['source_reference']) > 255)) {
+            $invalidProperties[] = "invalid value for 'source_reference', the character length must be smaller than or equal to 255.";
+        }
+
+        if (!is_null($this->container['source_reference']) && (mb_strlen($this->container['source_reference']) < 1)) {
+            $invalidProperties[] = "invalid value for 'source_reference', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +349,113 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets path
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getPath()
     {
-        return $this->container['gjs'];
+        return $this->container['path'];
     }
 
     /**
-     * Sets gjs
+     * Sets path
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $path path
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setPath($path)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($path)) {
+            throw new \InvalidArgumentException('non-nullable path cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        if ((mb_strlen($path) > 255)) {
+            throw new \InvalidArgumentException('invalid length for $path when calling SpecificationFieldProvenance., must be smaller than or equal to 255.');
+        }
+        if ((mb_strlen($path) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $path when calling SpecificationFieldProvenance., must be bigger than or equal to 1.');
+        }
+
+        $this->container['path'] = $path;
+
+        return $this;
+    }
+
+    /**
+     * Gets provenance
+     *
+     * @return string
+     */
+    public function getProvenance()
+    {
+        return $this->container['provenance'];
+    }
+
+    /**
+     * Sets provenance
+     *
+     * @param string $provenance provenance
+     *
+     * @return self
+     */
+    public function setProvenance($provenance)
+    {
+        if (is_null($provenance)) {
+            throw new \InvalidArgumentException('non-nullable provenance cannot be null');
+        }
+        $allowedValues = $this->getProvenanceAllowableValues();
+        if (!in_array($provenance, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'provenance', must be one of '%s'",
+                    $provenance,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['provenance'] = $provenance;
+
+        return $this;
+    }
+
+    /**
+     * Gets source_reference
+     *
+     * @return string|null
+     */
+    public function getSourceReference()
+    {
+        return $this->container['source_reference'];
+    }
+
+    /**
+     * Sets source_reference
+     *
+     * @param string|null $source_reference source_reference
+     *
+     * @return self
+     */
+    public function setSourceReference($source_reference)
+    {
+        if (is_null($source_reference)) {
+            array_push($this->openAPINullablesSetToNull, 'source_reference');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('source_reference', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        if (!is_null($source_reference) && (mb_strlen($source_reference) > 255)) {
+            throw new \InvalidArgumentException('invalid length for $source_reference when calling SpecificationFieldProvenance., must be smaller than or equal to 255.');
+        }
+        if (!is_null($source_reference) && (mb_strlen($source_reference) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $source_reference when calling SpecificationFieldProvenance., must be bigger than or equal to 1.');
+        }
+
+        $this->container['source_reference'] = $source_reference;
 
         return $this;
     }

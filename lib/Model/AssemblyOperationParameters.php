@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * AssemblyOperationParameters
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * AssemblyOperationParameters Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class AssemblyOperationParameters implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'AssemblyOperationParameters';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +47,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'joining_material' => 'string',
+        'kind' => 'string',
+        'method' => 'string',
+        'resulting_component_id' => 'string'
     ];
 
     /**
@@ -59,7 +61,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'joining_material' => null,
+        'kind' => null,
+        'method' => null,
+        'resulting_component_id' => null
     ];
 
     /**
@@ -68,7 +73,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'joining_material' => true,
+        'kind' => false,
+        'method' => false,
+        'resulting_component_id' => true
     ];
 
     /**
@@ -157,7 +165,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'joining_material' => 'joining_material',
+        'kind' => 'kind',
+        'method' => 'method',
+        'resulting_component_id' => 'resulting_component_id'
     ];
 
     /**
@@ -166,7 +177,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'joining_material' => 'setJoiningMaterial',
+        'kind' => 'setKind',
+        'method' => 'setMethod',
+        'resulting_component_id' => 'setResultingComponentId'
     ];
 
     /**
@@ -175,7 +189,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'joining_material' => 'getJoiningMaterial',
+        'kind' => 'getKind',
+        'method' => 'getMethod',
+        'resulting_component_id' => 'getResultingComponentId'
     ];
 
     /**
@@ -219,6 +236,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_ASSEMBLY = 'assembly';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_ASSEMBLY,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +265,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('joining_material', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'assembly');
+        $this->setIfExists('method', $data ?? [], null);
+        $this->setIfExists('resulting_component_id', $data ?? [], null);
     }
 
     /**
@@ -265,9 +298,26 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
         }
+
+        if ($this->container['method'] === null) {
+            $invalidProperties[] = "'method' can't be null";
+        }
+        if ((mb_strlen($this->container['method']) < 1)) {
+            $invalidProperties[] = "invalid value for 'method', the character length must be bigger than or equal to 1.";
+        }
+
+        if (!is_null($this->container['resulting_component_id']) && !preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['resulting_component_id'])) {
+            $invalidProperties[] = "invalid value for 'resulting_component_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +334,143 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets joining_material
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string|null
      */
-    public function getGjs()
+    public function getJoiningMaterial()
     {
-        return $this->container['gjs'];
+        return $this->container['joining_material'];
     }
 
     /**
-     * Sets gjs
+     * Sets joining_material
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string|null $joining_material joining_material
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setJoiningMaterial($joining_material)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($joining_material)) {
+            array_push($this->openAPINullablesSetToNull, 'joining_material');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('joining_material', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['gjs'] = $gjs;
+        $this->container['joining_material'] = $joining_material;
+
+        return $this;
+    }
+
+    /**
+     * Gets kind
+     *
+     * @return string|null
+     */
+    public function getKind()
+    {
+        return $this->container['kind'];
+    }
+
+    /**
+     * Sets kind
+     *
+     * @param string|null $kind kind
+     *
+     * @return self
+     */
+    public function setKind($kind)
+    {
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets method
+     *
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->container['method'];
+    }
+
+    /**
+     * Sets method
+     *
+     * @param string $method method
+     *
+     * @return self
+     */
+    public function setMethod($method)
+    {
+        if (is_null($method)) {
+            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        }
+
+        if ((mb_strlen($method) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $method when calling AssemblyOperationParameters., must be bigger than or equal to 1.');
+        }
+
+        $this->container['method'] = $method;
+
+        return $this;
+    }
+
+    /**
+     * Gets resulting_component_id
+     *
+     * @return string|null
+     */
+    public function getResultingComponentId()
+    {
+        return $this->container['resulting_component_id'];
+    }
+
+    /**
+     * Sets resulting_component_id
+     *
+     * @param string|null $resulting_component_id resulting_component_id
+     *
+     * @return self
+     */
+    public function setResultingComponentId($resulting_component_id)
+    {
+        if (is_null($resulting_component_id)) {
+            array_push($this->openAPINullablesSetToNull, 'resulting_component_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('resulting_component_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($resulting_component_id) && (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($resulting_component_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$resulting_component_id when calling AssemblyOperationParameters., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['resulting_component_id'] = $resulting_component_id;
 
         return $this;
     }

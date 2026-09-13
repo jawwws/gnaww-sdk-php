@@ -1,6 +1,6 @@
 <?php
 /**
- * ControlledInterpretationState
+ * ManufacturingAssembly
  *
  *
  * @category Class
@@ -24,14 +24,13 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ControlledInterpretationState Class Doc Comment
+ * ManufacturingAssembly Class Doc Comment
  *
  * @category Class
- * @description Safe public truth about controlled semantic interpretation.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ControlledInterpretationState implements ModelInterface, ArrayAccess, \JsonSerializable
+class ManufacturingAssembly implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +39,7 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ControlledInterpretationState';
+    protected static $openAPIModelName = 'ManufacturingAssembly';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,11 +47,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      * @var string[]
      */
     protected static $openAPITypes = [
-        'attempted' => 'bool',
-        'error' => 'string',
-        'metadata' => '\Jawwws\Gnaww\Model\IntentProviderMetadata',
-        'provider' => 'string',
-        'status' => 'string'
+        'assembly_id' => 'string',
+        'input_component_ids' => 'string[]',
+        'operation_ids' => 'string[]',
+        'output_component_id' => 'string'
     ];
 
     /**
@@ -63,11 +61,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'attempted' => null,
-        'error' => null,
-        'metadata' => null,
-        'provider' => null,
-        'status' => null
+        'assembly_id' => null,
+        'input_component_ids' => null,
+        'operation_ids' => null,
+        'output_component_id' => null
     ];
 
     /**
@@ -76,11 +73,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'attempted' => false,
-        'error' => true,
-        'metadata' => true,
-        'provider' => true,
-        'status' => false
+        'assembly_id' => false,
+        'input_component_ids' => false,
+        'operation_ids' => false,
+        'output_component_id' => true
     ];
 
     /**
@@ -169,11 +165,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      * @var string[]
      */
     protected static $attributeMap = [
-        'attempted' => 'attempted',
-        'error' => 'error',
-        'metadata' => 'metadata',
-        'provider' => 'provider',
-        'status' => 'status'
+        'assembly_id' => 'assembly_id',
+        'input_component_ids' => 'input_component_ids',
+        'operation_ids' => 'operation_ids',
+        'output_component_id' => 'output_component_id'
     ];
 
     /**
@@ -182,11 +177,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      * @var string[]
      */
     protected static $setters = [
-        'attempted' => 'setAttempted',
-        'error' => 'setError',
-        'metadata' => 'setMetadata',
-        'provider' => 'setProvider',
-        'status' => 'setStatus'
+        'assembly_id' => 'setAssemblyId',
+        'input_component_ids' => 'setInputComponentIds',
+        'operation_ids' => 'setOperationIds',
+        'output_component_id' => 'setOutputComponentId'
     ];
 
     /**
@@ -195,11 +189,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      * @var string[]
      */
     protected static $getters = [
-        'attempted' => 'getAttempted',
-        'error' => 'getError',
-        'metadata' => 'getMetadata',
-        'provider' => 'getProvider',
-        'status' => 'getStatus'
+        'assembly_id' => 'getAssemblyId',
+        'input_component_ids' => 'getInputComponentIds',
+        'operation_ids' => 'getOperationIds',
+        'output_component_id' => 'getOutputComponentId'
     ];
 
     /**
@@ -243,25 +236,6 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
         return self::$openAPIModelName;
     }
 
-    public const STATUS_NOT_REQUIRED = 'not_required';
-    public const STATUS_COMPLETED = 'completed';
-    public const STATUS_UNAVAILABLE = 'unavailable';
-    public const STATUS_FAILED = 'failed';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getStatusAllowableValues()
-    {
-        return [
-            self::STATUS_NOT_REQUIRED,
-            self::STATUS_COMPLETED,
-            self::STATUS_UNAVAILABLE,
-            self::STATUS_FAILED,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -278,11 +252,10 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('attempted', $data ?? [], null);
-        $this->setIfExists('error', $data ?? [], null);
-        $this->setIfExists('metadata', $data ?? [], null);
-        $this->setIfExists('provider', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('assembly_id', $data ?? [], null);
+        $this->setIfExists('input_component_ids', $data ?? [], null);
+        $this->setIfExists('operation_ids', $data ?? [], null);
+        $this->setIfExists('output_component_id', $data ?? [], null);
     }
 
     /**
@@ -312,19 +285,29 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
     {
         $invalidProperties = [];
 
-        if ($this->container['attempted'] === null) {
-            $invalidProperties[] = "'attempted' can't be null";
+        if ($this->container['assembly_id'] === null) {
+            $invalidProperties[] = "'assembly_id' can't be null";
         }
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['assembly_id'])) {
+            $invalidProperties[] = "invalid value for 'assembly_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
         }
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
-                implode("', '", $allowedValues)
-            );
+
+        if ($this->container['input_component_ids'] === null) {
+            $invalidProperties[] = "'input_component_ids' can't be null";
+        }
+        if ((count($this->container['input_component_ids']) < 1)) {
+            $invalidProperties[] = "invalid value for 'input_component_ids', number of items must be greater than or equal to 1.";
+        }
+
+        if ($this->container['operation_ids'] === null) {
+            $invalidProperties[] = "'operation_ids' can't be null";
+        }
+        if ((count($this->container['operation_ids']) < 1)) {
+            $invalidProperties[] = "invalid value for 'operation_ids', number of items must be greater than or equal to 1.";
+        }
+
+        if (!is_null($this->container['output_component_id']) && !preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['output_component_id'])) {
+            $invalidProperties[] = "invalid value for 'output_component_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
         }
 
         return $invalidProperties;
@@ -343,167 +326,136 @@ class ControlledInterpretationState implements ModelInterface, ArrayAccess, \Jso
 
 
     /**
-     * Gets attempted
-     *
-     * @return bool
-     */
-    public function getAttempted()
-    {
-        return $this->container['attempted'];
-    }
-
-    /**
-     * Sets attempted
-     *
-     * @param bool $attempted attempted
-     *
-     * @return self
-     */
-    public function setAttempted($attempted)
-    {
-        if (is_null($attempted)) {
-            throw new \InvalidArgumentException('non-nullable attempted cannot be null');
-        }
-        $this->container['attempted'] = $attempted;
-
-        return $this;
-    }
-
-    /**
-     * Gets error
-     *
-     * @return string|null
-     */
-    public function getError()
-    {
-        return $this->container['error'];
-    }
-
-    /**
-     * Sets error
-     *
-     * @param string|null $error error
-     *
-     * @return self
-     */
-    public function setError($error)
-    {
-        if (is_null($error)) {
-            array_push($this->openAPINullablesSetToNull, 'error');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('error', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['error'] = $error;
-
-        return $this;
-    }
-
-    /**
-     * Gets metadata
-     *
-     * @return \Jawwws\Gnaww\Model\IntentProviderMetadata|null
-     */
-    public function getMetadata()
-    {
-        return $this->container['metadata'];
-    }
-
-    /**
-     * Sets metadata
-     *
-     * @param \Jawwws\Gnaww\Model\IntentProviderMetadata|null $metadata metadata
-     *
-     * @return self
-     */
-    public function setMetadata($metadata)
-    {
-        if (is_null($metadata)) {
-            array_push($this->openAPINullablesSetToNull, 'metadata');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('metadata', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['metadata'] = $metadata;
-
-        return $this;
-    }
-
-    /**
-     * Gets provider
-     *
-     * @return string|null
-     */
-    public function getProvider()
-    {
-        return $this->container['provider'];
-    }
-
-    /**
-     * Sets provider
-     *
-     * @param string|null $provider provider
-     *
-     * @return self
-     */
-    public function setProvider($provider)
-    {
-        if (is_null($provider)) {
-            array_push($this->openAPINullablesSetToNull, 'provider');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('provider', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['provider'] = $provider;
-
-        return $this;
-    }
-
-    /**
-     * Gets status
+     * Gets assembly_id
      *
      * @return string
      */
-    public function getStatus()
+    public function getAssemblyId()
     {
-        return $this->container['status'];
+        return $this->container['assembly_id'];
     }
 
     /**
-     * Sets status
+     * Sets assembly_id
      *
-     * @param string $status status
+     * @param string $assembly_id assembly_id
      *
      * @return self
      */
-    public function setStatus($status)
+    public function setAssemblyId($assembly_id)
     {
-        if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($assembly_id)) {
+            throw new \InvalidArgumentException('non-nullable assembly_id cannot be null');
         }
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
-                    implode("', '", $allowedValues)
-                )
-            );
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($assembly_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$assembly_id when calling ManufacturingAssembly., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
         }
-        $this->container['status'] = $status;
+
+        $this->container['assembly_id'] = $assembly_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets input_component_ids
+     *
+     * @return string[]
+     */
+    public function getInputComponentIds()
+    {
+        return $this->container['input_component_ids'];
+    }
+
+    /**
+     * Sets input_component_ids
+     *
+     * @param string[] $input_component_ids input_component_ids
+     *
+     * @return self
+     */
+    public function setInputComponentIds($input_component_ids)
+    {
+        if (is_null($input_component_ids)) {
+            throw new \InvalidArgumentException('non-nullable input_component_ids cannot be null');
+        }
+
+
+        if ((count($input_component_ids) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $input_component_ids when calling ManufacturingAssembly., number of items must be greater than or equal to 1.');
+        }
+        $this->container['input_component_ids'] = $input_component_ids;
+
+        return $this;
+    }
+
+    /**
+     * Gets operation_ids
+     *
+     * @return string[]
+     */
+    public function getOperationIds()
+    {
+        return $this->container['operation_ids'];
+    }
+
+    /**
+     * Sets operation_ids
+     *
+     * @param string[] $operation_ids operation_ids
+     *
+     * @return self
+     */
+    public function setOperationIds($operation_ids)
+    {
+        if (is_null($operation_ids)) {
+            throw new \InvalidArgumentException('non-nullable operation_ids cannot be null');
+        }
+
+
+        if ((count($operation_ids) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $operation_ids when calling ManufacturingAssembly., number of items must be greater than or equal to 1.');
+        }
+        $this->container['operation_ids'] = $operation_ids;
+
+        return $this;
+    }
+
+    /**
+     * Gets output_component_id
+     *
+     * @return string|null
+     */
+    public function getOutputComponentId()
+    {
+        return $this->container['output_component_id'];
+    }
+
+    /**
+     * Sets output_component_id
+     *
+     * @param string|null $output_component_id output_component_id
+     *
+     * @return self
+     */
+    public function setOutputComponentId($output_component_id)
+    {
+        if (is_null($output_component_id)) {
+            array_push($this->openAPINullablesSetToNull, 'output_component_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('output_component_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($output_component_id) && (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($output_component_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$output_component_id when calling ManufacturingAssembly., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['output_component_id'] = $output_component_id;
 
         return $this;
     }

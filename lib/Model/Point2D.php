@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * Point2D
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * Point2D Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Point in a component-local millimetre coordinate system.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class Point2D implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'Point2D';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'kind' => 'string',
+        'x_mm' => 'float',
+        'y_mm' => 'float'
     ];
 
     /**
@@ -59,7 +61,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'kind' => null,
+        'x_mm' => null,
+        'y_mm' => null
     ];
 
     /**
@@ -68,7 +72,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'kind' => false,
+        'x_mm' => false,
+        'y_mm' => false
     ];
 
     /**
@@ -157,7 +163,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'kind' => 'kind',
+        'x_mm' => 'x_mm',
+        'y_mm' => 'y_mm'
     ];
 
     /**
@@ -166,7 +174,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'kind' => 'setKind',
+        'x_mm' => 'setXMm',
+        'y_mm' => 'setYMm'
     ];
 
     /**
@@ -175,7 +185,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'kind' => 'getKind',
+        'x_mm' => 'getXMm',
+        'y_mm' => 'getYMm'
     ];
 
     /**
@@ -219,6 +231,19 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const KIND_POINT = 'point';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_POINT,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +260,9 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'point');
+        $this->setIfExists('x_mm', $data ?? [], null);
+        $this->setIfExists('y_mm', $data ?? [], null);
     }
 
     /**
@@ -265,9 +292,29 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
         }
+
+        if ($this->container['x_mm'] === null) {
+            $invalidProperties[] = "'x_mm' can't be null";
+        }
+        if (($this->container['x_mm'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'x_mm', must be bigger than or equal to 0.0.";
+        }
+
+        if ($this->container['y_mm'] === null) {
+            $invalidProperties[] = "'y_mm' can't be null";
+        }
+        if (($this->container['y_mm'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'y_mm', must be bigger than or equal to 0.0.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +331,102 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets kind
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string|null
      */
-    public function getGjs()
+    public function getKind()
     {
-        return $this->container['gjs'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets gjs
+     * Sets kind
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string|null $kind kind
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setKind($kind)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets x_mm
+     *
+     * @return float
+     */
+    public function getXMm()
+    {
+        return $this->container['x_mm'];
+    }
+
+    /**
+     * Sets x_mm
+     *
+     * @param float $x_mm x_mm
+     *
+     * @return self
+     */
+    public function setXMm($x_mm)
+    {
+        if (is_null($x_mm)) {
+            throw new \InvalidArgumentException('non-nullable x_mm cannot be null');
+        }
+
+        if (($x_mm < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $x_mm when calling Point2D., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['x_mm'] = $x_mm;
+
+        return $this;
+    }
+
+    /**
+     * Gets y_mm
+     *
+     * @return float
+     */
+    public function getYMm()
+    {
+        return $this->container['y_mm'];
+    }
+
+    /**
+     * Sets y_mm
+     *
+     * @param float $y_mm y_mm
+     *
+     * @return self
+     */
+    public function setYMm($y_mm)
+    {
+        if (is_null($y_mm)) {
+            throw new \InvalidArgumentException('non-nullable y_mm cannot be null');
+        }
+
+        if (($y_mm < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $y_mm when calling Point2D., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['y_mm'] = $y_mm;
 
         return $this;
     }

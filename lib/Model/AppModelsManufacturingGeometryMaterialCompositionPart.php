@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * AppModelsManufacturingGeometryMaterialCompositionPart
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * AppModelsManufacturingGeometryMaterialCompositionPart Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description One controlled constituent of a manufactured material.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class AppModelsManufacturingGeometryMaterialCompositionPart implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'app__models__manufacturing_geometry__MaterialCompositionPart';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'name' => 'string',
+        'percentage' => 'float'
     ];
 
     /**
@@ -59,7 +60,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'name' => null,
+        'percentage' => null
     ];
 
     /**
@@ -68,7 +70,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'name' => false,
+        'percentage' => true
     ];
 
     /**
@@ -157,7 +160,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'name' => 'name',
+        'percentage' => 'percentage'
     ];
 
     /**
@@ -166,7 +170,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'name' => 'setName',
+        'percentage' => 'setPercentage'
     ];
 
     /**
@@ -175,7 +180,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'name' => 'getName',
+        'percentage' => 'getPercentage'
     ];
 
     /**
@@ -235,7 +241,8 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('name', $data ?? [], null);
+        $this->setIfExists('percentage', $data ?? [], null);
     }
 
     /**
@@ -265,9 +272,21 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
         }
+        if ((mb_strlen($this->container['name']) < 1)) {
+            $invalidProperties[] = "invalid value for 'name', the character length must be bigger than or equal to 1.";
+        }
+
+        if (!is_null($this->container['percentage']) && ($this->container['percentage'] > 100.0)) {
+            $invalidProperties[] = "invalid value for 'percentage', must be smaller than or equal to 100.0.";
+        }
+
+        if (!is_null($this->container['percentage']) && ($this->container['percentage'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'percentage', must be bigger than 0.0.";
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +303,75 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets name
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string
      */
-    public function getGjs()
+    public function getName()
     {
-        return $this->container['gjs'];
+        return $this->container['name'];
     }
 
     /**
-     * Sets gjs
+     * Sets name
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string $name name
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setName($name)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($name)) {
+            throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+
+        if ((mb_strlen($name) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $name when calling AppModelsManufacturingGeometryMaterialCompositionPart., must be bigger than or equal to 1.');
+        }
+
+        $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets percentage
+     *
+     * @return float|null
+     */
+    public function getPercentage()
+    {
+        return $this->container['percentage'];
+    }
+
+    /**
+     * Sets percentage
+     *
+     * @param float|null $percentage percentage
+     *
+     * @return self
+     */
+    public function setPercentage($percentage)
+    {
+        if (is_null($percentage)) {
+            array_push($this->openAPINullablesSetToNull, 'percentage');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('percentage', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($percentage) && ($percentage > 100.0)) {
+            throw new \InvalidArgumentException('invalid value for $percentage when calling AppModelsManufacturingGeometryMaterialCompositionPart., must be smaller than or equal to 100.0.');
+        }
+        if (!is_null($percentage) && ($percentage <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $percentage when calling AppModelsManufacturingGeometryMaterialCompositionPart., must be bigger than 0.0.');
+        }
+
+        $this->container['percentage'] = $percentage;
 
         return $this;
     }

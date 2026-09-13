@@ -1,6 +1,6 @@
 <?php
 /**
- * PublicFulfilmentState
+ * Rectangle2D
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * PublicFulfilmentState Class Doc Comment
+ * Rectangle2D Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement alongside physical production demand.
+ * @description Axis-aligned rectangular region.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSerializable
+class Rectangle2D implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'PublicFulfilmentState';
+    protected static $openAPIModelName = 'Rectangle2D';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,8 +48,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'requirement' => '\Jawwws\Gnaww\Model\FulfilmentRequirement',
-        'status' => 'string'
+        'height_mm' => 'float',
+        'kind' => 'string',
+        'width_mm' => 'float',
+        'x_mm' => 'float',
+        'y_mm' => 'float'
     ];
 
     /**
@@ -60,8 +63,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'requirement' => null,
-        'status' => null
+        'height_mm' => null,
+        'kind' => null,
+        'width_mm' => null,
+        'x_mm' => null,
+        'y_mm' => null
     ];
 
     /**
@@ -70,8 +76,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'requirement' => true,
-        'status' => false
+        'height_mm' => false,
+        'kind' => false,
+        'width_mm' => false,
+        'x_mm' => false,
+        'y_mm' => false
     ];
 
     /**
@@ -160,8 +169,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'requirement' => 'requirement',
-        'status' => 'status'
+        'height_mm' => 'height_mm',
+        'kind' => 'kind',
+        'width_mm' => 'width_mm',
+        'x_mm' => 'x_mm',
+        'y_mm' => 'y_mm'
     ];
 
     /**
@@ -170,8 +182,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'requirement' => 'setRequirement',
-        'status' => 'setStatus'
+        'height_mm' => 'setHeightMm',
+        'kind' => 'setKind',
+        'width_mm' => 'setWidthMm',
+        'x_mm' => 'setXMm',
+        'y_mm' => 'setYMm'
     ];
 
     /**
@@ -180,8 +195,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'requirement' => 'getRequirement',
-        'status' => 'getStatus'
+        'height_mm' => 'getHeightMm',
+        'kind' => 'getKind',
+        'width_mm' => 'getWidthMm',
+        'x_mm' => 'getXMm',
+        'y_mm' => 'getYMm'
     ];
 
     /**
@@ -225,21 +243,17 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const STATUS_NOT_REQUIRED = 'not_required';
-    public const STATUS_NEEDS_REVIEW = 'needs_review';
-    public const STATUS_READY = 'ready';
+    public const KIND_RECTANGLE = 'rectangle';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getStatusAllowableValues()
+    public function getKindAllowableValues()
     {
         return [
-            self::STATUS_NOT_REQUIRED,
-            self::STATUS_NEEDS_REVIEW,
-            self::STATUS_READY,
+            self::KIND_RECTANGLE,
         ];
     }
 
@@ -258,8 +272,11 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('requirement', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('height_mm', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], 'rectangle');
+        $this->setIfExists('width_mm', $data ?? [], null);
+        $this->setIfExists('x_mm', $data ?? [], null);
+        $this->setIfExists('y_mm', $data ?? [], null);
     }
 
     /**
@@ -289,16 +306,41 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
+        if ($this->container['height_mm'] === null) {
+            $invalidProperties[] = "'height_mm' can't be null";
         }
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+        if (($this->container['height_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'height_mm', must be bigger than 0.0.";
+        }
+
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if ($this->container['width_mm'] === null) {
+            $invalidProperties[] = "'width_mm' can't be null";
+        }
+        if (($this->container['width_mm'] <= 0.0)) {
+            $invalidProperties[] = "invalid value for 'width_mm', must be bigger than 0.0.";
+        }
+
+        if ($this->container['x_mm'] === null) {
+            $invalidProperties[] = "'x_mm' can't be null";
+        }
+        if (($this->container['x_mm'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'x_mm', must be bigger than or equal to 0.0.";
+        }
+
+        if ($this->container['y_mm'] === null) {
+            $invalidProperties[] = "'y_mm' can't be null";
+        }
+        if (($this->container['y_mm'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'y_mm', must be bigger than or equal to 0.0.";
         }
 
         return $invalidProperties;
@@ -317,72 +359,166 @@ class PublicFulfilmentState implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets requirement
+     * Gets height_mm
      *
-     * @return \Jawwws\Gnaww\Model\FulfilmentRequirement|null
+     * @return float
      */
-    public function getRequirement()
+    public function getHeightMm()
     {
-        return $this->container['requirement'];
+        return $this->container['height_mm'];
     }
 
     /**
-     * Sets requirement
+     * Sets height_mm
      *
-     * @param \Jawwws\Gnaww\Model\FulfilmentRequirement|null $requirement requirement
+     * @param float $height_mm height_mm
      *
      * @return self
      */
-    public function setRequirement($requirement)
+    public function setHeightMm($height_mm)
     {
-        if (is_null($requirement)) {
-            array_push($this->openAPINullablesSetToNull, 'requirement');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('requirement', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($height_mm)) {
+            throw new \InvalidArgumentException('non-nullable height_mm cannot be null');
         }
-        $this->container['requirement'] = $requirement;
+
+        if (($height_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $height_mm when calling Rectangle2D., must be bigger than 0.0.');
+        }
+
+        $this->container['height_mm'] = $height_mm;
 
         return $this;
     }
 
     /**
-     * Gets status
+     * Gets kind
      *
-     * @return string
+     * @return string|null
      */
-    public function getStatus()
+    public function getKind()
     {
-        return $this->container['status'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets status
+     * Sets kind
      *
-     * @param string $status status
+     * @param string|null $kind kind
      *
      * @return self
      */
-    public function setStatus($status)
+    public function setKind($kind)
     {
-        if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
         }
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['status'] = $status;
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets width_mm
+     *
+     * @return float
+     */
+    public function getWidthMm()
+    {
+        return $this->container['width_mm'];
+    }
+
+    /**
+     * Sets width_mm
+     *
+     * @param float $width_mm width_mm
+     *
+     * @return self
+     */
+    public function setWidthMm($width_mm)
+    {
+        if (is_null($width_mm)) {
+            throw new \InvalidArgumentException('non-nullable width_mm cannot be null');
+        }
+
+        if (($width_mm <= 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $width_mm when calling Rectangle2D., must be bigger than 0.0.');
+        }
+
+        $this->container['width_mm'] = $width_mm;
+
+        return $this;
+    }
+
+    /**
+     * Gets x_mm
+     *
+     * @return float
+     */
+    public function getXMm()
+    {
+        return $this->container['x_mm'];
+    }
+
+    /**
+     * Sets x_mm
+     *
+     * @param float $x_mm x_mm
+     *
+     * @return self
+     */
+    public function setXMm($x_mm)
+    {
+        if (is_null($x_mm)) {
+            throw new \InvalidArgumentException('non-nullable x_mm cannot be null');
+        }
+
+        if (($x_mm < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $x_mm when calling Rectangle2D., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['x_mm'] = $x_mm;
+
+        return $this;
+    }
+
+    /**
+     * Gets y_mm
+     *
+     * @return float
+     */
+    public function getYMm()
+    {
+        return $this->container['y_mm'];
+    }
+
+    /**
+     * Sets y_mm
+     *
+     * @param float $y_mm y_mm
+     *
+     * @return self
+     */
+    public function setYMm($y_mm)
+    {
+        if (is_null($y_mm)) {
+            throw new \InvalidArgumentException('non-nullable y_mm cannot be null');
+        }
+
+        if (($y_mm < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $y_mm when calling Rectangle2D., must be bigger than or equal to 0.0.');
+        }
+
+        $this->container['y_mm'] = $y_mm;
 
         return $this;
     }

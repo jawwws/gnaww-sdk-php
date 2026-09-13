@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * PublicJobStructure
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * PublicJobStructure Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
+ * @description A semantic Variant, Component or Operation kept within one Job.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicJobStructure implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'PublicJobStructure';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +48,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'kind' => 'string',
+        'label' => 'string',
+        'provenance' => 'string',
+        'source_expression' => 'string',
+        'structure_id' => 'string',
+        'values' => 'string[]'
     ];
 
     /**
@@ -61,9 +64,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'kind' => null,
+        'label' => null,
+        'provenance' => null,
+        'source_expression' => null,
+        'structure_id' => null,
+        'values' => null
     ];
 
     /**
@@ -72,9 +78,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'kind' => false,
+        'label' => false,
+        'provenance' => false,
+        'source_expression' => true,
+        'structure_id' => false,
+        'values' => false
     ];
 
     /**
@@ -163,9 +172,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'kind' => 'kind',
+        'label' => 'label',
+        'provenance' => 'provenance',
+        'source_expression' => 'source_expression',
+        'structure_id' => 'structure_id',
+        'values' => 'values'
     ];
 
     /**
@@ -174,9 +186,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'kind' => 'setKind',
+        'label' => 'setLabel',
+        'provenance' => 'setProvenance',
+        'source_expression' => 'setSourceExpression',
+        'structure_id' => 'setStructureId',
+        'values' => 'setValues'
     ];
 
     /**
@@ -185,9 +200,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'kind' => 'getKind',
+        'label' => 'getLabel',
+        'provenance' => 'getProvenance',
+        'source_expression' => 'getSourceExpression',
+        'structure_id' => 'getStructureId',
+        'values' => 'getValues'
     ];
 
     /**
@@ -231,21 +249,40 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
+    public const KIND_VARIANT = 'variant';
+    public const KIND_COMPONENT = 'component';
+    public const KIND_OPERATION = 'operation';
+    public const PROVENANCE_SUPPLIED = 'supplied';
+    public const PROVENANCE_DERIVED = 'derived';
+    public const PROVENANCE_CONFIRMED = 'confirmed';
+    public const PROVENANCE_CONTROLLED = 'controlled';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getServiceClassAllowableValues()
+    public function getKindAllowableValues()
     {
         return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
+            self::KIND_VARIANT,
+            self::KIND_COMPONENT,
+            self::KIND_OPERATION,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getProvenanceAllowableValues()
+    {
+        return [
+            self::PROVENANCE_SUPPLIED,
+            self::PROVENANCE_DERIVED,
+            self::PROVENANCE_CONFIRMED,
+            self::PROVENANCE_CONTROLLED,
         ];
     }
 
@@ -264,9 +301,12 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], null);
+        $this->setIfExists('label', $data ?? [], null);
+        $this->setIfExists('provenance', $data ?? [], 'supplied');
+        $this->setIfExists('source_expression', $data ?? [], null);
+        $this->setIfExists('structure_id', $data ?? [], null);
+        $this->setIfExists('values', $data ?? [], null);
     }
 
     /**
@@ -296,20 +336,43 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
+        if ($this->container['kind'] === null) {
+            $invalidProperties[] = "'kind' can't be null";
         }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
-        }
-
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ((mb_strlen($this->container['label']) < 1)) {
+            $invalidProperties[] = "invalid value for 'label', the character length must be bigger than or equal to 1.";
+        }
+
+        $allowedValues = $this->getProvenanceAllowableValues();
+        if (!is_null($this->container['provenance']) && !in_array($this->container['provenance'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'provenance', must be one of '%s'",
+                $this->container['provenance'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['structure_id'] === null) {
+            $invalidProperties[] = "'structure_id' can't be null";
+        }
+        if (!preg_match("/^[a-z][a-z0-9_.-]*$/", $this->container['structure_id'])) {
+            $invalidProperties[] = "invalid value for 'structure_id', must be conform to the pattern /^[a-z][a-z0-9_.-]*$/.";
+        }
+
+        if (!is_null($this->container['values']) && (count($this->container['values']) > 20)) {
+            $invalidProperties[] = "invalid value for 'values', number of items must be less than or equal to 20.";
         }
 
         return $invalidProperties;
@@ -328,111 +391,204 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
+     * Gets kind
      *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
+     * @return string
      */
-    public function getDestination()
+    public function getKind()
     {
-        return $this->container['destination'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets destination
+     * Sets kind
      *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
+     * @param string $kind kind
      *
      * @return self
      */
-    public function setDestination($destination)
+    public function setKind($kind)
     {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
         }
-        $this->container['destination'] = $destination;
-
-        return $this;
-    }
-
-    /**
-     * Gets maximum_delivery_working_days
-     *
-     * @return int|null
-     */
-    public function getMaximumDeliveryWorkingDays()
-    {
-        return $this->container['maximum_delivery_working_days'];
-    }
-
-    /**
-     * Sets maximum_delivery_working_days
-     *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
-     *
-     * @return self
-     */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
-    {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
-        }
-
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
-
-        return $this;
-    }
-
-    /**
-     * Gets service_class
-     *
-     * @return string|null
-     */
-    public function getServiceClass()
-    {
-        return $this->container['service_class'];
-    }
-
-    /**
-     * Sets service_class
-     *
-     * @param string|null $service_class service_class
-     *
-     * @return self
-     */
-    public function setServiceClass($service_class)
-    {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['service_class'] = $service_class;
+        $this->container['kind'] = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Gets label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->container['label'];
+    }
+
+    /**
+     * Sets label
+     *
+     * @param string $label label
+     *
+     * @return self
+     */
+    public function setLabel($label)
+    {
+        if (is_null($label)) {
+            throw new \InvalidArgumentException('non-nullable label cannot be null');
+        }
+
+        if ((mb_strlen($label) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $label when calling PublicJobStructure., must be bigger than or equal to 1.');
+        }
+
+        $this->container['label'] = $label;
+
+        return $this;
+    }
+
+    /**
+     * Gets provenance
+     *
+     * @return string|null
+     */
+    public function getProvenance()
+    {
+        return $this->container['provenance'];
+    }
+
+    /**
+     * Sets provenance
+     *
+     * @param string|null $provenance provenance
+     *
+     * @return self
+     */
+    public function setProvenance($provenance)
+    {
+        if (is_null($provenance)) {
+            throw new \InvalidArgumentException('non-nullable provenance cannot be null');
+        }
+        $allowedValues = $this->getProvenanceAllowableValues();
+        if (!in_array($provenance, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'provenance', must be one of '%s'",
+                    $provenance,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['provenance'] = $provenance;
+
+        return $this;
+    }
+
+    /**
+     * Gets source_expression
+     *
+     * @return string|null
+     */
+    public function getSourceExpression()
+    {
+        return $this->container['source_expression'];
+    }
+
+    /**
+     * Sets source_expression
+     *
+     * @param string|null $source_expression source_expression
+     *
+     * @return self
+     */
+    public function setSourceExpression($source_expression)
+    {
+        if (is_null($source_expression)) {
+            array_push($this->openAPINullablesSetToNull, 'source_expression');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('source_expression', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['source_expression'] = $source_expression;
+
+        return $this;
+    }
+
+    /**
+     * Gets structure_id
+     *
+     * @return string
+     */
+    public function getStructureId()
+    {
+        return $this->container['structure_id'];
+    }
+
+    /**
+     * Sets structure_id
+     *
+     * @param string $structure_id structure_id
+     *
+     * @return self
+     */
+    public function setStructureId($structure_id)
+    {
+        if (is_null($structure_id)) {
+            throw new \InvalidArgumentException('non-nullable structure_id cannot be null');
+        }
+
+        if ((!preg_match("/^[a-z][a-z0-9_.-]*$/", ObjectSerializer::toString($structure_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$structure_id when calling PublicJobStructure., must conform to the pattern /^[a-z][a-z0-9_.-]*$/.");
+        }
+
+        $this->container['structure_id'] = $structure_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets values
+     *
+     * @return string[]|null
+     */
+    public function getValues()
+    {
+        return $this->container['values'];
+    }
+
+    /**
+     * Sets values
+     *
+     * @param string[]|null $values values
+     *
+     * @return self
+     */
+    public function setValues($values)
+    {
+        if (is_null($values)) {
+            throw new \InvalidArgumentException('non-nullable values cannot be null');
+        }
+
+        if ((count($values) > 20)) {
+            throw new \InvalidArgumentException('invalid value for $values when calling PublicJobStructure., number of items must be less than or equal to 20.');
+        }
+        $this->container['values'] = $values;
 
         return $this;
     }

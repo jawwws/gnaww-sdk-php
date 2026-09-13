@@ -1,6 +1,6 @@
 <?php
 /**
- * PublicClarificationQuestion
+ * PublicInterpretationQuestion
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * PublicClarificationQuestion Class Doc Comment
+ * PublicInterpretationQuestion Class Doc Comment
  *
  * @category Class
- * @description One Gnaww-owned question needed to progress buyer demand.
+ * @description Stable scoped question without exposing private canonical field paths.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicInterpretationQuestion implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      *
      * @var string
      */
-    protected static $openAPIModelName = 'PublicClarificationQuestion';
+    protected static $openAPIModelName = 'PublicInterpretationQuestion';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -49,14 +49,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $openAPITypes = [
         'current_value' => 'string',
-        'field_path' => 'string',
         'input_type' => 'string',
-        'key' => 'string',
-        'options' => '\Jawwws\Gnaww\Model\PublicClarificationOption[]',
+        'options' => '\Jawwws\Gnaww\Model\PublicInterpretationQuestionOption[]',
         'question' => 'string',
+        'question_id' => 'string',
         'rationale' => 'string',
         'required' => 'bool',
-        'source' => 'string'
+        'scope' => '\Jawwws\Gnaww\Model\PublicInterpretationScope',
+        'source' => 'string',
+        'suggested_value' => 'string'
     ];
 
     /**
@@ -68,14 +69,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $openAPIFormats = [
         'current_value' => null,
-        'field_path' => null,
         'input_type' => null,
-        'key' => null,
         'options' => null,
         'question' => null,
+        'question_id' => null,
         'rationale' => null,
         'required' => null,
-        'source' => null
+        'scope' => null,
+        'source' => null,
+        'suggested_value' => null
     ];
 
     /**
@@ -85,14 +87,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static array $openAPINullables = [
         'current_value' => true,
-        'field_path' => false,
         'input_type' => false,
-        'key' => false,
         'options' => false,
         'question' => false,
+        'question_id' => false,
         'rationale' => false,
         'required' => false,
-        'source' => false
+        'scope' => false,
+        'source' => false,
+        'suggested_value' => true
     ];
 
     /**
@@ -182,14 +185,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $attributeMap = [
         'current_value' => 'current_value',
-        'field_path' => 'field_path',
         'input_type' => 'input_type',
-        'key' => 'key',
         'options' => 'options',
         'question' => 'question',
+        'question_id' => 'question_id',
         'rationale' => 'rationale',
         'required' => 'required',
-        'source' => 'source'
+        'scope' => 'scope',
+        'source' => 'source',
+        'suggested_value' => 'suggested_value'
     ];
 
     /**
@@ -199,14 +203,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $setters = [
         'current_value' => 'setCurrentValue',
-        'field_path' => 'setFieldPath',
         'input_type' => 'setInputType',
-        'key' => 'setKey',
         'options' => 'setOptions',
         'question' => 'setQuestion',
+        'question_id' => 'setQuestionId',
         'rationale' => 'setRationale',
         'required' => 'setRequired',
-        'source' => 'setSource'
+        'scope' => 'setScope',
+        'source' => 'setSource',
+        'suggested_value' => 'setSuggestedValue'
     ];
 
     /**
@@ -216,14 +221,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $getters = [
         'current_value' => 'getCurrentValue',
-        'field_path' => 'getFieldPath',
         'input_type' => 'getInputType',
-        'key' => 'getKey',
         'options' => 'getOptions',
         'question' => 'getQuestion',
+        'question_id' => 'getQuestionId',
         'rationale' => 'getRationale',
         'required' => 'getRequired',
-        'source' => 'getSource'
+        'scope' => 'getScope',
+        'source' => 'getSource',
+        'suggested_value' => 'getSuggestedValue'
     ];
 
     /**
@@ -270,10 +276,10 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
     public const INPUT_TYPE_SINGLE_SELECT = 'single_select';
     public const INPUT_TYPE_TEXT = 'text';
     public const INPUT_TYPE_INTEGER = 'integer';
-    public const REQUIRED_TRUE = 'true';
     public const SOURCE_USE_REQUIREMENT = 'use_requirement';
     public const SOURCE_CANONICAL_FIELD = 'canonical_field';
     public const SOURCE_FULFILMENT_REQUIREMENT = 'fulfilment_requirement';
+    public const SOURCE_INTENT = 'intent';
 
     /**
      * Gets allowable values of the enum
@@ -294,24 +300,13 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
      *
      * @return string[]
      */
-    public function getRequiredAllowableValues()
-    {
-        return [
-            self::REQUIRED_TRUE,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
     public function getSourceAllowableValues()
     {
         return [
             self::SOURCE_USE_REQUIREMENT,
             self::SOURCE_CANONICAL_FIELD,
             self::SOURCE_FULFILMENT_REQUIREMENT,
+            self::SOURCE_INTENT,
         ];
     }
 
@@ -331,14 +326,15 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
     public function __construct(?array $data = null)
     {
         $this->setIfExists('current_value', $data ?? [], null);
-        $this->setIfExists('field_path', $data ?? [], null);
         $this->setIfExists('input_type', $data ?? [], 'single_select');
-        $this->setIfExists('key', $data ?? [], null);
         $this->setIfExists('options', $data ?? [], null);
         $this->setIfExists('question', $data ?? [], null);
+        $this->setIfExists('question_id', $data ?? [], null);
         $this->setIfExists('rationale', $data ?? [], null);
         $this->setIfExists('required', $data ?? [], true);
+        $this->setIfExists('scope', $data ?? [], null);
         $this->setIfExists('source', $data ?? [], null);
+        $this->setIfExists('suggested_value', $data ?? [], null);
     }
 
     /**
@@ -368,13 +364,6 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
     {
         $invalidProperties = [];
 
-        if ($this->container['field_path'] === null) {
-            $invalidProperties[] = "'field_path' can't be null";
-        }
-        if ((mb_strlen($this->container['field_path']) < 1)) {
-            $invalidProperties[] = "invalid value for 'field_path', the character length must be bigger than or equal to 1.";
-        }
-
         $allowedValues = $this->getInputTypeAllowableValues();
         if (!is_null($this->container['input_type']) && !in_array($this->container['input_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -384,18 +373,18 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
             );
         }
 
-        if ($this->container['key'] === null) {
-            $invalidProperties[] = "'key' can't be null";
-        }
-        if (!preg_match("/^[a-z][a-z0-9_.\\[\\]]*$/", $this->container['key'])) {
-            $invalidProperties[] = "invalid value for 'key', must be conform to the pattern /^[a-z][a-z0-9_.\\[\\]]*$/.";
-        }
-
         if ($this->container['question'] === null) {
             $invalidProperties[] = "'question' can't be null";
         }
         if ((mb_strlen($this->container['question']) < 1)) {
             $invalidProperties[] = "invalid value for 'question', the character length must be bigger than or equal to 1.";
+        }
+
+        if ($this->container['question_id'] === null) {
+            $invalidProperties[] = "'question_id' can't be null";
+        }
+        if (!preg_match("/^[a-z][a-z0-9_.\\[\\]-]*$/", $this->container['question_id'])) {
+            $invalidProperties[] = "invalid value for 'question_id', must be conform to the pattern /^[a-z][a-z0-9_.\\[\\]-]*$/.";
         }
 
         if ($this->container['rationale'] === null) {
@@ -405,15 +394,9 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
             $invalidProperties[] = "invalid value for 'rationale', the character length must be bigger than or equal to 1.";
         }
 
-        $allowedValues = $this->getRequiredAllowableValues();
-        if (!is_null($this->container['required']) && !in_array($this->container['required'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'required', must be one of '%s'",
-                $this->container['required'],
-                implode("', '", $allowedValues)
-            );
+        if ($this->container['scope'] === null) {
+            $invalidProperties[] = "'scope' can't be null";
         }
-
         if ($this->container['source'] === null) {
             $invalidProperties[] = "'source' can't be null";
         }
@@ -476,38 +459,6 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
     }
 
     /**
-     * Gets field_path
-     *
-     * @return string
-     */
-    public function getFieldPath()
-    {
-        return $this->container['field_path'];
-    }
-
-    /**
-     * Sets field_path
-     *
-     * @param string $field_path field_path
-     *
-     * @return self
-     */
-    public function setFieldPath($field_path)
-    {
-        if (is_null($field_path)) {
-            throw new \InvalidArgumentException('non-nullable field_path cannot be null');
-        }
-
-        if ((mb_strlen($field_path) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $field_path when calling PublicClarificationQuestion., must be bigger than or equal to 1.');
-        }
-
-        $this->container['field_path'] = $field_path;
-
-        return $this;
-    }
-
-    /**
      * Gets input_type
      *
      * @return string|null
@@ -545,41 +496,9 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
     }
 
     /**
-     * Gets key
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->container['key'];
-    }
-
-    /**
-     * Sets key
-     *
-     * @param string $key key
-     *
-     * @return self
-     */
-    public function setKey($key)
-    {
-        if (is_null($key)) {
-            throw new \InvalidArgumentException('non-nullable key cannot be null');
-        }
-
-        if ((!preg_match("/^[a-z][a-z0-9_.\\[\\]]*$/", ObjectSerializer::toString($key)))) {
-            throw new \InvalidArgumentException("invalid value for \$key when calling PublicClarificationQuestion., must conform to the pattern /^[a-z][a-z0-9_.\\[\\]]*$/.");
-        }
-
-        $this->container['key'] = $key;
-
-        return $this;
-    }
-
-    /**
      * Gets options
      *
-     * @return \Jawwws\Gnaww\Model\PublicClarificationOption[]|null
+     * @return \Jawwws\Gnaww\Model\PublicInterpretationQuestionOption[]|null
      */
     public function getOptions()
     {
@@ -589,7 +508,7 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets options
      *
-     * @param \Jawwws\Gnaww\Model\PublicClarificationOption[]|null $options options
+     * @param \Jawwws\Gnaww\Model\PublicInterpretationQuestionOption[]|null $options options
      *
      * @return self
      */
@@ -627,10 +546,42 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
         }
 
         if ((mb_strlen($question) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $question when calling PublicClarificationQuestion., must be bigger than or equal to 1.');
+            throw new \InvalidArgumentException('invalid length for $question when calling PublicInterpretationQuestion., must be bigger than or equal to 1.');
         }
 
         $this->container['question'] = $question;
+
+        return $this;
+    }
+
+    /**
+     * Gets question_id
+     *
+     * @return string
+     */
+    public function getQuestionId()
+    {
+        return $this->container['question_id'];
+    }
+
+    /**
+     * Sets question_id
+     *
+     * @param string $question_id question_id
+     *
+     * @return self
+     */
+    public function setQuestionId($question_id)
+    {
+        if (is_null($question_id)) {
+            throw new \InvalidArgumentException('non-nullable question_id cannot be null');
+        }
+
+        if ((!preg_match("/^[a-z][a-z0-9_.\\[\\]-]*$/", ObjectSerializer::toString($question_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$question_id when calling PublicInterpretationQuestion., must conform to the pattern /^[a-z][a-z0-9_.\\[\\]-]*$/.");
+        }
+
+        $this->container['question_id'] = $question_id;
 
         return $this;
     }
@@ -659,7 +610,7 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
         }
 
         if ((mb_strlen($rationale) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $rationale when calling PublicClarificationQuestion., must be bigger than or equal to 1.');
+            throw new \InvalidArgumentException('invalid length for $rationale when calling PublicInterpretationQuestion., must be bigger than or equal to 1.');
         }
 
         $this->container['rationale'] = $rationale;
@@ -689,17 +640,34 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
         if (is_null($required)) {
             throw new \InvalidArgumentException('non-nullable required cannot be null');
         }
-        $allowedValues = $this->getRequiredAllowableValues();
-        if (!in_array($required, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'required', must be one of '%s'",
-                    $required,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
         $this->container['required'] = $required;
+
+        return $this;
+    }
+
+    /**
+     * Gets scope
+     *
+     * @return \Jawwws\Gnaww\Model\PublicInterpretationScope
+     */
+    public function getScope()
+    {
+        return $this->container['scope'];
+    }
+
+    /**
+     * Sets scope
+     *
+     * @param \Jawwws\Gnaww\Model\PublicInterpretationScope $scope scope
+     *
+     * @return self
+     */
+    public function setScope($scope)
+    {
+        if (is_null($scope)) {
+            throw new \InvalidArgumentException('non-nullable scope cannot be null');
+        }
+        $this->container['scope'] = $scope;
 
         return $this;
     }
@@ -737,6 +705,40 @@ class PublicClarificationQuestion implements ModelInterface, ArrayAccess, \JsonS
             );
         }
         $this->container['source'] = $source;
+
+        return $this;
+    }
+
+    /**
+     * Gets suggested_value
+     *
+     * @return string|null
+     */
+    public function getSuggestedValue()
+    {
+        return $this->container['suggested_value'];
+    }
+
+    /**
+     * Sets suggested_value
+     *
+     * @param string|null $suggested_value suggested_value
+     *
+     * @return self
+     */
+    public function setSuggestedValue($suggested_value)
+    {
+        if (is_null($suggested_value)) {
+            array_push($this->openAPINullablesSetToNull, 'suggested_value');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('suggested_value', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['suggested_value'] = $suggested_value;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * FulfilmentRequirement
+ * ManufacturingComponent
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * FulfilmentRequirement Class Doc Comment
+ * ManufacturingComponent Class Doc Comment
  *
  * @category Class
- * @description Buyer fulfilment requirement kept outside Recipe identity.
+ * @description One physical component or meaningful intermediate assembly.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
+class ManufacturingComponent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'FulfilmentRequirement';
+    protected static $openAPIModelName = 'ManufacturingComponent';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,9 +48,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'destination' => '\Jawwws\Gnaww\Model\DeliveryDestination',
-        'maximum_delivery_working_days' => 'int',
-        'service_class' => 'string'
+        'component_id' => 'string',
+        'geometry' => '\Jawwws\Gnaww\Model\ManufacturingGeometry',
+        'material' => '\Jawwws\Gnaww\Model\ManufacturingMaterial',
+        'multiplicity' => 'int',
+        'parent_component_id' => 'string',
+        'regions' => '\Jawwws\Gnaww\Model\ManufacturingRegion[]',
+        'role' => 'string'
     ];
 
     /**
@@ -61,9 +65,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'destination' => null,
-        'maximum_delivery_working_days' => null,
-        'service_class' => null
+        'component_id' => null,
+        'geometry' => null,
+        'material' => null,
+        'multiplicity' => null,
+        'parent_component_id' => null,
+        'regions' => null,
+        'role' => null
     ];
 
     /**
@@ -72,9 +80,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'destination' => false,
-        'maximum_delivery_working_days' => true,
-        'service_class' => true
+        'component_id' => false,
+        'geometry' => false,
+        'material' => false,
+        'multiplicity' => false,
+        'parent_component_id' => true,
+        'regions' => false,
+        'role' => false
     ];
 
     /**
@@ -163,9 +175,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'destination' => 'destination',
-        'maximum_delivery_working_days' => 'maximum_delivery_working_days',
-        'service_class' => 'service_class'
+        'component_id' => 'component_id',
+        'geometry' => 'geometry',
+        'material' => 'material',
+        'multiplicity' => 'multiplicity',
+        'parent_component_id' => 'parent_component_id',
+        'regions' => 'regions',
+        'role' => 'role'
     ];
 
     /**
@@ -174,9 +190,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'destination' => 'setDestination',
-        'maximum_delivery_working_days' => 'setMaximumDeliveryWorkingDays',
-        'service_class' => 'setServiceClass'
+        'component_id' => 'setComponentId',
+        'geometry' => 'setGeometry',
+        'material' => 'setMaterial',
+        'multiplicity' => 'setMultiplicity',
+        'parent_component_id' => 'setParentComponentId',
+        'regions' => 'setRegions',
+        'role' => 'setRole'
     ];
 
     /**
@@ -185,9 +205,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'destination' => 'getDestination',
-        'maximum_delivery_working_days' => 'getMaximumDeliveryWorkingDays',
-        'service_class' => 'getServiceClass'
+        'component_id' => 'getComponentId',
+        'geometry' => 'getGeometry',
+        'material' => 'getMaterial',
+        'multiplicity' => 'getMultiplicity',
+        'parent_component_id' => 'getParentComponentId',
+        'regions' => 'getRegions',
+        'role' => 'getRole'
     ];
 
     /**
@@ -231,23 +255,6 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
         return self::$openAPIModelName;
     }
 
-    public const SERVICE_CLASS_STANDARD = 'standard';
-    public const SERVICE_CLASS_EXPRESS = 'express';
-    public const SERVICE_CLASS_FREIGHT = 'freight';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getServiceClassAllowableValues()
-    {
-        return [
-            self::SERVICE_CLASS_STANDARD,
-            self::SERVICE_CLASS_EXPRESS,
-            self::SERVICE_CLASS_FREIGHT,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -264,9 +271,13 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('destination', $data ?? [], null);
-        $this->setIfExists('maximum_delivery_working_days', $data ?? [], null);
-        $this->setIfExists('service_class', $data ?? [], null);
+        $this->setIfExists('component_id', $data ?? [], null);
+        $this->setIfExists('geometry', $data ?? [], null);
+        $this->setIfExists('material', $data ?? [], null);
+        $this->setIfExists('multiplicity', $data ?? [], 1);
+        $this->setIfExists('parent_component_id', $data ?? [], null);
+        $this->setIfExists('regions', $data ?? [], null);
+        $this->setIfExists('role', $data ?? [], null);
     }
 
     /**
@@ -296,20 +307,26 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if ($this->container['destination'] === null) {
-            $invalidProperties[] = "'destination' can't be null";
+        if ($this->container['component_id'] === null) {
+            $invalidProperties[] = "'component_id' can't be null";
         }
-        if (!is_null($this->container['maximum_delivery_working_days']) && ($this->container['maximum_delivery_working_days'] <= 0)) {
-            $invalidProperties[] = "invalid value for 'maximum_delivery_working_days', must be bigger than 0.";
+        if (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['component_id'])) {
+            $invalidProperties[] = "invalid value for 'component_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
         }
 
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($this->container['service_class']) && !in_array($this->container['service_class'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'service_class', must be one of '%s'",
-                $this->container['service_class'],
-                implode("', '", $allowedValues)
-            );
+        if (!is_null($this->container['multiplicity']) && ($this->container['multiplicity'] <= 0)) {
+            $invalidProperties[] = "invalid value for 'multiplicity', must be bigger than 0.";
+        }
+
+        if (!is_null($this->container['parent_component_id']) && !preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", $this->container['parent_component_id'])) {
+            $invalidProperties[] = "invalid value for 'parent_component_id', must be conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.";
+        }
+
+        if ($this->container['role'] === null) {
+            $invalidProperties[] = "'role' can't be null";
+        }
+        if ((mb_strlen($this->container['role']) < 1)) {
+            $invalidProperties[] = "invalid value for 'role', the character length must be bigger than or equal to 1.";
         }
 
         return $invalidProperties;
@@ -328,111 +345,217 @@ class FulfilmentRequirement implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets destination
+     * Gets component_id
      *
-     * @return \Jawwws\Gnaww\Model\DeliveryDestination
+     * @return string
      */
-    public function getDestination()
+    public function getComponentId()
     {
-        return $this->container['destination'];
+        return $this->container['component_id'];
     }
 
     /**
-     * Sets destination
+     * Sets component_id
      *
-     * @param \Jawwws\Gnaww\Model\DeliveryDestination $destination destination
+     * @param string $component_id component_id
      *
      * @return self
      */
-    public function setDestination($destination)
+    public function setComponentId($component_id)
     {
-        if (is_null($destination)) {
-            throw new \InvalidArgumentException('non-nullable destination cannot be null');
+        if (is_null($component_id)) {
+            throw new \InvalidArgumentException('non-nullable component_id cannot be null');
         }
-        $this->container['destination'] = $destination;
+
+        if ((!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($component_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$component_id when calling ManufacturingComponent., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
+        }
+
+        $this->container['component_id'] = $component_id;
 
         return $this;
     }
 
     /**
-     * Gets maximum_delivery_working_days
+     * Gets geometry
+     *
+     * @return \Jawwws\Gnaww\Model\ManufacturingGeometry|null
+     */
+    public function getGeometry()
+    {
+        return $this->container['geometry'];
+    }
+
+    /**
+     * Sets geometry
+     *
+     * @param \Jawwws\Gnaww\Model\ManufacturingGeometry|null $geometry geometry
+     *
+     * @return self
+     */
+    public function setGeometry($geometry)
+    {
+        if (is_null($geometry)) {
+            throw new \InvalidArgumentException('non-nullable geometry cannot be null');
+        }
+        $this->container['geometry'] = $geometry;
+
+        return $this;
+    }
+
+    /**
+     * Gets material
+     *
+     * @return \Jawwws\Gnaww\Model\ManufacturingMaterial|null
+     */
+    public function getMaterial()
+    {
+        return $this->container['material'];
+    }
+
+    /**
+     * Sets material
+     *
+     * @param \Jawwws\Gnaww\Model\ManufacturingMaterial|null $material material
+     *
+     * @return self
+     */
+    public function setMaterial($material)
+    {
+        if (is_null($material)) {
+            throw new \InvalidArgumentException('non-nullable material cannot be null');
+        }
+        $this->container['material'] = $material;
+
+        return $this;
+    }
+
+    /**
+     * Gets multiplicity
      *
      * @return int|null
      */
-    public function getMaximumDeliveryWorkingDays()
+    public function getMultiplicity()
     {
-        return $this->container['maximum_delivery_working_days'];
+        return $this->container['multiplicity'];
     }
 
     /**
-     * Sets maximum_delivery_working_days
+     * Sets multiplicity
      *
-     * @param int|null $maximum_delivery_working_days maximum_delivery_working_days
+     * @param int|null $multiplicity multiplicity
      *
      * @return self
      */
-    public function setMaximumDeliveryWorkingDays($maximum_delivery_working_days)
+    public function setMultiplicity($multiplicity)
     {
-        if (is_null($maximum_delivery_working_days)) {
-            array_push($this->openAPINullablesSetToNull, 'maximum_delivery_working_days');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('maximum_delivery_working_days', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($multiplicity)) {
+            throw new \InvalidArgumentException('non-nullable multiplicity cannot be null');
         }
 
-        if (!is_null($maximum_delivery_working_days) && ($maximum_delivery_working_days <= 0)) {
-            throw new \InvalidArgumentException('invalid value for $maximum_delivery_working_days when calling FulfilmentRequirement., must be bigger than 0.');
+        if (($multiplicity <= 0)) {
+            throw new \InvalidArgumentException('invalid value for $multiplicity when calling ManufacturingComponent., must be bigger than 0.');
         }
 
-        $this->container['maximum_delivery_working_days'] = $maximum_delivery_working_days;
+        $this->container['multiplicity'] = $multiplicity;
 
         return $this;
     }
 
     /**
-     * Gets service_class
+     * Gets parent_component_id
      *
      * @return string|null
      */
-    public function getServiceClass()
+    public function getParentComponentId()
     {
-        return $this->container['service_class'];
+        return $this->container['parent_component_id'];
     }
 
     /**
-     * Sets service_class
+     * Sets parent_component_id
      *
-     * @param string|null $service_class service_class
+     * @param string|null $parent_component_id parent_component_id
      *
      * @return self
      */
-    public function setServiceClass($service_class)
+    public function setParentComponentId($parent_component_id)
     {
-        if (is_null($service_class)) {
-            array_push($this->openAPINullablesSetToNull, 'service_class');
+        if (is_null($parent_component_id)) {
+            array_push($this->openAPINullablesSetToNull, 'parent_component_id');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('service_class', $nullablesSetToNull);
+            $index = array_search('parent_component_id', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $allowedValues = $this->getServiceClassAllowableValues();
-        if (!is_null($service_class) && !in_array($service_class, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'service_class', must be one of '%s'",
-                    $service_class,
-                    implode("', '", $allowedValues)
-                )
-            );
+
+        if (!is_null($parent_component_id) && (!preg_match("/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/", ObjectSerializer::toString($parent_component_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$parent_component_id when calling ManufacturingComponent., must conform to the pattern /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.");
         }
-        $this->container['service_class'] = $service_class;
+
+        $this->container['parent_component_id'] = $parent_component_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets regions
+     *
+     * @return \Jawwws\Gnaww\Model\ManufacturingRegion[]|null
+     */
+    public function getRegions()
+    {
+        return $this->container['regions'];
+    }
+
+    /**
+     * Sets regions
+     *
+     * @param \Jawwws\Gnaww\Model\ManufacturingRegion[]|null $regions regions
+     *
+     * @return self
+     */
+    public function setRegions($regions)
+    {
+        if (is_null($regions)) {
+            throw new \InvalidArgumentException('non-nullable regions cannot be null');
+        }
+        $this->container['regions'] = $regions;
+
+        return $this;
+    }
+
+    /**
+     * Gets role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->container['role'];
+    }
+
+    /**
+     * Sets role
+     *
+     * @param string $role role
+     *
+     * @return self
+     */
+    public function setRole($role)
+    {
+        if (is_null($role)) {
+            throw new \InvalidArgumentException('non-nullable role cannot be null');
+        }
+
+        if ((mb_strlen($role) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $role when calling ManufacturingComponent., must be bigger than or equal to 1.');
+        }
+
+        $this->container['role'] = $role;
 
         return $this;
     }

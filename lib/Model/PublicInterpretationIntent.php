@@ -1,6 +1,6 @@
 <?php
 /**
- * PublicClarificationOption
+ * PublicInterpretationIntent
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * PublicClarificationOption Class Doc Comment
+ * PublicInterpretationIntent Class Doc Comment
  *
  * @category Class
- * @description One controlled value offered for a guided clarification.
+ * @description Controlled classification of the top-level messy-intent shape.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicInterpretationIntent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      *
      * @var string
      */
-    protected static $openAPIModelName = 'PublicClarificationOption';
+    protected static $openAPIModelName = 'PublicInterpretationIntent';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,8 +48,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $openAPITypes = [
-        'label' => 'string',
-        'value' => 'string'
+        'confidence' => 'float',
+        'kind' => 'string'
     ];
 
     /**
@@ -60,8 +60,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'label' => null,
-        'value' => null
+        'confidence' => null,
+        'kind' => null
     ];
 
     /**
@@ -70,8 +70,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'label' => false,
-        'value' => false
+        'confidence' => false,
+        'kind' => false
     ];
 
     /**
@@ -160,8 +160,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
-        'label' => 'label',
-        'value' => 'value'
+        'confidence' => 'confidence',
+        'kind' => 'kind'
     ];
 
     /**
@@ -170,8 +170,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
-        'label' => 'setLabel',
-        'value' => 'setValue'
+        'confidence' => 'setConfidence',
+        'kind' => 'setKind'
     ];
 
     /**
@@ -180,8 +180,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
-        'label' => 'getLabel',
-        'value' => 'getValue'
+        'confidence' => 'getConfidence',
+        'kind' => 'getKind'
     ];
 
     /**
@@ -225,6 +225,29 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
         return self::$openAPIModelName;
     }
 
+    public const KIND_SINGLE_JOB = 'single_job';
+    public const KIND_ORDER_LIKE = 'order_like';
+    public const KIND_CAPABILITY_QUESTION = 'capability_question';
+    public const KIND_OUTCOME_LED = 'outcome_led';
+    public const KIND_MIXED = 'mixed';
+    public const KIND_NEEDS_REVIEW = 'needs_review';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues()
+    {
+        return [
+            self::KIND_SINGLE_JOB,
+            self::KIND_ORDER_LIKE,
+            self::KIND_CAPABILITY_QUESTION,
+            self::KIND_OUTCOME_LED,
+            self::KIND_MIXED,
+            self::KIND_NEEDS_REVIEW,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -241,8 +264,8 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('label', $data ?? [], null);
-        $this->setIfExists('value', $data ?? [], null);
+        $this->setIfExists('confidence', $data ?? [], null);
+        $this->setIfExists('kind', $data ?? [], null);
     }
 
     /**
@@ -272,18 +295,27 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
-        if ($this->container['label'] === null) {
-            $invalidProperties[] = "'label' can't be null";
+        if ($this->container['confidence'] === null) {
+            $invalidProperties[] = "'confidence' can't be null";
         }
-        if ((mb_strlen($this->container['label']) < 1)) {
-            $invalidProperties[] = "invalid value for 'label', the character length must be bigger than or equal to 1.";
+        if (($this->container['confidence'] > 1.0)) {
+            $invalidProperties[] = "invalid value for 'confidence', must be smaller than or equal to 1.0.";
         }
 
-        if ($this->container['value'] === null) {
-            $invalidProperties[] = "'value' can't be null";
+        if (($this->container['confidence'] < 0.0)) {
+            $invalidProperties[] = "invalid value for 'confidence', must be bigger than or equal to 0.0.";
         }
-        if ((mb_strlen($this->container['value']) < 1)) {
-            $invalidProperties[] = "invalid value for 'value', the character length must be bigger than or equal to 1.";
+
+        if ($this->container['kind'] === null) {
+            $invalidProperties[] = "'kind' can't be null";
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (!is_null($this->container['kind']) && !in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
+                implode("', '", $allowedValues)
+            );
         }
 
         return $invalidProperties;
@@ -302,65 +334,73 @@ class PublicClarificationOption implements ModelInterface, ArrayAccess, \JsonSer
 
 
     /**
-     * Gets label
+     * Gets confidence
      *
-     * @return string
+     * @return float
      */
-    public function getLabel()
+    public function getConfidence()
     {
-        return $this->container['label'];
+        return $this->container['confidence'];
     }
 
     /**
-     * Sets label
+     * Sets confidence
      *
-     * @param string $label label
+     * @param float $confidence confidence
      *
      * @return self
      */
-    public function setLabel($label)
+    public function setConfidence($confidence)
     {
-        if (is_null($label)) {
-            throw new \InvalidArgumentException('non-nullable label cannot be null');
+        if (is_null($confidence)) {
+            throw new \InvalidArgumentException('non-nullable confidence cannot be null');
         }
 
-        if ((mb_strlen($label) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $label when calling PublicClarificationOption., must be bigger than or equal to 1.');
+        if (($confidence > 1.0)) {
+            throw new \InvalidArgumentException('invalid value for $confidence when calling PublicInterpretationIntent., must be smaller than or equal to 1.0.');
+        }
+        if (($confidence < 0.0)) {
+            throw new \InvalidArgumentException('invalid value for $confidence when calling PublicInterpretationIntent., must be bigger than or equal to 0.0.');
         }
 
-        $this->container['label'] = $label;
+        $this->container['confidence'] = $confidence;
 
         return $this;
     }
 
     /**
-     * Gets value
+     * Gets kind
      *
      * @return string
      */
-    public function getValue()
+    public function getKind()
     {
-        return $this->container['value'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets value
+     * Sets kind
      *
-     * @param string $value value
+     * @param string $kind kind
      *
      * @return self
      */
-    public function setValue($value)
+    public function setKind($kind)
     {
-        if (is_null($value)) {
-            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        if (is_null($kind)) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
         }
-
-        if ((mb_strlen($value) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $value when calling PublicClarificationOption., must be bigger than or equal to 1.');
+        $allowedValues = $this->getKindAllowableValues();
+        if (!in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'kind', must be one of '%s'",
+                    $kind,
+                    implode("', '", $allowedValues)
+                )
+            );
         }
-
-        $this->container['value'] = $value;
+        $this->container['kind'] = $kind;
 
         return $this;
     }

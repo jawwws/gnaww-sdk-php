@@ -9,8 +9,10 @@ use Jawwws\Gnaww\Api\InterpretationApi;
 use Jawwws\Gnaww\Api\RecipesApi;
 use Jawwws\Gnaww\ApiException;
 use Jawwws\Gnaww\Configuration;
+use Jawwws\Gnaww\Model\ContinueInterpretationRequestV02;
 use Jawwws\Gnaww\Model\InterpretPrintRequirementRequest;
 use Jawwws\Gnaww\Model\MatchRecipeRequest;
+use Jawwws\Gnaww\Model\PublicInterpretationContinuationAnswer;
 use Jawwws\Gnaww\Model\PublicMatchTargetRequest;
 use Jawwws\Gnaww\Model\ResolveRecipeRequest;
 use Jawwws\Gnaww\Model\SourceInput;
@@ -58,7 +60,10 @@ final class GnawwClient
             ->setHost(rtrim($baseUrl, '/'))
             ->setApiKey('GnawwApiKey', $apiKey);
 
-        $headers = [];
+        $headers = [
+            'X-Gnaww-Source-Channel' => 'sdk',
+            'X-Gnaww-Client-Id' => 'gnaww-php-sdk',
+        ];
         if ($workspaceId !== null && $workspaceId !== '') {
             $headers['X-Gnaww-Workspace-Id'] = $workspaceId;
         }
@@ -87,6 +92,42 @@ final class GnawwClient
         return $this->call(
             fn (): array => $this->interpretation
                 ->interpretPrintRequirementWithHttpInfo($request),
+        );
+    }
+
+    /**
+     * @param list<array{question_id: string, value: string}> $answers
+     */
+    public function continueRequirement(string $requirement, array $answers): mixed
+    {
+        return $this->continueRequirementDetailed($requirement, $answers)->data;
+    }
+
+    /**
+     * @param list<array{question_id: string, value: string}> $answers
+     */
+    public function continueRequirementDetailed(
+        string $requirement,
+        array $answers,
+    ): GnawwResponse {
+        $source = new SourceInput([
+            'type' => 'natural_language',
+            'raw_text' => $requirement,
+        ]);
+        $clarifications = array_map(
+            static fn (array $answer): PublicInterpretationContinuationAnswer =>
+                new PublicInterpretationContinuationAnswer($answer),
+            $answers,
+        );
+        $request = new ContinueInterpretationRequestV02([
+            'source' => $source,
+            'gjs_version' => '0.4',
+            'answers' => $clarifications,
+        ]);
+
+        return $this->call(
+            fn (): array => $this->interpretation
+                ->continuePrintRequirementInterpretationWithHttpInfo($request),
         );
     }
 

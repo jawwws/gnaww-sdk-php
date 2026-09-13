@@ -1,6 +1,6 @@
 <?php
 /**
- * ResolveRecipeRequest
+ * CreateSpecificationResponse
  *
  *
  * @category Class
@@ -24,14 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * ResolveRecipeRequest Class Doc Comment
+ * CreateSpecificationResponse Class Doc Comment
  *
  * @category Class
- * @description Resolve one exact canonical Gnaww Job Specification to a Recipe.
+ * @description Result of explicit canonical-demand retention.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class CreateSpecificationResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -40,7 +40,7 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      *
      * @var string
      */
-    protected static $openAPIModelName = 'ResolveRecipeRequest';
+    protected static $openAPIModelName = 'CreateSpecificationResponse';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -48,7 +48,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $openAPITypes = [
-        'gjs' => '\Jawwws\Gnaww\Model\Gjs'
+        'schema_name' => 'string',
+        'schema_version' => 'string',
+        'specification' => '\Jawwws\Gnaww\Model\SpecificationResource',
+        'status' => 'string'
     ];
 
     /**
@@ -59,7 +62,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'gjs' => null
+        'schema_name' => null,
+        'schema_version' => null,
+        'specification' => null,
+        'status' => null
     ];
 
     /**
@@ -68,7 +74,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'gjs' => false
+        'schema_name' => false,
+        'schema_version' => false,
+        'specification' => false,
+        'status' => false
     ];
 
     /**
@@ -157,7 +166,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'gjs' => 'gjs'
+        'schema_name' => 'schema_name',
+        'schema_version' => 'schema_version',
+        'specification' => 'specification',
+        'status' => 'status'
     ];
 
     /**
@@ -166,7 +178,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'gjs' => 'setGjs'
+        'schema_name' => 'setSchemaName',
+        'schema_version' => 'setSchemaVersion',
+        'specification' => 'setSpecification',
+        'status' => 'setStatus'
     ];
 
     /**
@@ -175,7 +190,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'gjs' => 'getGjs'
+        'schema_name' => 'getSchemaName',
+        'schema_version' => 'getSchemaVersion',
+        'specification' => 'getSpecification',
+        'status' => 'getStatus'
     ];
 
     /**
@@ -219,6 +237,47 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
         return self::$openAPIModelName;
     }
 
+    public const SCHEMA_NAME_GNAWW_SPECIFICATION_CREATE_RESULT = 'gnaww.specification_create_result';
+    public const SCHEMA_VERSION__0_1 = '0.1';
+    public const STATUS_CREATED = 'created';
+    public const STATUS_EXISTING = 'existing';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getSchemaNameAllowableValues()
+    {
+        return [
+            self::SCHEMA_NAME_GNAWW_SPECIFICATION_CREATE_RESULT,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getSchemaVersionAllowableValues()
+    {
+        return [
+            self::SCHEMA_VERSION__0_1,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_CREATED,
+            self::STATUS_EXISTING,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -235,7 +294,10 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('gjs', $data ?? [], null);
+        $this->setIfExists('schema_name', $data ?? [], 'gnaww.specification_create_result');
+        $this->setIfExists('schema_version', $data ?? [], '0.1');
+        $this->setIfExists('specification', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
     }
 
     /**
@@ -265,9 +327,39 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['gjs'] === null) {
-            $invalidProperties[] = "'gjs' can't be null";
+        $allowedValues = $this->getSchemaNameAllowableValues();
+        if (!is_null($this->container['schema_name']) && !in_array($this->container['schema_name'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'schema_name', must be one of '%s'",
+                $this->container['schema_name'],
+                implode("', '", $allowedValues)
+            );
         }
+
+        $allowedValues = $this->getSchemaVersionAllowableValues();
+        if (!is_null($this->container['schema_version']) && !in_array($this->container['schema_version'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'schema_version', must be one of '%s'",
+                $this->container['schema_version'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['specification'] === null) {
+            $invalidProperties[] = "'specification' can't be null";
+        }
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -284,28 +376,139 @@ class ResolveRecipeRequest implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets gjs
+     * Gets schema_name
      *
-     * @return \Jawwws\Gnaww\Model\Gjs
+     * @return string|null
      */
-    public function getGjs()
+    public function getSchemaName()
     {
-        return $this->container['gjs'];
+        return $this->container['schema_name'];
     }
 
     /**
-     * Sets gjs
+     * Sets schema_name
      *
-     * @param \Jawwws\Gnaww\Model\Gjs $gjs gjs
+     * @param string|null $schema_name schema_name
      *
      * @return self
      */
-    public function setGjs($gjs)
+    public function setSchemaName($schema_name)
     {
-        if (is_null($gjs)) {
-            throw new \InvalidArgumentException('non-nullable gjs cannot be null');
+        if (is_null($schema_name)) {
+            throw new \InvalidArgumentException('non-nullable schema_name cannot be null');
         }
-        $this->container['gjs'] = $gjs;
+        $allowedValues = $this->getSchemaNameAllowableValues();
+        if (!in_array($schema_name, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'schema_name', must be one of '%s'",
+                    $schema_name,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['schema_name'] = $schema_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets schema_version
+     *
+     * @return string|null
+     */
+    public function getSchemaVersion()
+    {
+        return $this->container['schema_version'];
+    }
+
+    /**
+     * Sets schema_version
+     *
+     * @param string|null $schema_version schema_version
+     *
+     * @return self
+     */
+    public function setSchemaVersion($schema_version)
+    {
+        if (is_null($schema_version)) {
+            throw new \InvalidArgumentException('non-nullable schema_version cannot be null');
+        }
+        $allowedValues = $this->getSchemaVersionAllowableValues();
+        if (!in_array($schema_version, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'schema_version', must be one of '%s'",
+                    $schema_version,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['schema_version'] = $schema_version;
+
+        return $this;
+    }
+
+    /**
+     * Gets specification
+     *
+     * @return \Jawwws\Gnaww\Model\SpecificationResource
+     */
+    public function getSpecification()
+    {
+        return $this->container['specification'];
+    }
+
+    /**
+     * Sets specification
+     *
+     * @param \Jawwws\Gnaww\Model\SpecificationResource $specification specification
+     *
+     * @return self
+     */
+    public function setSpecification($specification)
+    {
+        if (is_null($specification)) {
+            throw new \InvalidArgumentException('non-nullable specification cannot be null');
+        }
+        $this->container['specification'] = $specification;
+
+        return $this;
+    }
+
+    /**
+     * Gets status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /**
+     * Sets status
+     *
+     * @param string $status status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['status'] = $status;
 
         return $this;
     }

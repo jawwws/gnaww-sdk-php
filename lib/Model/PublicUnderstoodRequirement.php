@@ -1,6 +1,6 @@
 <?php
 /**
- * Gjs1
+ * PublicUnderstoodRequirement
  *
  *
  * @category Class
@@ -24,13 +24,14 @@ use \ArrayAccess;
 use \Jawwws\Gnaww\ObjectSerializer;
 
 /**
- * Gjs1 Class Doc Comment
+ * PublicUnderstoodRequirement Class Doc Comment
  *
  * @category Class
+ * @description Safe non-canonical evidence projection for review-state interpretation.
  * @package  Jawwws\Gnaww
  * @implements \ArrayAccess<string, mixed>
  */
-class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
+class PublicUnderstoodRequirement implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -39,7 +40,7 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @var string
      */
-    protected static $openAPIModelName = 'Gjs_1';
+    protected static $openAPIModelName = 'PublicUnderstoodRequirement';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -47,23 +48,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $openAPITypes = [
-        'assemblies' => '\Jawwws\Gnaww\Model\ManufacturingAssembly[]',
-        'components' => '\Jawwws\Gnaww\Model\PrintComponent[]',
-        'confidence' => 'float',
-        'operations' => '\Jawwws\Gnaww\Model\ManufacturingOperation[]',
-        'product_category' => 'string',
+        'completion_support_state' => 'string',
+        'controlled_defaults' => '\Jawwws\Gnaww\Model\PublicControlledProductionDefault[]',
+        'evidence_basis' => 'string',
+        'finishings' => '\Jawwws\Gnaww\Model\PublicUnderstoodFinishing[]',
+        'print_spec' => '\Jawwws\Gnaww\Model\PublicUnderstoodPrint',
         'product_family' => 'string',
         'product_name' => 'string',
-        'quality_requirements' => '\Jawwws\Gnaww\Model\QualityRequirement[]',
-        'quantity' => '\Jawwws\Gnaww\Model\Quantity',
+        'quantity_units' => 'int',
         'schema_name' => 'string',
         'schema_version' => 'string',
-        'service_requirements' => '\Jawwws\Gnaww\Model\ServiceRequirements',
-        'status' => 'string',
-        'unresolved_fields' => 'string[]',
-        'use_requirements' => '\Jawwws\Gnaww\Model\UseRequirement[]',
-        'variations' => '\Jawwws\Gnaww\Model\ManufacturingVariation[]',
-        'options' => '\Jawwws\Gnaww\Model\ProductOptions'
+        'size' => '\Jawwws\Gnaww\Model\PublicUnderstoodSize',
+        'substrate' => '\Jawwws\Gnaww\Model\PublicUnderstoodSubstrate',
+        'truth_state' => 'string'
     ];
 
     /**
@@ -74,23 +71,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'assemblies' => null,
-        'components' => null,
-        'confidence' => null,
-        'operations' => null,
-        'product_category' => null,
+        'completion_support_state' => null,
+        'controlled_defaults' => null,
+        'evidence_basis' => null,
+        'finishings' => null,
+        'print_spec' => null,
         'product_family' => null,
         'product_name' => null,
-        'quality_requirements' => null,
-        'quantity' => null,
+        'quantity_units' => null,
         'schema_name' => null,
         'schema_version' => null,
-        'service_requirements' => null,
-        'status' => null,
-        'unresolved_fields' => null,
-        'use_requirements' => null,
-        'variations' => null,
-        'options' => null
+        'size' => null,
+        'substrate' => null,
+        'truth_state' => null
     ];
 
     /**
@@ -99,23 +92,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'assemblies' => false,
-        'components' => false,
-        'confidence' => false,
-        'operations' => false,
-        'product_category' => false,
-        'product_family' => false,
-        'product_name' => false,
-        'quality_requirements' => false,
-        'quantity' => false,
+        'completion_support_state' => true,
+        'controlled_defaults' => false,
+        'evidence_basis' => false,
+        'finishings' => false,
+        'print_spec' => true,
+        'product_family' => true,
+        'product_name' => true,
+        'quantity_units' => true,
         'schema_name' => false,
         'schema_version' => false,
-        'service_requirements' => false,
-        'status' => false,
-        'unresolved_fields' => false,
-        'use_requirements' => false,
-        'variations' => false,
-        'options' => false
+        'size' => true,
+        'substrate' => true,
+        'truth_state' => false
     ];
 
     /**
@@ -204,23 +193,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'assemblies' => 'assemblies',
-        'components' => 'components',
-        'confidence' => 'confidence',
-        'operations' => 'operations',
-        'product_category' => 'product_category',
+        'completion_support_state' => 'completion_support_state',
+        'controlled_defaults' => 'controlled_defaults',
+        'evidence_basis' => 'evidence_basis',
+        'finishings' => 'finishings',
+        'print_spec' => 'print_spec',
         'product_family' => 'product_family',
         'product_name' => 'product_name',
-        'quality_requirements' => 'quality_requirements',
-        'quantity' => 'quantity',
+        'quantity_units' => 'quantity_units',
         'schema_name' => 'schema_name',
         'schema_version' => 'schema_version',
-        'service_requirements' => 'service_requirements',
-        'status' => 'status',
-        'unresolved_fields' => 'unresolved_fields',
-        'use_requirements' => 'use_requirements',
-        'variations' => 'variations',
-        'options' => 'options'
+        'size' => 'size',
+        'substrate' => 'substrate',
+        'truth_state' => 'truth_state'
     ];
 
     /**
@@ -229,23 +214,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'assemblies' => 'setAssemblies',
-        'components' => 'setComponents',
-        'confidence' => 'setConfidence',
-        'operations' => 'setOperations',
-        'product_category' => 'setProductCategory',
+        'completion_support_state' => 'setCompletionSupportState',
+        'controlled_defaults' => 'setControlledDefaults',
+        'evidence_basis' => 'setEvidenceBasis',
+        'finishings' => 'setFinishings',
+        'print_spec' => 'setPrintSpec',
         'product_family' => 'setProductFamily',
         'product_name' => 'setProductName',
-        'quality_requirements' => 'setQualityRequirements',
-        'quantity' => 'setQuantity',
+        'quantity_units' => 'setQuantityUnits',
         'schema_name' => 'setSchemaName',
         'schema_version' => 'setSchemaVersion',
-        'service_requirements' => 'setServiceRequirements',
-        'status' => 'setStatus',
-        'unresolved_fields' => 'setUnresolvedFields',
-        'use_requirements' => 'setUseRequirements',
-        'variations' => 'setVariations',
-        'options' => 'setOptions'
+        'size' => 'setSize',
+        'substrate' => 'setSubstrate',
+        'truth_state' => 'setTruthState'
     ];
 
     /**
@@ -254,23 +235,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'assemblies' => 'getAssemblies',
-        'components' => 'getComponents',
-        'confidence' => 'getConfidence',
-        'operations' => 'getOperations',
-        'product_category' => 'getProductCategory',
+        'completion_support_state' => 'getCompletionSupportState',
+        'controlled_defaults' => 'getControlledDefaults',
+        'evidence_basis' => 'getEvidenceBasis',
+        'finishings' => 'getFinishings',
+        'print_spec' => 'getPrintSpec',
         'product_family' => 'getProductFamily',
         'product_name' => 'getProductName',
-        'quality_requirements' => 'getQualityRequirements',
-        'quantity' => 'getQuantity',
+        'quantity_units' => 'getQuantityUnits',
         'schema_name' => 'getSchemaName',
         'schema_version' => 'getSchemaVersion',
-        'service_requirements' => 'getServiceRequirements',
-        'status' => 'getStatus',
-        'unresolved_fields' => 'getUnresolvedFields',
-        'use_requirements' => 'getUseRequirements',
-        'variations' => 'getVariations',
-        'options' => 'getOptions'
+        'size' => 'getSize',
+        'substrate' => 'getSubstrate',
+        'truth_state' => 'getTruthState'
     ];
 
     /**
@@ -314,11 +291,11 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const PRODUCT_CATEGORY_COMMERCIAL_PRINT = 'commercial_print';
-    public const PRODUCT_CATEGORY_APPAREL = 'apparel';
-    public const PRODUCT_CATEGORY_FABRIC_HOMEWARES = 'fabric_homewares';
-    public const PRODUCT_CATEGORY_PROMOTIONAL_GOODS = 'promotional_goods';
-    public const PRODUCT_CATEGORY_UNKNOWN = 'unknown';
+    public const COMPLETION_SUPPORT_STATE_FULLY_SUPPORTED = 'fully_supported';
+    public const COMPLETION_SUPPORT_STATE_SUPPORTED_WITH_CLARIFICATION = 'supported_with_clarification';
+    public const COMPLETION_SUPPORT_STATE_RECOGNISED_NOT_CANONICALISABLE = 'recognised_not_canonicalisable';
+    public const COMPLETION_SUPPORT_STATE_UNSUPPORTED = 'unsupported';
+    public const EVIDENCE_BASIS_GNAWW_DETERMINISTIC_INTERPRETATION = 'gnaww_deterministic_interpretation';
     public const PRODUCT_FAMILY_FLYER = 'flyer';
     public const PRODUCT_FAMILY_LEAFLET = 'leaflet';
     public const PRODUCT_FAMILY_FOLDED_LEAFLET = 'folded_leaflet';
@@ -367,25 +344,34 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     public const PRODUCT_FAMILY_KEYRING = 'keyring';
     public const PRODUCT_FAMILY_PROMOTIONAL_PRODUCT = 'promotional_product';
     public const PRODUCT_FAMILY_UNKNOWN = 'unknown';
-    public const SCHEMA_NAME_JAWWWS_PRINT_JOB_SPECIFICATION = 'jawwws.print_job_specification';
-    public const STATUS_MAPPED = 'mapped';
-    public const STATUS_NEEDS_REVIEW = 'needs_review';
-    public const STATUS_BLOCKED = 'blocked';
-    public const STATUS_FAILED = 'failed';
+    public const SCHEMA_NAME_GNAWW_UNDERSTOOD_REQUIREMENT = 'gnaww.understood_requirement';
+    public const SCHEMA_VERSION__0_1 = '0.1';
+    public const TRUTH_STATE_UNDERSTOOD_NOT_CANONICAL = 'understood_not_canonical';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public function getProductCategoryAllowableValues()
+    public function getCompletionSupportStateAllowableValues()
     {
         return [
-            self::PRODUCT_CATEGORY_COMMERCIAL_PRINT,
-            self::PRODUCT_CATEGORY_APPAREL,
-            self::PRODUCT_CATEGORY_FABRIC_HOMEWARES,
-            self::PRODUCT_CATEGORY_PROMOTIONAL_GOODS,
-            self::PRODUCT_CATEGORY_UNKNOWN,
+            self::COMPLETION_SUPPORT_STATE_FULLY_SUPPORTED,
+            self::COMPLETION_SUPPORT_STATE_SUPPORTED_WITH_CLARIFICATION,
+            self::COMPLETION_SUPPORT_STATE_RECOGNISED_NOT_CANONICALISABLE,
+            self::COMPLETION_SUPPORT_STATE_UNSUPPORTED,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getEvidenceBasisAllowableValues()
+    {
+        return [
+            self::EVIDENCE_BASIS_GNAWW_DETERMINISTIC_INTERPRETATION,
         ];
     }
 
@@ -456,7 +442,7 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     public function getSchemaNameAllowableValues()
     {
         return [
-            self::SCHEMA_NAME_JAWWWS_PRINT_JOB_SPECIFICATION,
+            self::SCHEMA_NAME_GNAWW_UNDERSTOOD_REQUIREMENT,
         ];
     }
 
@@ -465,13 +451,22 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]
      */
-    public function getStatusAllowableValues()
+    public function getSchemaVersionAllowableValues()
     {
         return [
-            self::STATUS_MAPPED,
-            self::STATUS_NEEDS_REVIEW,
-            self::STATUS_BLOCKED,
-            self::STATUS_FAILED,
+            self::SCHEMA_VERSION__0_1,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getTruthStateAllowableValues()
+    {
+        return [
+            self::TRUTH_STATE_UNDERSTOOD_NOT_CANONICAL,
         ];
     }
 
@@ -490,23 +485,19 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('assemblies', $data ?? [], null);
-        $this->setIfExists('components', $data ?? [], null);
-        $this->setIfExists('confidence', $data ?? [], 0.0);
-        $this->setIfExists('operations', $data ?? [], null);
-        $this->setIfExists('product_category', $data ?? [], 'unknown');
+        $this->setIfExists('completion_support_state', $data ?? [], null);
+        $this->setIfExists('controlled_defaults', $data ?? [], null);
+        $this->setIfExists('evidence_basis', $data ?? [], 'gnaww_deterministic_interpretation');
+        $this->setIfExists('finishings', $data ?? [], null);
+        $this->setIfExists('print_spec', $data ?? [], null);
         $this->setIfExists('product_family', $data ?? [], null);
         $this->setIfExists('product_name', $data ?? [], null);
-        $this->setIfExists('quality_requirements', $data ?? [], null);
-        $this->setIfExists('quantity', $data ?? [], null);
-        $this->setIfExists('schema_name', $data ?? [], 'jawwws.print_job_specification');
-        $this->setIfExists('schema_version', $data ?? [], '0.3');
-        $this->setIfExists('service_requirements', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], 'mapped');
-        $this->setIfExists('unresolved_fields', $data ?? [], null);
-        $this->setIfExists('use_requirements', $data ?? [], null);
-        $this->setIfExists('variations', $data ?? [], null);
-        $this->setIfExists('options', $data ?? [], null);
+        $this->setIfExists('quantity_units', $data ?? [], null);
+        $this->setIfExists('schema_name', $data ?? [], 'gnaww.understood_requirement');
+        $this->setIfExists('schema_version', $data ?? [], '0.1');
+        $this->setIfExists('size', $data ?? [], null);
+        $this->setIfExists('substrate', $data ?? [], null);
+        $this->setIfExists('truth_state', $data ?? [], 'understood_not_canonical');
     }
 
     /**
@@ -536,29 +527,24 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if ($this->container['components'] === null) {
-            $invalidProperties[] = "'components' can't be null";
-        }
-        if (!is_null($this->container['confidence']) && ($this->container['confidence'] > 1.0)) {
-            $invalidProperties[] = "invalid value for 'confidence', must be smaller than or equal to 1.0.";
-        }
-
-        if (!is_null($this->container['confidence']) && ($this->container['confidence'] < 0.0)) {
-            $invalidProperties[] = "invalid value for 'confidence', must be bigger than or equal to 0.0.";
-        }
-
-        $allowedValues = $this->getProductCategoryAllowableValues();
-        if (!is_null($this->container['product_category']) && !in_array($this->container['product_category'], $allowedValues, true)) {
+        $allowedValues = $this->getCompletionSupportStateAllowableValues();
+        if (!is_null($this->container['completion_support_state']) && !in_array($this->container['completion_support_state'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'product_category', must be one of '%s'",
-                $this->container['product_category'],
+                "invalid value '%s' for 'completion_support_state', must be one of '%s'",
+                $this->container['completion_support_state'],
                 implode("', '", $allowedValues)
             );
         }
 
-        if ($this->container['product_family'] === null) {
-            $invalidProperties[] = "'product_family' can't be null";
+        $allowedValues = $this->getEvidenceBasisAllowableValues();
+        if (!is_null($this->container['evidence_basis']) && !in_array($this->container['evidence_basis'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'evidence_basis', must be one of '%s'",
+                $this->container['evidence_basis'],
+                implode("', '", $allowedValues)
+            );
         }
+
         $allowedValues = $this->getProductFamilyAllowableValues();
         if (!is_null($this->container['product_family']) && !in_array($this->container['product_family'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -566,6 +552,10 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->container['product_family'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if (!is_null($this->container['quantity_units']) && ($this->container['quantity_units'] <= 0)) {
+            $invalidProperties[] = "invalid value for 'quantity_units', must be bigger than 0.";
         }
 
         $allowedValues = $this->getSchemaNameAllowableValues();
@@ -577,11 +567,20 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
             );
         }
 
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+        $allowedValues = $this->getSchemaVersionAllowableValues();
+        if (!is_null($this->container['schema_version']) && !in_array($this->container['schema_version'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
+                "invalid value '%s' for 'schema_version', must be one of '%s'",
+                $this->container['schema_version'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        $allowedValues = $this->getTruthStateAllowableValues();
+        if (!is_null($this->container['truth_state']) && !in_array($this->container['truth_state'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'truth_state', must be one of '%s'",
+                $this->container['truth_state'],
                 implode("', '", $allowedValues)
             );
         }
@@ -602,154 +601,170 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets assemblies
-     *
-     * @return \Jawwws\Gnaww\Model\ManufacturingAssembly[]|null
-     */
-    public function getAssemblies()
-    {
-        return $this->container['assemblies'];
-    }
-
-    /**
-     * Sets assemblies
-     *
-     * @param \Jawwws\Gnaww\Model\ManufacturingAssembly[]|null $assemblies assemblies
-     *
-     * @return self
-     */
-    public function setAssemblies($assemblies)
-    {
-        if (is_null($assemblies)) {
-            throw new \InvalidArgumentException('non-nullable assemblies cannot be null');
-        }
-        $this->container['assemblies'] = $assemblies;
-
-        return $this;
-    }
-
-    /**
-     * Gets components
-     *
-     * @return \Jawwws\Gnaww\Model\PrintComponent[]
-     */
-    public function getComponents()
-    {
-        return $this->container['components'];
-    }
-
-    /**
-     * Sets components
-     *
-     * @param \Jawwws\Gnaww\Model\PrintComponent[] $components components
-     *
-     * @return self
-     */
-    public function setComponents($components)
-    {
-        if (is_null($components)) {
-            throw new \InvalidArgumentException('non-nullable components cannot be null');
-        }
-        $this->container['components'] = $components;
-
-        return $this;
-    }
-
-    /**
-     * Gets confidence
-     *
-     * @return float|null
-     */
-    public function getConfidence()
-    {
-        return $this->container['confidence'];
-    }
-
-    /**
-     * Sets confidence
-     *
-     * @param float|null $confidence confidence
-     *
-     * @return self
-     */
-    public function setConfidence($confidence)
-    {
-        if (is_null($confidence)) {
-            throw new \InvalidArgumentException('non-nullable confidence cannot be null');
-        }
-
-        if (($confidence > 1.0)) {
-            throw new \InvalidArgumentException('invalid value for $confidence when calling Gjs1., must be smaller than or equal to 1.0.');
-        }
-        if (($confidence < 0.0)) {
-            throw new \InvalidArgumentException('invalid value for $confidence when calling Gjs1., must be bigger than or equal to 0.0.');
-        }
-
-        $this->container['confidence'] = $confidence;
-
-        return $this;
-    }
-
-    /**
-     * Gets operations
-     *
-     * @return \Jawwws\Gnaww\Model\ManufacturingOperation[]|null
-     */
-    public function getOperations()
-    {
-        return $this->container['operations'];
-    }
-
-    /**
-     * Sets operations
-     *
-     * @param \Jawwws\Gnaww\Model\ManufacturingOperation[]|null $operations operations
-     *
-     * @return self
-     */
-    public function setOperations($operations)
-    {
-        if (is_null($operations)) {
-            throw new \InvalidArgumentException('non-nullable operations cannot be null');
-        }
-        $this->container['operations'] = $operations;
-
-        return $this;
-    }
-
-    /**
-     * Gets product_category
+     * Gets completion_support_state
      *
      * @return string|null
      */
-    public function getProductCategory()
+    public function getCompletionSupportState()
     {
-        return $this->container['product_category'];
+        return $this->container['completion_support_state'];
     }
 
     /**
-     * Sets product_category
+     * Sets completion_support_state
      *
-     * @param string|null $product_category product_category
+     * @param string|null $completion_support_state completion_support_state
      *
      * @return self
      */
-    public function setProductCategory($product_category)
+    public function setCompletionSupportState($completion_support_state)
     {
-        if (is_null($product_category)) {
-            throw new \InvalidArgumentException('non-nullable product_category cannot be null');
+        if (is_null($completion_support_state)) {
+            array_push($this->openAPINullablesSetToNull, 'completion_support_state');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('completion_support_state', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $allowedValues = $this->getProductCategoryAllowableValues();
-        if (!in_array($product_category, $allowedValues, true)) {
+        $allowedValues = $this->getCompletionSupportStateAllowableValues();
+        if (!is_null($completion_support_state) && !in_array($completion_support_state, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'product_category', must be one of '%s'",
-                    $product_category,
+                    "Invalid value '%s' for 'completion_support_state', must be one of '%s'",
+                    $completion_support_state,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['product_category'] = $product_category;
+        $this->container['completion_support_state'] = $completion_support_state;
+
+        return $this;
+    }
+
+    /**
+     * Gets controlled_defaults
+     *
+     * @return \Jawwws\Gnaww\Model\PublicControlledProductionDefault[]|null
+     */
+    public function getControlledDefaults()
+    {
+        return $this->container['controlled_defaults'];
+    }
+
+    /**
+     * Sets controlled_defaults
+     *
+     * @param \Jawwws\Gnaww\Model\PublicControlledProductionDefault[]|null $controlled_defaults controlled_defaults
+     *
+     * @return self
+     */
+    public function setControlledDefaults($controlled_defaults)
+    {
+        if (is_null($controlled_defaults)) {
+            throw new \InvalidArgumentException('non-nullable controlled_defaults cannot be null');
+        }
+        $this->container['controlled_defaults'] = $controlled_defaults;
+
+        return $this;
+    }
+
+    /**
+     * Gets evidence_basis
+     *
+     * @return string|null
+     */
+    public function getEvidenceBasis()
+    {
+        return $this->container['evidence_basis'];
+    }
+
+    /**
+     * Sets evidence_basis
+     *
+     * @param string|null $evidence_basis evidence_basis
+     *
+     * @return self
+     */
+    public function setEvidenceBasis($evidence_basis)
+    {
+        if (is_null($evidence_basis)) {
+            throw new \InvalidArgumentException('non-nullable evidence_basis cannot be null');
+        }
+        $allowedValues = $this->getEvidenceBasisAllowableValues();
+        if (!in_array($evidence_basis, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'evidence_basis', must be one of '%s'",
+                    $evidence_basis,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['evidence_basis'] = $evidence_basis;
+
+        return $this;
+    }
+
+    /**
+     * Gets finishings
+     *
+     * @return \Jawwws\Gnaww\Model\PublicUnderstoodFinishing[]|null
+     */
+    public function getFinishings()
+    {
+        return $this->container['finishings'];
+    }
+
+    /**
+     * Sets finishings
+     *
+     * @param \Jawwws\Gnaww\Model\PublicUnderstoodFinishing[]|null $finishings finishings
+     *
+     * @return self
+     */
+    public function setFinishings($finishings)
+    {
+        if (is_null($finishings)) {
+            throw new \InvalidArgumentException('non-nullable finishings cannot be null');
+        }
+        $this->container['finishings'] = $finishings;
+
+        return $this;
+    }
+
+    /**
+     * Gets print_spec
+     *
+     * @return \Jawwws\Gnaww\Model\PublicUnderstoodPrint|null
+     */
+    public function getPrintSpec()
+    {
+        return $this->container['print_spec'];
+    }
+
+    /**
+     * Sets print_spec
+     *
+     * @param \Jawwws\Gnaww\Model\PublicUnderstoodPrint|null $print_spec print_spec
+     *
+     * @return self
+     */
+    public function setPrintSpec($print_spec)
+    {
+        if (is_null($print_spec)) {
+            array_push($this->openAPINullablesSetToNull, 'print_spec');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('print_spec', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['print_spec'] = $print_spec;
 
         return $this;
     }
@@ -757,7 +772,7 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets product_family
      *
-     * @return string
+     * @return string|null
      */
     public function getProductFamily()
     {
@@ -767,17 +782,24 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets product_family
      *
-     * @param string $product_family product_family
+     * @param string|null $product_family product_family
      *
      * @return self
      */
     public function setProductFamily($product_family)
     {
         if (is_null($product_family)) {
-            throw new \InvalidArgumentException('non-nullable product_family cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'product_family');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('product_family', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $allowedValues = $this->getProductFamilyAllowableValues();
-        if (!in_array($product_family, $allowedValues, true)) {
+        if (!is_null($product_family) && !in_array($product_family, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'product_family', must be one of '%s'",
@@ -811,7 +833,14 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setProductName($product_name)
     {
         if (is_null($product_name)) {
-            throw new \InvalidArgumentException('non-nullable product_name cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'product_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('product_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['product_name'] = $product_name;
 
@@ -819,55 +848,40 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets quality_requirements
+     * Gets quantity_units
      *
-     * @return \Jawwws\Gnaww\Model\QualityRequirement[]|null
+     * @return int|null
      */
-    public function getQualityRequirements()
+    public function getQuantityUnits()
     {
-        return $this->container['quality_requirements'];
+        return $this->container['quantity_units'];
     }
 
     /**
-     * Sets quality_requirements
+     * Sets quantity_units
      *
-     * @param \Jawwws\Gnaww\Model\QualityRequirement[]|null $quality_requirements quality_requirements
+     * @param int|null $quantity_units quantity_units
      *
      * @return self
      */
-    public function setQualityRequirements($quality_requirements)
+    public function setQuantityUnits($quantity_units)
     {
-        if (is_null($quality_requirements)) {
-            throw new \InvalidArgumentException('non-nullable quality_requirements cannot be null');
+        if (is_null($quantity_units)) {
+            array_push($this->openAPINullablesSetToNull, 'quantity_units');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('quantity_units', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['quality_requirements'] = $quality_requirements;
 
-        return $this;
-    }
-
-    /**
-     * Gets quantity
-     *
-     * @return \Jawwws\Gnaww\Model\Quantity|null
-     */
-    public function getQuantity()
-    {
-        return $this->container['quantity'];
-    }
-
-    /**
-     * Sets quantity
-     *
-     * @param \Jawwws\Gnaww\Model\Quantity|null $quantity quantity
-     *
-     * @return self
-     */
-    public function setQuantity($quantity)
-    {
-        if (is_null($quantity)) {
-            throw new \InvalidArgumentException('non-nullable quantity cannot be null');
+        if (!is_null($quantity_units) && ($quantity_units <= 0)) {
+            throw new \InvalidArgumentException('invalid value for $quantity_units when calling PublicUnderstoodRequirement., must be bigger than 0.');
         }
-        $this->container['quantity'] = $quantity;
+
+        $this->container['quantity_units'] = $quantity_units;
 
         return $this;
     }
@@ -931,179 +945,122 @@ class Gjs1 implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($schema_version)) {
             throw new \InvalidArgumentException('non-nullable schema_version cannot be null');
         }
+        $allowedValues = $this->getSchemaVersionAllowableValues();
+        if (!in_array($schema_version, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'schema_version', must be one of '%s'",
+                    $schema_version,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['schema_version'] = $schema_version;
 
         return $this;
     }
 
     /**
-     * Gets service_requirements
+     * Gets size
      *
-     * @return \Jawwws\Gnaww\Model\ServiceRequirements|null
+     * @return \Jawwws\Gnaww\Model\PublicUnderstoodSize|null
      */
-    public function getServiceRequirements()
+    public function getSize()
     {
-        return $this->container['service_requirements'];
+        return $this->container['size'];
     }
 
     /**
-     * Sets service_requirements
+     * Sets size
      *
-     * @param \Jawwws\Gnaww\Model\ServiceRequirements|null $service_requirements service_requirements
+     * @param \Jawwws\Gnaww\Model\PublicUnderstoodSize|null $size size
      *
      * @return self
      */
-    public function setServiceRequirements($service_requirements)
+    public function setSize($size)
     {
-        if (is_null($service_requirements)) {
-            throw new \InvalidArgumentException('non-nullable service_requirements cannot be null');
+        if (is_null($size)) {
+            array_push($this->openAPINullablesSetToNull, 'size');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('size', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['service_requirements'] = $service_requirements;
+        $this->container['size'] = $size;
 
         return $this;
     }
 
     /**
-     * Gets status
+     * Gets substrate
      *
-     * @return string|null
+     * @return \Jawwws\Gnaww\Model\PublicUnderstoodSubstrate|null
      */
-    public function getStatus()
+    public function getSubstrate()
     {
-        return $this->container['status'];
+        return $this->container['substrate'];
     }
 
     /**
-     * Sets status
+     * Sets substrate
      *
-     * @param string|null $status status
+     * @param \Jawwws\Gnaww\Model\PublicUnderstoodSubstrate|null $substrate substrate
      *
      * @return self
      */
-    public function setStatus($status)
+    public function setSubstrate($substrate)
     {
-        if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($substrate)) {
+            array_push($this->openAPINullablesSetToNull, 'substrate');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('substrate', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
+        $this->container['substrate'] = $substrate;
+
+        return $this;
+    }
+
+    /**
+     * Gets truth_state
+     *
+     * @return string|null
+     */
+    public function getTruthState()
+    {
+        return $this->container['truth_state'];
+    }
+
+    /**
+     * Sets truth_state
+     *
+     * @param string|null $truth_state truth_state
+     *
+     * @return self
+     */
+    public function setTruthState($truth_state)
+    {
+        if (is_null($truth_state)) {
+            throw new \InvalidArgumentException('non-nullable truth_state cannot be null');
+        }
+        $allowedValues = $this->getTruthStateAllowableValues();
+        if (!in_array($truth_state, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
+                    "Invalid value '%s' for 'truth_state', must be one of '%s'",
+                    $truth_state,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['status'] = $status;
-
-        return $this;
-    }
-
-    /**
-     * Gets unresolved_fields
-     *
-     * @return string[]|null
-     */
-    public function getUnresolvedFields()
-    {
-        return $this->container['unresolved_fields'];
-    }
-
-    /**
-     * Sets unresolved_fields
-     *
-     * @param string[]|null $unresolved_fields unresolved_fields
-     *
-     * @return self
-     */
-    public function setUnresolvedFields($unresolved_fields)
-    {
-        if (is_null($unresolved_fields)) {
-            throw new \InvalidArgumentException('non-nullable unresolved_fields cannot be null');
-        }
-        $this->container['unresolved_fields'] = $unresolved_fields;
-
-        return $this;
-    }
-
-    /**
-     * Gets use_requirements
-     *
-     * @return \Jawwws\Gnaww\Model\UseRequirement[]|null
-     */
-    public function getUseRequirements()
-    {
-        return $this->container['use_requirements'];
-    }
-
-    /**
-     * Sets use_requirements
-     *
-     * @param \Jawwws\Gnaww\Model\UseRequirement[]|null $use_requirements use_requirements
-     *
-     * @return self
-     */
-    public function setUseRequirements($use_requirements)
-    {
-        if (is_null($use_requirements)) {
-            throw new \InvalidArgumentException('non-nullable use_requirements cannot be null');
-        }
-        $this->container['use_requirements'] = $use_requirements;
-
-        return $this;
-    }
-
-    /**
-     * Gets variations
-     *
-     * @return \Jawwws\Gnaww\Model\ManufacturingVariation[]|null
-     */
-    public function getVariations()
-    {
-        return $this->container['variations'];
-    }
-
-    /**
-     * Sets variations
-     *
-     * @param \Jawwws\Gnaww\Model\ManufacturingVariation[]|null $variations variations
-     *
-     * @return self
-     */
-    public function setVariations($variations)
-    {
-        if (is_null($variations)) {
-            throw new \InvalidArgumentException('non-nullable variations cannot be null');
-        }
-        $this->container['variations'] = $variations;
-
-        return $this;
-    }
-
-    /**
-     * Gets options
-     *
-     * @return \Jawwws\Gnaww\Model\ProductOptions|null
-     */
-    public function getOptions()
-    {
-        return $this->container['options'];
-    }
-
-    /**
-     * Sets options
-     *
-     * @param \Jawwws\Gnaww\Model\ProductOptions|null $options options
-     *
-     * @return self
-     */
-    public function setOptions($options)
-    {
-        if (is_null($options)) {
-            throw new \InvalidArgumentException('non-nullable options cannot be null');
-        }
-        $this->container['options'] = $options;
+        $this->container['truth_state'] = $truth_state;
 
         return $this;
     }
